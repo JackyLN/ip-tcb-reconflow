@@ -209,7 +209,8 @@ warning. A new manual CD run will exercise the updated deployment workflow.
 
 ## Public documentation
 
-The anonymous reader is available at **`/docs/`**. It publishes every non-hidden `.md` file under
+The anonymous reader is live at [tcb.jackylenghia.com/docs/](https://tcb.jackylenghia.com/docs/)
+(**`/docs/`** locally). It publishes every non-hidden `.md` file under
 [`public-docs/`](public-docs/index.md), with grouped/nested navigation, heading outlines, rewritten
 relative Markdown links, previous/next pages and document-title search. Links are on the login
 page and console sidebar. Internal `docs/` runbooks and generated credentials are not published.

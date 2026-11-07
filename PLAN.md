@@ -114,7 +114,7 @@ an older run retains that run's workflow revision.
 - [x] Verify anonymous access, no private/traversal/symlink exposure, safe Markdown rendering,
   public-only CSP style exception, rich features, Mermaid browser rendering and mobile layout.
 - [x] Run baseline/unit/API checks and isolated no-key Docker smoke/build.
-- [ ] Publish the new public route and verify anonymous HTTPS reading.
+- [x] Publish the new public route and verify anonymous HTTPS reading.
 
 Files/dependencies: public-docs/, public renderer service/router/templates/CSS, frontend/docs.js,
 Python Markdown dependencies and pinned Mermaid/esbuild npm packages, Docker/asset build wiring,
@@ -122,6 +122,11 @@ publication checks/tests, README and AI log. Only content deliberately placed in
 published; internal runbooks, server environment/configuration and credentials remain excluded.
 This public subset is curated; maintainers update its counterpart when changing a shared decision.
 No finance/authentication/AI investigation behavior changes and no paid inference is needed.
+
+Verified source a489abeea12a3edd4dfd4557139e7e20c600f675 is deployed. All 22 public HTTPS pages,
+private-path 404s, readiness/protected console and anonymous browser checks passed.
+Local lint/45 tests, publication checks, Docker health and isolated no-key workflow smoke passed.
+Hosted CI 42424030055 passed the fresh Docker workflow/offline evaluation and PostgreSQL checks.
 
 ## 0. North star and non-negotiables
 

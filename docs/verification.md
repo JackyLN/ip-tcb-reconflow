@@ -141,4 +141,13 @@ Observed local checks:
   then passed: 1,000 payments, replay, simulated advisory AI, dual control, kill switch, retry and
   14 navigation screens. No-key regression does not measure live provider performance.
 
-Hosted CI and deployed HTTPS publication results are recorded below after completion.
+Deployment of a489abeea12a3edd4dfd4557139e7e20c600f675 via the existing backup/migrate/seed/
+readiness script succeeded; app/worker/db healthy. Existing .env.production is preserved by this
+source-only deployment. No proxy/TLS edits or production investigation calls were needed.
+`DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser` passed the same anonymous browser
+checks. A read-only HTTPS sweep returned 200 for all 22 pages, 404 for tested private paths,
+200 readiness and redirect-to-login for the operations console. Disposable QA stack/volumes removed.
+Hosted CI passed for this exact source: https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42424030055 .
+It passed lint/45 tests, the 22-page publication gate, fresh Docker build/migration/seed/readiness,
+full no-key smoke/offline evaluation and PostgreSQL checks. This remains simulated evaluation,
+not live semantic model grading. No Node.js 20 warning; one unrelated ubuntu-latest migration notice.

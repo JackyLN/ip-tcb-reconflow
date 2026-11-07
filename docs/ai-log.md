@@ -102,3 +102,9 @@ a live provider: it produced LIVE_FAILED_FALLBACK and the smoke assertion stoppe
 successful offline smoke or a model evaluation. Regression is rerun against an isolated no-key
 Docker database/app/worker; no environment values or credentials are copied into public docs.
 Exact outcomes, including the isolated QA setup correction, are recorded in verification.md.
+
+Public reader outcome: local lint/45 tests/publication check and anonymous desktop/mobile browser
+checks passed. The isolated no-key full workflow smoke passed, and its disposable stack was removed.
+Deployed source a489abeea12a3edd4dfd4557139e7e20c600f675; all 22 HTTPS documents and read-only browser
+checks passed. No production investigations were triggered. See verification.md for exact scope.
+Hosted CI 42424030055 also passed the fresh no-key Docker workflow, offline evaluation and DB checks.
