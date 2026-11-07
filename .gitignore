@@ -14,3 +14,8 @@ artifacts/
 backups/
 .secrets/
 .deployed-sha
+
+# Public reader bundles are generated from pinned npm sources.
+reconflow/static/docs.js
+reconflow/static/docs.js.LEGAL.txt
+reconflow/static/docs-chunks/

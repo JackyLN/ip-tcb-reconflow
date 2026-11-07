@@ -110,3 +110,35 @@ No production restart, paid model calls or secret changes were needed for this w
 Sources: https://github.com/actions/checkout/releases/tag/v7.0.1 ,
 https://github.com/astral-sh/setup-uv/releases/tag/v10.3.3 , and
 https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ .
+
+
+## Public documentation · 2026-11-08
+
+IMPLEMENTED: 22 curated pages under public-docs/, anonymous /docs/ reader, automatic nested
+navigation, title search, heading outline, adjacent reading links, tables/tasks/footnotes/code and
+local lazy-loaded Mermaid. Private docs/, environment files and operational runbooks are not
+published. Only the reader allows Mermaid inline SVG styles; scripts remain self-only.
+
+Observed local checks:
+- `make lint test docs-check`: Ruff lint/format passed; 45 tests passed, one existing
+  Starlette/httpx deprecation warning; all 22 pages and local document/heading links valid.
+- `npm run check`, `npm run build`, `npm audit`: passed; zero npm audit vulnerabilities.
+- `go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/ci.yml .github/workflows/cd.yml`:
+  passed. Bare `actionlint` is not installed on PATH; the pinned Go invocation is the successful check.
+- `docker compose up --build -d --wait`: succeeded; app/worker/db/caddy healthy.
+- `npm run docs:browser`: anonymous desktop/mobile reading, search, nested ADR and adjacent links,
+  TOC, flow/state/sequence Mermaid, rich Markdown and no-JavaScript source fallback passed.
+  No page/CSP errors, external asset requests or mobile page overflow. Reviewed screenshots in
+  ignored artifacts/public-docs-{desktop,architecture,mobile}.png. Wide diagrams scroll internally.
+- Full operations smoke against the normal local stack first failed at its SIMULATED assertion:
+  the user's local provider is now configured and returned LIVE_FAILED_FALLBACK. This attempted
+  configured inference; it is not a successful live evaluation or evidence of model quality.
+  Do not run that smoke on a configured provider without explicit live-inference authorization.
+- Reran with disposable project reconflow-docs-qa, its own PostgreSQL volume, generated credentials,
+  and explicitly empty LLM_API_KEY/LLM_MODEL (verified booleans, no values logged). Initial QA proxy
+  port override collided with inherited bindings; removed the override and used its env ports.
+  Migration/seed and `uv run python scripts/smoke.py --url http://localhost:18080 --credentials artifacts/docs-qa.credentials`
+  then passed: 1,000 payments, replay, simulated advisory AI, dual control, kill switch, retry and
+  14 navigation screens. No-key regression does not measure live provider performance.
+
+Hosted CI and deployed HTTPS publication results are recorded below after completion.

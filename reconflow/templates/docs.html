@@ -1,0 +1,28 @@
+{% macro tree(items) %}
+<ul class="docs-tree">
+{% for item in items %}<li>
+{% if item.children %}<details open><summary>{% if item.url %}<a href="{{ item.url }}" {% if document.url==item.url %}aria-current="page"{% endif %}>{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</summary>{{ tree(item.children) }}</details>
+{% else %}<a href="{{ item.url }}" {% if document.url==item.url %}aria-current="page"{% endif %}>{{ item.title }}</a>{% endif %}
+</li>{% endfor %}</ul>
+{% endmacro %}
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }} · ReconFlow documentation</title>
+<meta name="description" content="Public product, architecture, AI and rollout documentation for the synthetic ReconFlow demonstration.">
+<link rel="stylesheet" href="/static/docs.css"><script type="module" src="/static/docs.js"></script>
+</head><body class="docs-body"><a class="docs-skip" href="#content">Skip to document</a>
+<header class="docs-header"><a href="/docs/" class="docs-brand"><b>R</b> ReconFlow <span>Documentation</span></a><a class="docs-console" href="/">Open operations console ↗</a></header>
+<div class="docs-layout"><aside class="docs-sidebar"><details open class="docs-menu"><summary>Browse documentation</summary>
+<p class="docs-label">PUBLIC PROJECT HANDBOOK</p><label class="docs-search-label" for="docs-search">Find a document</label><input id="docs-search" type="search" autocomplete="off" placeholder="Search document titles…" aria-controls="docs-search-results"><div id="docs-search-results" role="region" aria-label="Document search results" aria-live="polite" hidden></div>
+<nav aria-label="Documentation">{{ tree(navigation) }}</nav>
+<p class="docs-sidebar-note">Public reading. Synthetic data.<br>No account required.</p></details></aside>
+<main id="content" class="docs-main"><div class="docs-breadcrumb"><a href="/docs/">Documentation</a>{% if document.slug %}<span>/</span><span>{{ title }}</span>{% endif %}</div>
+<p class="docs-status">SYNTHETIC DEMONSTRATION · PUBLIC DOCUMENTATION</p>
+<article class="markdown-body">{{ content|safe }}</article>
+{% if is_home %}<section class="docs-library" aria-labelledby="library-title"><div class="docs-section-title"><h2 id="library-title">Document library</h2><span>{{ documents|length }} published pages</span></div>
+{% for section in navigation if section.url != document.url %}<section class="docs-library-section"><h3>{% if section.url %}<a href="{{ section.url }}">{{ section.title }}</a>{% else %}{{ section.title }}{% endif %}</h3>{% if section.children %}<ul>{% for page in documents if page.path.startswith(section.prefix) %}{% if page.url != section.url %}<li><a href="{{ page.url }}">{{ page.title }} <span aria-hidden="true">↗</span></a></li>{% endif %}{% endfor %}</ul>{% endif %}</section>{% endfor %}</section>{% endif %}
+<nav class="docs-pager" aria-label="Adjacent documents">{% if previous %}<a href="{{ previous.url }}"><span>Previous</span><strong>← {{ previous.title }}</strong></a>{% else %}<span></span>{% endif %}{% if next %}<a href="{{ next.url }}"><span>Next</span><strong>{{ next.title }} →</strong></a>{% endif %}</nav>
+<footer class="docs-footer">ReconFlow · Product hypothesis, synthetic records and advisory AI. Labels distinguish measured results, assumptions and proposed work.</footer>
+</main><aside class="docs-toc"><nav aria-label="On this page"><h2>On this page</h2>{% for heading in headings %}<a class="{{ heading.level }}" href="#{{ heading.id }}">{{ heading.title }}</a>{% endfor %}{% if is_home %}<a href="#library-title">Document library</a>{% endif %}</nav></aside></div>
+<div hidden aria-hidden="true">{% for page in documents %}<a class="docs-catalog-entry" href="{{ page.url }}">{{ page.title }}</a>{% endfor %}</div>
+</body></html>

@@ -29,6 +29,7 @@ jobs:
           version: '0.11.8'
       - run: uv sync --python 3.12 --frozen
       - run: make lint test
+      - run: uv run python -m scripts.check_public_docs
       - run: node --check reconflow/static/app.js
 
   deploy:

@@ -105,6 +105,24 @@ No secrets are read/changed, no paid model evaluation and no production redeploy
 for this workflow-only change. Start a new CD run from main to use the new workflow; re-running
 an older run retains that run's workflow revision.
 
+## Public documentation phase (2026-11-08)
+
+- [x] Review internal docs and curate a public-only source tree at public-docs/ (22 Markdown pages).
+- [x] Add markdown-it-py, plugins/Pygments and locally bundled Mermaid for a FastAPI /docs/ reader.
+- [x] Add automatic nested catalog/navigation, heading outline, sibling links, previous/next,
+  title search, login/sidebar entry points and documented authoring conventions.
+- [x] Verify anonymous access, no private/traversal/symlink exposure, safe Markdown rendering,
+  public-only CSP style exception, rich features, Mermaid browser rendering and mobile layout.
+- [x] Run baseline/unit/API checks and isolated no-key Docker smoke/build.
+- [ ] Publish the new public route and verify anonymous HTTPS reading.
+
+Files/dependencies: public-docs/, public renderer service/router/templates/CSS, frontend/docs.js,
+Python Markdown dependencies and pinned Mermaid/esbuild npm packages, Docker/asset build wiring,
+publication checks/tests, README and AI log. Only content deliberately placed in public-docs/ is
+published; internal runbooks, server environment/configuration and credentials remain excluded.
+This public subset is curated; maintainers update its counterpart when changing a shared decision.
+No finance/authentication/AI investigation behavior changes and no paid inference is needed.
+
 ## 0. North star and non-negotiables
 
 Build an interview-ready **working banking operations product**, not a static dashboard, a generic chat assistant, or a fake demo. An interviewer should be able to sign in, load a deterministic scenario, import or inspect records, run reconciliation, investigate mismatches with bounded AI, make role-gated human decisions, see a complete audit trail, simulate failure/re-run and view measured analytics and AI evaluation.

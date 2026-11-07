@@ -1,0 +1,25 @@
+{
+  "order": [
+    "product/index.md",
+    "product/workflow.md",
+    "product/metrics.md",
+    "product/adoption.md",
+    "framing/index.md",
+    "framing/decision-memo.md",
+    "framing/discovery.md",
+    "framing/business-case.md",
+    "engineering/index.md",
+    "engineering/security.md",
+    "engineering/development-log.md",
+    "engineering/decisions/index.md",
+    "engineering/decisions/001-modular-monolith.md",
+    "engineering/decisions/002-deterministic-financial-truth.md",
+    "engineering/decisions/003-synthetic-sources.md",
+    "engineering/decisions/004-demo-llm-selection.md",
+    "ai/index.md",
+    "ai/evaluation.md",
+    "rollout/index.md",
+    "rollout/plan.md",
+    "authoring/index.md"
+  ]
+}

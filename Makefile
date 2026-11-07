@@ -22,3 +22,6 @@ smoke:
 assets:
 	npm ci --ignore-scripts
 	npm run build
+
+docs-check:
+	uv run python -m scripts.check_public_docs

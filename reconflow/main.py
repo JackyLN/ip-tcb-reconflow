@@ -34,10 +34,12 @@ from reconflow.models import (
     Provider,
     Run,
 )
+from reconflow.public_docs import router as public_docs_router
 from reconflow.security import csrf, csrf_token, current_user, login, require
 from reconflow.services import ai, analytics, ingestion, reviews
 from reconflow.services.audit import append
 from reconflow.services.money import display
+from reconflow.services.public_docs import PUBLIC_ROOT
 
 app = FastAPI(title="ReconFlow", docs_url=None, redoc_url=None)
 app.add_middleware(
@@ -48,6 +50,8 @@ app.add_middleware(
     max_age=28800,
 )
 app.mount("/static", StaticFiles(directory="reconflow/static"), name="static")
+app.mount("/docs-assets", StaticFiles(directory=PUBLIC_ROOT / "assets"), name="docs-assets")
+app.include_router(public_docs_router)
 templates = Jinja2Templates(directory="reconflow/templates")
 templates.env.filters["money"] = display
 NAV = [
@@ -65,6 +69,7 @@ NAV = [
     ("/operations/health", "Worker health"),
     ("/controls", "Configuration & controls"),
     ("/guide", "Architecture & rollout"),
+    ("/docs/", "Public documentation"),
 ]
 
 
@@ -108,16 +113,27 @@ async def headers(request: Request, call_next) -> Response:
     ):
         return Response("Upload exceeds 8 MB", status_code=413)
     response = await call_next(request)
+    # Mermaid emits SVG styling; allow inline styles only for the public reader.
+    # Script execution stays restricted to self-hosted assets, with no inline JS/eval.
+    style_policy = (
+        "'self' 'unsafe-inline'"
+        if (request.url.path == "/docs" or request.url.path.startswith("/docs/"))
+        else "'self'"
+    )
     response.headers.update(
         {
             "X-Content-Type-Options": "nosniff",
             "X-Frame-Options": "DENY",
             "Referrer-Policy": "same-origin",
             "Cache-Control": "no-store",
-            "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; "
-            "img-src 'self' data:; frame-ancestors 'none'; form-action 'self'",
+            "Content-Security-Policy": "default-src 'self'; script-src 'self'; "
+            f"style-src {style_policy}; "
+            "img-src 'self' data:; frame-ancestors 'none'; form-action 'self'; "
+            "object-src 'none'; base-uri 'self'",
         }
     )
+    if request.url.path.startswith("/static/docs-chunks/"):
+        response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
     return response
 
 

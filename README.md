@@ -206,3 +206,34 @@ continues to use its original workflow revision.
 The Node.js 24 action upgrade passed [hosted CI](https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42421513904),
 including Docker smoke/evaluation/database checks. Completed annotations show no Node.js 20
 warning. A new manual CD run will exercise the updated deployment workflow.
+
+## Public documentation
+
+The anonymous reader is available at **`/docs/`**. It publishes every non-hidden `.md` file under
+[`public-docs/`](public-docs/index.md), with grouped/nested navigation, heading outlines, rewritten
+relative Markdown links, previous/next pages and document-title search. Links are on the login
+page and console sidebar. Internal `docs/` runbooks and generated credentials are not published.
+
+Markdown is rendered server-side with `markdown-it-py`, `mdit-py-plugins` and Pygments. Supported
+features include tables, task lists, footnotes, code highlighting, images and Mermaid diagrams.
+Mermaid is pinned and bundled locally with esbuild, loads only on diagram pages, uses strict mode,
+and keeps diagram source readable when JavaScript is unavailable or rendering fails. No CDN is
+required. A public-reader-only CSP style exception supports generated SVG styling; scripts stay
+self-hosted and the operations console retains its existing strict style policy.
+
+Add a document with a `# Title`, use folders and `index.md` for sections, and link to sibling files
+normally (`../engineering/index.md`). `public-docs/navigation.json` controls optional order; new
+unlisted Markdown pages are still discovered. Read `/docs/authoring/` for examples. This is a curated
+public subset; update its counterpart when revising an internal decision or assumption.
+
+```sh
+make docs-check
+npm run docs:browser
+# Read-only browser check against a public deployment, with no credentials/model calls:
+DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser
+```
+
+Only deliberately public content belongs in `public-docs/`. Do not copy environment files,
+credentials, private deployment runbooks or real customer data there. The existing full operations
+smoke test assumes an offline/no-key demo; use an isolated no-key stack when the local app is
+configured for live inference.

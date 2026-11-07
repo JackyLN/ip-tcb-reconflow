@@ -89,3 +89,16 @@ Node.js 24 follow-up outcome: local actionlint/Ruff/28 tests passed, and hosted 
 passed the full Docker smoke/eval/DB checks with the new exact action pins. Completed annotations
 were inspected: no Node.js 20 warning. CD was updated but not redispatched; the original reported
 CD run was already successful. Only workflow/docs changed, with no production restart.
+
+Public documentation follow-up (2026-11-08): user requested public Markdown reading, Mermaid and
+section/subdocument navigation. Reviewed the existing documents and created a deliberately public
+22-page subset, leaving deployment runbooks and credentials outside the published root. Selected
+markdown-it-py/plugins/Pygments plus a locally bundled, strict-mode Mermaid renderer and added an
+anonymous FastAPI reader, dynamic nested catalog, title search, TOC, previous/next navigation and
+login/sidebar entry points. Mermaid is lazy-loaded so ordinary pages avoid diagram engine cost.
+API/security/link-integrity tests and browser checks cover anonymous reading and rich Markdown.
+The first local operations smoke expected SIMULATED AI but the user's local configuration now has
+a live provider: it produced LIVE_FAILED_FALLBACK and the smoke assertion stopped. That is not a
+successful offline smoke or a model evaluation. Regression is rerun against an isolated no-key
+Docker database/app/worker; no environment values or credentials are copied into public docs.
+Exact outcomes, including the isolated QA setup correction, are recorded in verification.md.

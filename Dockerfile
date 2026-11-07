@@ -3,6 +3,7 @@ WORKDIR /assets
 COPY package*.json frontend.css ./
 RUN npm ci --ignore-scripts
 COPY scripts/vendor.mjs scripts/vendor.mjs
+COPY frontend frontend
 COPY reconflow/templates reconflow/templates
 RUN mkdir -p reconflow/static && npm run build
 
@@ -16,6 +17,7 @@ COPY reconflow reconflow
 COPY migrations migrations
 COPY alembic.ini ./
 COPY docs docs
+COPY public-docs public-docs
 COPY scripts scripts
 COPY --from=assets /assets/reconflow/static/ reconflow/static/
 USER reconflow
