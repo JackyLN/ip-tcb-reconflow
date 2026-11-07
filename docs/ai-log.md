@@ -61,3 +61,8 @@ See verification.md for exact final checks, observed benchmark and omissions.
    readiness script and manual CD with four user-managed secrets. SSH Git is JackyLN; GitHub CLI
    account jackyln1203 has READ only. Do not claim hosted CD execution without an actual run.
    Public deployment, certificate and existing-site regression results are in verification.md.
+
+   Actual deployment correction: a manually mistyped full image SHA in the first invocation was
+   caught; reran the same deployment script using `git rev-parse HEAD` directly. The accepted image
+   and .deployed-sha now match 31018ede59dcfd00701eb21471f60ab546be5140. No reset occurred;
+   generated account credentials were byte-for-byte preserved across the rerun. Hosted CI passed.

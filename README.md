@@ -135,7 +135,9 @@ A dependency emits one Starlette TestClient/httpx deprecation warning. PostgreSQ
 Docker HTTP end-to-end smoke, offline 48/48 schema/evidence checks, competing job-claim check,
 audit hash-chain verification and audit UPDATE guard passed. Browser verification is recorded in
 [verification log](docs/verification.md), including corrections and exact final outcomes.
-GitHub Actions config runs lint/tests and Docker workflow; hosted CI execution is NOT VERIFIED.
+GitHub Actions lint/tests and Docker workflow passed for the deployed source:
+[verified CI run](https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42415477106).
+Manual CD awaits the user-managed deployment secrets.
 
 [Benchmark artifact](docs/benchmark.json) contains actual isolated synthetic measurements and
 instance limits; these measure application processing, not human labor savings or bank throughput.
@@ -148,8 +150,8 @@ instance limits; these measure application processing, not human labor savings o
 [metrics](docs/metrics.md), [rollout](docs/rollout.md), [adoption](docs/adoption.md),
 [AI development log](docs/ai-log.md), [ADRs](docs/adr/), [deployment](docs/deployment.md).
 
-Not complete: five stakeholder interviews (A1 not met), live provider evaluation, external VPS/DNS/TLS
-and demo URL/video, measured human baseline/A-B pilot, full within-SLA north star/period reporting,
+Not complete: five stakeholder interviews (A1 not met), live provider evaluation, demo video,
+measured human baseline/A-B pilot, full within-SLA north star/period reporting,
 semantic hallucination grading, calibrated confidence, ramp/rework monthly ROI, external alerts,
 restore drill, separate refund ledgers, partial/many-to-many settlement, bank connectors/SSO/MFA,
 tenant isolation, separate least-privilege DB roles and externally anchored audit retention.
@@ -175,11 +177,14 @@ sizes; no page/CSP errors or mobile overflow were observed. All four services ar
 
 ## Shared VPS / GitHub CD
 
-Production deployment target: **https://tcb.jackylenghia.com** (`187.127.220.131`). The shared VPS
+Live synthetic demo: **https://tcb.jackylenghia.com** (`187.127.220.131`), verified 2026-11-08. The shared VPS
 uses its existing Stayflow Caddy proxy; ReconFlow publishes no host ports and keeps a separate
 PostgreSQL volume. See [shared VPS deployment and recovery](docs/deployment-shared-vps.md).
 
 `.github/workflows/cd.yml` provides manual **CD** from verified main, with backups, migrations,
 preserve-only seeding and public HTTPS checks. User-managed secrets: `VPS_HOST`, `VPS_USER`,
 `VPS_SSH_PRIVATE_KEY`, `VPS_KNOWN_HOSTS`. No secret upload/key changes are performed in this session.
-Actual public acceptance results are recorded in `docs/verification.md` when checks complete.
+Public HTTPS, secure cookies, 14 screens, 1,000-payment/approval/replay/retry workflow and DB/audit
+checks passed; app/worker/db are healthy. Public credentials are separate from local demo credentials:
+retrieve privately from `/opt/reconflow/.secrets/demo-credentials.txt` via the trusted SSH alias,
+or use local ignored `artifacts/vps-demo-credentials.txt`. Actual results: `docs/verification.md`.

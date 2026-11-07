@@ -2,7 +2,11 @@
 
 Target: `https://tcb.jackylenghia.com` on `187.127.220.131`.
 SSH operator alias: `ssh jackylenghia` (root). Application directory: `/opt/reconflow`.
-This is a public **synthetic-only demo**, with secure session cookies and no LLM key by default.
+LIVE and verified on 2026-11-08. This is a public **synthetic-only demo**, with secure session
+cookies and no LLM key. Deployed source: `31018ede59dcfd00701eb21471f60ab546be5140`.
+App/worker/DB and public login/readiness, synthetic end-to-end flow and browser checks passed.
+GitHub CI succeeded: https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42415477106 .
+CD is active but has not been executed from GitHub, pending the user-managed secrets.
 
 ## Topology and bootstrap
 
@@ -25,7 +29,8 @@ rerunning it preserves the existing file. Never copy the local development `.env
 Before modifying the shared Caddyfile, save a timestamped backup, validate a candidate in the
 existing Caddy container, then update the bind-mounted file **in place** and reload Caddy.
 An atomic rename can leave a file bind mount pointing at the old inode. Validate existing sites
-after reload. The reusable site snippet is committed; the other app's configuration is not owned
+after reload. Preserve this site block when redeploying/updating the shared Stayflow proxy.
+The reusable site snippet is committed; the other app's configuration is not owned
 or overwritten by ReconFlow CD. DNS for this hostname must resolve to this server.
 
 ## GitHub Actions setup (user-managed secrets)
@@ -71,11 +76,13 @@ Generated account passwords are saved only to `/opt/reconflow/.secrets/demo-cred
 The deploy workflow never resets data or replaces `.env.production`, backups, `.secrets/` or
 `.deployed-sha` during synchronization. No scheduled cleanup deletes backup/image history.
 
-Use a command array or repeat this prefix on the VPS:
+For manual create/run/up commands, export RECONFLOW_IMAGE_TAG from .deployed-sha so the
+existing commit-tagged image is used. Use a command array or repeat this prefix on the VPS:
 `docker compose --env-file .env.production -f compose.production.yaml`.
 
 ```sh
 cd /opt/reconflow
+export RECONFLOW_IMAGE_TAG=$(cat .deployed-sha)
 docker compose --env-file .env.production -f compose.production.yaml ps
 docker compose --env-file .env.production -f compose.production.yaml logs --tail 100 worker
 curl --fail https://tcb.jackylenghia.com/readyz
@@ -89,3 +96,6 @@ require an operator-reviewed recovery plan. Restore dumps into an isolated DB fi
 Live model credentials remain absent. Configure trusted provider settings manually in the server
 `.env.production` only when deliberately enabling live inference. Root/Docker deployment access,
 shared proxy networking, no bank SSO/MFA and no externally anchored audit remain prototype limits.
+
+References consulted: Caddy automatic HTTPS https://caddyserver.com/docs/automatic-https and
+GitHub Actions secrets https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets .

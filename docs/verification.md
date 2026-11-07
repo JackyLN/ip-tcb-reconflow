@@ -21,7 +21,8 @@ MEASURED locally on macOS/Docker Desktop ARM64, Python 3.12; no external VPS or 
   responsive container and explicit mobile bounds check passed the final run; screenshots visually
   inspected at 1440px desktop and 390px mobile (no mobile overflow).
 
-NOT RUN/VERIFIED: public VPS/TLS, real stakeholder interviews, bank integrations, paid LLM inference,
+NOT RUN/VERIFIED at this initial local checkpoint (VPS/TLS and CI are superseded by the later
+2026-11-08 results below): public VPS/TLS, real stakeholder interviews, bank integrations, paid LLM inference,
 independent security/accessibility audit, real worker process kill/restart drill (expired lease recovery
 and injected failure tested), backup restore, hosted CI, actual human control experiment.
 
@@ -47,3 +48,43 @@ rgb(204,23,32) with white text; danger hover rgb(116,21,28) with white text; sid
 rgb(237,28,36). Brand chart reads #ED1C24 from CSS. No page errors/CSP violations across 14 screens.
 Selected WCAG color-pair calculations and reference provenance are in ui-branding.md; full
 independent accessibility and official brand-compliance audits were not conducted.
+
+## Public VPS deployment · 2026-11-08 (Asia/Ho_Chi_Minh)
+
+MEASURED on 187.127.220.131 (x86_64), source commit
+31018ede59dcfd00701eb21471f60ab546be5140. Public URL: https://tcb.jackylenghia.com .
+
+- Inspected the reference Lite Trading Bot CD, existing Docker networks/ports and shared Caddy.
+  Backed up and validated a Caddy candidate before adding only the TCB hostname and reloading
+  in place. Existing Caddy certificate volumes and both original site blocks were retained.
+- `make lint test`: 28 passed; existing Starlette/httpx deprecation warning. `bash -n scripts/deploy.sh`
+  and actionlint v1.7.7 against both workflow files passed.
+- `docker compose --env-file .env.production -f compose.production.yaml config --quiet` passed.
+- `bash scripts/deploy.sh <exact git SHA>`: build, isolated PostgreSQL startup, nonempty pg_dump,
+  migrations, preserve-only seed, app/worker readiness and public HTTPS probe passed. Initial SHA
+  label typo was corrected by rerunning with the value read directly from Git. Final recorded SHA
+  and running image tags match the source above; credentials were preserved across the rerun.
+- `.env.production` and generated account file mode 600; `.secrets/` mode 700. Secrets excluded from
+  Git/build context and rsync. No deployment SSH key or GitHub secrets were uploaded/changed.
+- Python default TLS trust/hostname validation succeeded: TLS 1.3, Let's Encrypt issuer YE2,
+  DNS SAN tcb.jackylenghia.com, certificate expiry 2027-02-05 20:20:41 UTC. No insecure TLS flags.
+- Public /login 200, /readyz 200; HTTP /login returns 308 to HTTPS. Session cookies inspected for
+  Secure, HttpOnly and SameSite=Lax flags (values/tokens were not logged).
+- `uv run python scripts/smoke.py --url https://tcb.jackylenghia.com --credentials artifacts/vps-demo-credentials.txt`
+  passed actual public login, 1,000 payments, reconciliation, replay, SIMULATED investigation,
+  independent supervisor approval, kill-switch toggle, injected failure/retry and 14 main routes.
+- Production-container `python -m scripts.postgres_checks` passed competing claims, audit hash
+  chain and audit UPDATE guard. `python -m reconflow.cli eval` stored 48/48 offline contract-valid
+  holdout results, deterministic fixture baseline 48/48, live model scores null. No paid model calls.
+- Chromium public HTTPS login/chart/14-screen check passed at 1440px desktop/390px mobile with
+  no page/CSP errors or mobile overflow. Screenshots vps-overview-desktop.png/mobile.png in ignored
+  artifacts; desktop image visually inspected.
+- Existing Lite Trading Bot /api/health and Stayflow endpoints returned expected protected 401
+  both before and after proxy reload/deployment. Their existing app containers remained healthy;
+  their processes were not restarted by ReconFlow deployment.
+- GitHub workflow CD is active/pushed. Hosted **verify** workflow for this exact deployed source
+  succeeded: https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42415477106 .
+
+NOT EXECUTED: hosted CD (user owns secret setup), database restore drill, live provider inference,
+independent security assessment, stakeholder interviews or a real-bank pilot. Source remains a
+synthetic demonstration. Latest subsequent documentation commit does not change deployed runtime code.

@@ -27,7 +27,8 @@ not a claim that every phase gate or challenge requirement is met.
 - [x] Chromium desktop/mobile rendering, chart bounds, no page/CSP errors and 14 screens verified.
 - [ ] Live provider-backed investigation and paid holdout evaluation (credentials unavailable).
 - [ ] Five stakeholder interviews across three roles (not conducted; A1 not met).
-- [ ] External VPS/hostname/TLS fresh-install verification and published demo/video.
+- [x] External VPS/domain/TLS fresh install and live demo verified at https://tcb.jackylenghia.com.
+- [ ] Demo video (not recorded).
 - [ ] Full SLA/period reporting, human-control study, semantic hallucination grading, rework/ramp ROI.
 - [ ] Bank production security: SSO/MFA, tenant scopes, separate DB roles, external audit anchoring,
   secrets management, restore drill and independent security review.
@@ -66,9 +67,10 @@ real chart data, no desktop/mobile overflow, main routes and persistent workflow
 - [x] Inspected reference Lite Trading Bot CD workflow, server containers, ports, shared Caddy and DNS.
 - [x] Added production Compose (no public container ports), shared-Caddy snippet, secure bootstrap,
   backup/migrate/seed/readiness deployment script and manual GitHub Actions CD workflow.
-- [ ] Verify code/config, deploy isolated ReconFlow database/app/worker at /opt/reconflow.
-- [ ] Add and validate only tcb.jackylenghia.com on existing Stayflow Caddy; verify trusted HTTPS.
-- [ ] Run public synthetic workflow smoke, verify existing applications and document exact outcomes.
+- [x] Verified code/config and deployed isolated ReconFlow database/app/worker at /opt/reconflow.
+- [x] Added/validated only tcb.jackylenghia.com on shared Caddy; trusted Let's Encrypt HTTPS verified.
+- [x] Public synthetic workflow/browser/DB/offline eval checks passed; existing applications retained
+  their expected HTTP 401 protected responses. Deployment source CI passed on GitHub.
 - [ ] GitHub Actions execution after the user configures the four deployment secrets.
 
 User chose tcb.jackylenghia.com and explicitly reserved GitHub secret/key setup for themselves.
@@ -78,6 +80,12 @@ Changes: compose.production.yaml, deploy/Caddyfile.snippet, scripts/configure_pr
 scripts/deploy.sh, .github/workflows/cd.yml, secret/build exclusions and operational documentation.
 Acceptance: valid configs, baseline tests, app/worker/db healthy, safe migration/seed/replay,
 valid public certificate, secure cookies, and no regression in Stayflow/Lite Trading Bot routing.
+
+Verified deployment: commit 31018ede59dcfd00701eb21471f60ab546be5140; app/worker/db healthy,
+HTTP redirects to HTTPS (308), Secure/HttpOnly/SameSite=Lax cookies, certificate hostname/trust
+verified (expiry 2027-02-05 UTC). Public 1,000-payment/replay/AI/dual-control/retry smoke and all
+14 browser screens passed. Credentials preserved across deployment rerun; backups nonempty.
+GitHub CI run 42415477106 succeeded. CD is published but intentionally awaits user-managed secrets.
 
 ## 0. North star and non-negotiables
 

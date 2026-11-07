@@ -19,12 +19,12 @@ All can read this single synthetic workspace, sign in/out; there is no per-merch
 
 NOT IMPLEMENTED/VERIFIED: bank SSO/MFA, password rotation/recovery UI, per-IP distributed throttling,
 separate DB application/migration roles, external WORM audit anchor, bank data retention/consent,
-independent penetration test or public deployment. Login buckets grow without scheduled cleanup;
+independent penetration test. Public synthetic deployment is verified in verification.md. Login buckets grow without scheduled cleanup;
 behind Caddy, app sees a proxy address, so throttling is shared and can cause availability limits.
 PostgreSQL owner can disable the audit trigger or truncate history; no tamper-proof claim.
 Infrastructure logs can contain network metadata; no request payload/password/model key is logged.
 CLI seed intentionally prints generated credentials once to operator stdout; protect that output.
 Provider URL is operator configuration, not a model input; configure trusted HTTPS egress only.
 
-Local demo uses HTTP and COOKIE_SECURE=false. HTTPS and secure cookies are mandatory instructions
-for public deployment. Data must remain synthetic/public even after deploying this prototype.
+Local demo uses HTTP and COOKIE_SECURE=false. The public VPS deployment uses verified trusted
+HTTPS with COOKIE_SECURE=true, Secure/HttpOnly/SameSite=Lax cookies and HTTP-to-HTTPS redirection. Data must remain synthetic/public even after deploying this prototype.
