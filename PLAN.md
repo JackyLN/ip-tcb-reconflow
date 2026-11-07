@@ -25,11 +25,11 @@ not a claim that every phase gate or challenge requirement is met.
 - [x] Initial Docker build, clean PostgreSQL migration and seed succeeded.
 - [x] Docker HTTP walkthrough, PostgreSQL competing claims/audit guard and isolated benchmark.
 - [x] Chromium desktop/mobile rendering, chart bounds, no page/CSP errors and 14 screens verified.
-- [ ] Live provider-backed investigation (authorized for a recorded synthetic demo; pending).
+- [x] One recorded provider-backed investigation: case #1 / investigation #2, LIVE; separate supervisor escalation.
 - [ ] Paid holdout evaluation (not run; distinct from one live demo).
 - [ ] Five stakeholder interviews across three roles (not conducted; A1 not met).
 - [x] External VPS/domain/TLS fresh install and live demo verified at https://tcb.jackylenghia.com.
-- [ ] Demo video (not recorded).
+- [x] Actual browser walkthrough video recorded (87 seconds, synthetic flow; no narration).
 - [ ] Full SLA/period reporting, human-control study, semantic hallucination grading, rework/ramp ROI.
 - [ ] Bank production security: SSO/MFA, tenant scopes, separate DB roles, external audit anchoring,
   secrets management, restore drill and independent security review.
@@ -222,13 +222,15 @@ Do not claim bank-specific facts, real financial results, model evaluation outco
   [ADR 004](docs/adr/004-demo-llm-selection.md), README and evaluation guidance.
 - [x] Record dated standard token-price assumptions (USD 0.75 input / 4.50 output per million),
   version pinning rationale and unchanged deterministic-finance/advisory-only policy.
-- [ ] Implement/test `max_completion_tokens` request parameter and explicit `reasoning_effort: none`.
-- [ ] Verify account availability, live compatibility, actual quality, latency and usage/cost.
+- [x] Implement/test `max_completion_tokens` request parameter and explicit `reasoning_effort: none`.
+- [x] Verify account availability/live compatibility and observe single-demo latency/usage/cost.
+- [ ] Measure graded semantic quality and holdout performance.
 
-This phase edits documentation only: docs/adr/004-demo-llm-selection.md, docs/evaluation.md,
+The initial selection phase edited documentation only: docs/adr/004-demo-llm-selection.md, docs/evaluation.md,
 README.md, PLAN.md and docs/ai-log.md. Acceptance: consistent target/rates, official source links,
 clear distinction between accepted decision and pending implementation/evaluation. No live
-inference, secrets edit, runtime change or deployment is performed for this documentation update.
+inference, secrets edit, runtime change or deployment was performed for that initial update.
+The subsequent recorded-demo phase above implements and verifies the adapter contract.
 
 
 **Why AI:** assists with contextual diagnosis and explanation when records and provider policies are incomplete or ambiguous. It does not decide matching arithmetic, ledger adjustments, transfers, approval or risk compliance.
@@ -343,3 +345,11 @@ recording, private generated demo credentials and configured provider; no new pa
 Acceptance: baseline tests pass without a key; deploy preserves server environment; one scoped
 synthetic case is investigated, actual mode/usage/evidence recorded, separate maker/checker
 review shown, video inspected and delivered without secrets. This is not a holdout evaluation.
+
+Recorded demonstration outcome: deployed 6d44ecc98793b2de137f848722380091cf4d9593;
+46 local tests/lint and hosted CI 42425049643 passed (including fresh Docker smoke/eval/DB checks).
+Case #1/investigation #2 LIVE: four observed tools, two provider requests, 1,779 input/458 output
+tokens, summed request latency 7,608 ms, estimated USD 0.00339525. Analyst #1 proposed and
+supervisor #2 escalated proposal #2. Video is 87 seconds, converted to H.264 MP4 and sampled
+visually. Initial recording failed before queueing AI due to an HTMX caption replacement; fixed
+and reran. Exactly one paid investigation queued. Holdout/semantic evaluation remains unmeasured.

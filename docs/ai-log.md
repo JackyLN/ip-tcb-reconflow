@@ -115,3 +115,10 @@ and found ADR 004's adapter work still pending. Official OpenAI model/reference 
 completion-token cap and none reasoning support. Implemented the bounded request update and
 mocked tests before triggering a provider call. Added explicit-opt-in Playwright recording with
 annotations and login via a non-recorded credential submission. Results remain pending.
+
+Recorded demo outcome: first capture failed before any AI queue because HTMX replaced its caption
+DOM node; fixed caption recreation and restarted. One subsequent live investigation succeeded.
+Case #1/investigation #2 returned LIVE with four tools/two requests; 1,779 input/458 output tokens,
+7,608 ms summed HTTP latency, estimated USD 0.00339525. Analyst #1 and supervisor #2 escalated
+for independent evidence. The 87-second recording was converted to MP4 and sampled visually.
+No claim of graded model accuracy follows from this observation. Exact checks in verification.md.

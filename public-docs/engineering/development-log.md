@@ -38,3 +38,15 @@ Live model quality, calibrated confidence, real stakeholder discovery and produc
 assurance remain outstanding. Read the [evaluation limits](../ai/evaluation.md),
 [security boundary](security.md) and [model decision](decisions/004-demo-llm-selection.md)
 when assessing what the prototype demonstrates.
+
+
+## Actual follow-up: recorded live flow
+
+The user authorized the deployed key for one synthetic flow and asked to record actions as a video.
+We found the selected model's request contract was still pending, verified official documentation,
+implemented completion-token/none-reasoning options and tested with mocked HTTP before deploying.
+The first capture stopped before any AI job because HTMX replaced the annotation element; corrected
+the recorder, then queued one investigation. It returned LIVE with four evidence tools. A separate
+supervisor escalated for missing independent provider proof. The 87-second actual browser recording
+contains explanatory captions. One successful workflow is not a model-accuracy benchmark; see
+the [evaluation observation](../ai/evaluation.md#observed-single-live-demonstration--2026-11-08).

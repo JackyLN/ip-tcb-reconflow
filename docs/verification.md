@@ -151,3 +151,33 @@ Hosted CI passed for this exact source: https://github.com/JackyLN/ip-tcb-reconf
 It passed lint/45 tests, the 22-page publication gate, fresh Docker build/migration/seed/readiness,
 full no-key smoke/offline evaluation and PostgreSQL checks. This remains simulated evaluation,
 not live semantic model grading. No Node.js 20 warning; one unrelated ubuntu-latest migration notice.
+
+
+## Recorded live flow · 2026-11-08
+
+User explicitly authorized deployed credentials/key for one demo, then requested video. Read
+PLAN and actual adapter/config; only key presence and model/base URL were reported, no key value.
+Official model/reference pages confirmed current request parameters. Updated completion cap and
+GPT-5.4-mini-specific none reasoning; mocked tests verify both selected and generic model paths.
+`make lint test docs-check`: passed, 46 tests, existing Starlette warning; 22 public pages valid.
+`npm run check` and `git diff --check`: passed. Hosted CI 42425049643 passed fresh Docker build,
+migrations/seed/readiness/full no-key workflow/offline eval/PostgreSQL checks.
+https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42425049643
+
+Deployed exact source 6d44ecc98793b2de137f848722380091cf4d9593 with the existing backup/migrate/
+seed/readiness script; app/worker/db healthy, private environment preserved. First browser
+recording stopped at HTMX navigation because the caption node had been replaced; no paid job
+was queued. Corrected caption recreation and reran `RUN_LIVE_DEMO=1 npm run demo:record`.
+The corrected capture completed all 15 stages in 87 seconds, queueing exactly one live job.
+
+Read-only DB verification: case #1 ESCALATED, investigation #2 LIVE, four tools, two provider
+requests, 1,779 input/458 output tokens, summed request latency 7,608 ms; configured-price estimate
+USD 0.00339525. Proposal #2 maker #1/checker #2; audit investigation.queued/completed,
+review.proposed/escalated records distinct actors. Report identified USD 1 fee gap and requested
+provider evidence. No balances adjusted. This is not holdout evaluation or security assurance.
+
+Converted the continuous WebM recording with temporary imageio-ffmpeg to H.264/yuv420p MP4
+with faststart; no reconstructed actions, extra provider calls, narration or secret-bearing trace.
+Reviewed six sampled frames plus the live-report frame and screenshots. Video is 1,928,265 bytes
+in ignored artifacts/live-demo/reconflow-live-demo.mp4; accompanying result/usage/chapters remain
+local artifacts. Credentials remain in an ignored chmod-600 file, never in the video or VCS.

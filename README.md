@@ -84,8 +84,8 @@ payout rounding and why historical policies are preserved.
 Chosen demo model: **GPT-5.4 mini**, pinned to `gpt-5.4-mini-2026-03-17`.
 [ADR 004](docs/adr/004-demo-llm-selection.md) records the rationale, dated pricing assumptions
 (USD 0.75 input / 4.50 output per million tokens), and target environment values. **Adapter contract implemented:** requests use `max_completion_tokens` and explicitly set
-`reasoning_effort=none` for GPT-5.4 mini. A user-authorized recorded live demonstration is pending.
-The decision does not claim graded model quality or holdout performance.
+`reasoning_effort=none` for GPT-5.4 mini. One user-authorized recorded live demo succeeded (case #1, investigation #2, LIVE).
+The run is not a graded model-quality or holdout result. See [recorded run notes](docs/demo-script.md#observed-recorded-live-run-2026-11-08).
 
 Baseline runs with **no key**. SIMULATED results are scripted, low-confidence, advisory only.
 No live model accuracy, live cost or provider compatibility is claimed for the no-key demonstration.

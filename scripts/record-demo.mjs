@@ -28,7 +28,19 @@ const started = Date.now();
 const pause = ms => page.waitForTimeout(ms);
 async function caption(title, detail, delay = 3500) {
   const text = `${title}  |  ${detail}`;
-  await page.evaluate(text => {sessionStorage.setItem('recording-caption', text); document.querySelector('#recording-caption').textContent = text;}, text);
+  await page.evaluate(text => {
+    sessionStorage.setItem('recording-caption', text);
+    let banner = document.querySelector('#recording-caption');
+    // HTMX replaces the body without another DOMContentLoaded event.
+    if (!banner) {
+      banner = document.createElement('aside');
+      banner.id = 'recording-caption';
+      Object.assign(banner.style, {position:'fixed', bottom:'0', left:'0', right:'0', zIndex:'99999', padding:'16px 28px', color:'#fff', background:'#191919', borderTop:'4px solid #ed1c24', font:'16px/1.5 system-ui', pointerEvents:'none'});
+      document.body.append(banner);
+      document.body.style.paddingBottom = '100px';
+    }
+    banner.textContent = text;
+  }, text);
   stages.push({seconds: Math.round((Date.now() - started) / 1000), title, detail, url: page.url()});
   console.log(title);
   await pause(delay);

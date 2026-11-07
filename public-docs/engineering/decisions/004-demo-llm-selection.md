@@ -1,7 +1,7 @@
 # ADR 004: GPT-5.4 mini for demo investigations
 
 Date: 2026-11-08
-Status: **Accepted model choice; adapter request contract implemented; live demonstration pending.**
+Status: **Accepted model choice; adapter request contract and one live demonstration verified.**
 
 ## Decision and rationale
 
@@ -43,14 +43,14 @@ regional processing, future pricing changes and provider billing may differ from
   configuration for the demo's bounded output/time budget. This is not a latency measurement.
 - [x] Test the updated request contract with mocked HTTP responses, retaining all tool/evidence,
   quota, kill-switch and human-review gates.
-- [ ] Verify model availability and real request compatibility with the configured API project.
+- [x] Verify model availability and real request compatibility with the configured API project.
 - [ ] Run a small explicitly authorized live holdout evaluation, inspect failures/tool traces and
   record actual usage, estimated cost and latency before relying on it during an interview.
 
 `reasoning_effort=none` is now a request parameter for GPT-5.4 mini model IDs, not an environment
 setting. Mocked tests verify the current completion cap and model-specific reasoning option.
 No-key SIMULATED behavior remains available. One user-authorized recorded live demonstration
-is pending; it is separate from a graded holdout evaluation.
+succeeded on 2026-11-08 (case #1, investigation #2, LIVE); it is separate from a graded holdout evaluation.
 
 ## Sources and follow-up
 

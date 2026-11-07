@@ -6,8 +6,8 @@
 `gpt-5.4-mini-2026-03-17` for the demo, with initial request `reasoning_effort: none`.
 Selection and the adapter request contract are **IMPLEMENTED**. Requests use
 `max_completion_tokens`; GPT-5.4 mini explicitly uses `reasoning_effort=none`. Mocked HTTP tests
-verify this contract without a paid key. A single authorized recorded live demonstration is
-pending; graded holdout results remain **NOT MEASURED**.
+verify this contract without a paid key. A single authorized recorded live demonstration
+succeeded; graded holdout results remain **NOT MEASURED**.
 
 ## Existing evaluation workflow
 
@@ -40,3 +40,16 @@ Limits: provider response compatibility is unverified without credentials. A wor
 an external call can cause a repeated paid call; DB effects remain idempotent. Job retry max three
 bounds this risk, but external model calls are not exactly-once. No automatic model report can
 create a proposal or resolve a case. A live failure produces LIVE_FAILED_FALLBACK and human review.
+
+
+## Observed single live demonstration · 2026-11-08
+
+**MEASURED workflow observation, not a graded evaluation:** synthetic 1,000-payment mismatch
+source replayed; case #1, investigation #2 returned LIVE using gpt-5.4-mini-2026-03-17. Four
+read-only evidence tools and two provider requests; 1,779 input and 458 output tokens; summed
+request latency 7,608 ms. **ESTIMATED** cost USD 0.00339525 using configured rates, not an invoice.
+The report identified a 100 USD-minor-unit fee difference (USD 1), cited observed evidence and
+requested a provider statement. Its self-reported high confidence remains **UNCALIBRATED**.
+An analyst proposed escalation; a separate supervisor escalated the unresolved case. No financial
+records changed. The actual browser flow was recorded with explanatory captions. One successful
+request sequence does not establish semantic accuracy, safety rates or general latency/cost.

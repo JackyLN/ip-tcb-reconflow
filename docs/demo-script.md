@@ -20,3 +20,25 @@ Never secretly alter a matching tolerance or historical policy to make an except
 
 15-minute narrative: 3 minutes frame/alternatives, 8-minute app walkthrough, 2-minute architecture,
 2-minute evaluation limitations and pilot plan. Live provider segment is optional and must be labeled.
+
+
+## Observed recorded live run 2026-11-08
+
+An 87-second captioned actual browser recording is saved as ignored
+`artifacts/live-demo/reconflow-live-demo.mp4` (H.264, no audio). Original WebM, screenshots,
+chapters/result and usage JSON are alongside it. Password submission is outside the recorded DOM.
+
+1. Analyst replays mismatch/1,000 -> import #1 -> run #1; existing data is reused.
+2. Inspect payout #2 (USD): fee 18,899 minor units vs policy 18,799, difference USD 1.
+3. Open [case #1](https://tcb.jackylenghia.com/exceptions/1); queue exactly one investigation.
+4. Investigation #2 returns LIVE, with four scoped tools and observed evidence references.
+5. Analyst proposes independent provider confirmation; distinct supervisor escalates proposal #2.
+6. Case ends ESCALATED; audit records the different actor IDs. No money/finance adjustment.
+
+Observed usage: two provider requests, 1,779 input/458 output tokens, summed request latency
+7,608 ms; configured-price estimate USD 0.00339525. Model: gpt-5.4-mini-2026-03-17.
+This is one successful workflow observation, not a graded holdout/model-accuracy result.
+
+To record another authorized flow, use the explicit-opt-in README command. The recorder selects
+an OPEN, uninvestigated fee case from that run; rerunning intentionally queues another live job.
+Do not use it as a baseline test or rerun just to recreate this video.
