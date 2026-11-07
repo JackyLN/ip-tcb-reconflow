@@ -353,3 +353,17 @@ tokens, summed request latency 7,608 ms, estimated USD 0.00339525. Analyst #1 pr
 supervisor #2 escalated proposal #2. Video is 87 seconds, converted to H.264 MP4 and sampled
 visually. Initial recording failed before queueing AI due to an HTMX caption replacement; fixed
 and reran. Exactly one paid investigation queued. Holdout/semantic evaluation remains unmeasured.
+
+
+## Public video documentation phase (2026-11-08)
+
+Intended files: public product/demo Markdown README, existing reviewed MP4 under public assets,
+reader support for a constrained local-video fence, navigation/authoring notes, media checks and
+README/AI log. No new dependency or model call. Acceptance: anonymous watch/download, chapters
+and measured/estimated labels, safe local-only video rendering, byte-range playback, mobile fit,
+publication/API/browser checks and deployment preserving environment. Existing recording is reused.
+
+- [x] Publishable video README/chapters/outcome/usage and native local-only MP4 player.
+- [x] Local lint/51 tests, 23-page validation, JS syntax checks and Docker health.
+- [x] Anonymous browser playback/seeking, desktop/mobile layout and no page/CSP errors.
+- [ ] Deploy and verify anonymous HTTPS playback/download.

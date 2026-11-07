@@ -54,9 +54,24 @@ try {
   await fallback.goto(base + '/docs/engineering/');
   await expect(fallback.locator('code.language-mermaid')).toHaveCount(2);
   await noJS.close();
+  await page.setViewportSize({width:1440, height:1080});
+  await page.goto(base + '/docs/product/recorded-demo/');
+  await expect(page.locator('video')).toBeVisible();
+  await page.waitForFunction(() => document.querySelector('video').readyState >= 1);
+  const duration = await page.locator('video').evaluate(video => video.duration);
+  expect(duration).toBeGreaterThan(86);
+  expect(duration).toBeLessThan(89);
+  await page.locator('video').evaluate(video => video.play());
+  await page.waitForFunction(() => document.querySelector('video').currentTime > 0);
+  await page.locator('video').evaluate(video => {video.pause(); video.currentTime=43;});
+  await page.waitForFunction(() => {const v=document.querySelector('video'); return !v.seeking && v.readyState >= 2;});
+  await page.screenshot({path:'artifacts/public-demo-video-desktop.png', fullPage:true});
+  await page.setViewportSize({width:390, height:844});
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+  await page.screenshot({path:'artifacts/public-demo-video-mobile.png', fullPage:true});
   expect(errors).toEqual([]);
   expect(foreignRequests).toEqual([]);
-  console.log('PASS: anonymous public docs, title search, nested/adjacent links, TOC, 3 diagram types, rich Markdown, mobile/no-JS reading, no page/CSP errors or external asset requests');
+  console.log('PASS: anonymous public docs, title search, nested/adjacent links, TOC, 3 diagram types, rich Markdown, video playback/seeking, mobile/no-JS reading, no page/CSP errors or external asset requests');
 } finally {
   await browser.close();
 }

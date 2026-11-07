@@ -42,3 +42,6 @@ This is one successful workflow observation, not a graded holdout/model-accuracy
 To record another authorized flow, use the explicit-opt-in README command. The recorder selects
 an OPEN, uninvestigated fee case from that run; rerunning intentionally queues another live job.
 Do not use it as a baseline test or rerun just to recreate this video.
+
+Published recording and README: https://tcb.jackylenghia.com/docs/product/recorded-demo/ .
+The same reviewed MP4 is versioned in public-docs/assets/demo for reproducible deployments.

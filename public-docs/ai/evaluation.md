@@ -53,3 +53,5 @@ requested a provider statement. Its self-reported high confidence remains **UNCA
 An analyst proposed escalation; a separate supervisor escalated the unresolved case. No financial
 records changed. The actual browser flow was recorded with explanatory captions. One successful
 request sequence does not establish semantic accuracy, safety rates or general latency/cost.
+
+See the [video and full run README](../product/recorded-demo.md) for the recording and chapters.

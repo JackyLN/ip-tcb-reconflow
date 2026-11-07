@@ -1,6 +1,7 @@
 {
   "order": [
     "product/index.md",
+    "product/recorded-demo.md",
     "product/workflow.md",
     "product/metrics.md",
     "product/adoption.md",

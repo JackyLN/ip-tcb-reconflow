@@ -38,3 +38,6 @@ no access to uploaded data, role changes, live model calls or mutation endpoints
 
 Each generator supports 100, 1,000 and 10,000 synthetic payments, with 20 payments per payout.
 The scenarios are reproducible, not historical bank datasets.
+
+Watch the [recorded live demo](recorded-demo.md): an 87-second walkthrough with chapters,
+observed usage and an independent supervisor escalation.

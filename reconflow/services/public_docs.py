@@ -180,9 +180,43 @@ def local_link(href: str, document: Document, published: Catalog) -> str:
     raise ValueError(f"Unsupported relative public link in {document.path}: {url.path}")
 
 
+def video_url(source: str, document: Document, published: Catalog) -> str:
+    """Accept only one local MP4 asset; never arbitrary HTML, embeds or remote media."""
+    href = local_link(source.strip(), document, published)
+    url = urlsplit(href)
+    if (
+        url.scheme
+        or url.netloc
+        or url.query
+        or url.fragment
+        or not url.path.startswith("/docs-assets/")
+        or not url.path.endswith(".mp4")
+        or len(source.strip().splitlines()) != 1
+    ):
+        raise ValueError("Video fences require a single local public MP4 asset")
+    return href
+
+
 def render(document: Document, published: Catalog) -> tuple[str, list[dict[str, str]]]:
     """Render one page with stable heading IDs and rewritten public cross-document links."""
     md = parser()
+    default_fence = md.renderer.rules["fence"]
+
+    def fence(tokens: list[Token], index: int, options: dict, env: dict) -> str:
+        token = tokens[index]
+        if token.info.strip() != "video":
+            return default_fence(tokens, index, options, env)
+        src = escape(video_url(token.content, document, published), quote=True)
+        return (
+            '<figure class="docs-video"><video controls playsinline preload="metadata" '
+            'aria-label="Public documentation video">'
+            f'<source src="{src}" type="video/mp4">'
+            f'Your browser cannot play this video. <a href="{src}">Download the MP4</a>.'
+            "</video><figcaption>Use the player controls to play, pause and seek."
+            "</figcaption></figure>\n"
+        )
+
+    md.renderer.rules["fence"] = fence
     environment: dict = {}
     tokens = md.parse(document.source, environment)
     headings = []
@@ -211,10 +245,13 @@ def validate(root: Path = PUBLIC_ROOT) -> int:
     for document in published.ordered:
         render(document, published)
         for token in _tokens(parser().parse(document.source)):
-            if token.type not in ("link_open", "image"):
+            if token.type == "fence" and token.info.strip() == "video":
+                rewritten = video_url(token.content, document, published)
+            elif token.type in ("link_open", "image"):
+                raw = token.attrGet("href" if token.type == "link_open" else "src") or ""
+                rewritten = local_link(raw, document, published)
+            else:
                 continue
-            raw = token.attrGet("href" if token.type == "link_open" else "src") or ""
-            rewritten = local_link(raw, document, published)
             url = urlsplit(rewritten)
             if url.path.startswith("/docs-assets/"):
                 asset = root / "assets" / unquote(url.path.removeprefix("/docs-assets/"))

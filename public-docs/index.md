@@ -36,3 +36,5 @@ and the previous/next links to follow the reading order. The search field matche
 
 Authors can add another `.md` file under `public-docs/` and it will appear automatically.
 See [writing documentation](authoring/index.md) for tables, code, footnotes and Mermaid diagrams.
+
+Watch the [recorded live demo](product/recorded-demo.md) with its chapters and measured results.

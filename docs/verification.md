@@ -181,3 +181,16 @@ with faststart; no reconstructed actions, extra provider calls, narration or sec
 Reviewed six sampled frames plus the live-report frame and screenshots. Video is 1,928,265 bytes
 in ignored artifacts/live-demo/reconflow-live-demo.mp4; accompanying result/usage/chapters remain
 local artifacts. Credentials remain in an ignored chmod-600 file, never in the video or VCS.
+
+
+## Public video README and player · 2026-11-08
+
+Reused the existing reviewed recording, versioned its 1,928,265-byte MP4 under public assets
+and published a dated product/recorded-demo Markdown README with chapters/outcome/usage/limits.
+Added a local-MP4-only fence renderer; raw HTML remains disabled. Public docs now contain 23 pages.
+`make lint test docs-check`: passed, 51 tests, one existing Starlette warning; local links valid.
+`npm run check`, `git diff --check`, `docker compose up --build -d --wait`: passed/all healthy.
+`npm run docs:browser`: passed existing docs/diagram checks plus native video playback and seek
+to 43 seconds; 86 < duration < 89 seconds. Desktop/mobile screenshots reviewed; no page overflow,
+external asset requests or page/CSP errors. API test verifies MP4 content type and 206 byte range.
+No recording rerun or provider call is needed for publishing/reading this video.

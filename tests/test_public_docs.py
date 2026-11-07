@@ -140,3 +140,30 @@ def test_document_size_limit(tmp_path):
     (tmp_path / "index.md").write_text("# Home\n" + "a" * 256001)
     with pytest.raises(ValueError, match="size limit"):
         catalog(tmp_path)
+
+
+def test_public_video_player_and_range_download(client):
+    response = client.get("/docs/product/recorded-demo/")
+    assert response.status_code == 200
+    assert '<video controls playsinline preload="metadata"' in response.text
+    assert 'type="video/mp4"' in response.text
+    assert "0.00339525" in response.text and "NOT MEASURED" in response.text
+    response = client.get(
+        "/docs-assets/demo/reconflow-live-demo.mp4", headers={"Range": "bytes=0-31"}
+    )
+    assert response.status_code == 206
+    assert response.headers["content-type"] == "video/mp4"
+    assert len(response.content) == 32
+
+
+@pytest.mark.parametrize("source", ["https://example.com/video.mp4", "/login", "assets/a.svg"])
+def test_video_fence_rejects_nonlocal_or_nonvideo_sources(tmp_path, source):
+    (tmp_path / "index.md").write_text(f"# Home\n```video\n{source}\n```\n")
+    with pytest.raises(ValueError, match="Video fences"):
+        validate(tmp_path)
+
+
+def test_video_fence_rejects_missing_asset(tmp_path):
+    (tmp_path / "index.md").write_text("# Home\n```video\nassets/missing.mp4\n```\n")
+    with pytest.raises(ValueError, match="Missing public documentation asset"):
+        validate(tmp_path)

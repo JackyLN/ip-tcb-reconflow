@@ -122,3 +122,13 @@ Case #1/investigation #2 returned LIVE with four tools/two requests; 1,779 input
 7,608 ms summed HTTP latency, estimated USD 0.00339525. Analyst #1 and supervisor #2 escalated
 for independent evidence. The 87-second recording was converted to MP4 and sampled visually.
 No claim of graded model accuracy follows from this observation. Exact checks in verification.md.
+
+Public video publishing follow-up (2026-11-08): user asked to include the video README in docs.
+Reused the reviewed existing 87-second recording, copied its chapters/outcome/usage into a public
+product page, versioned the 1.9 MB MP4 and linked handbook/product/evaluation/README entries.
+Added a constrained local-only video fence instead of enabling raw Markdown HTML. Extended tests
+for rejected remote/nonvideo/missing sources and range downloads; browser checks cover playback,
+seeking and mobile fit. No new model call or re-recording is needed. Results pending below.
+Local public-video outcome: 51 tests/lint, all 23 pages/link validation, JS checks, Docker health
+and anonymous browser checks passed. Video played and sought to the live-result frame; desktop
+and mobile screenshots reviewed. Publication reuses the existing MP4; no new inference.

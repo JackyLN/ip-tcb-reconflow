@@ -248,3 +248,7 @@ DEMO_BASE_URL, DEMO_CREDENTIALS and DEMO_OUTPUT when needed. Outputs are ignored
 and result.json under artifacts/live-demo. Login credentials are submitted outside the recorded DOM.
 The flow uses separate analyst/supervisor accounts and escalates missing independent evidence.
 It is a workflow demonstration, not a live holdout evaluation. Do not run this as a baseline test.
+
+The [public demo video and README](https://tcb.jackylenghia.com/docs/product/recorded-demo/)
+include playback/download, chapters, observed usage and interpretation limits. The reviewed MP4
+is versioned under public-docs/assets/demo; viewing it triggers no model call.

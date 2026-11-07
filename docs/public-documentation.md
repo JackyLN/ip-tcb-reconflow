@@ -31,3 +31,9 @@ sandbox unless live inference was explicitly authorized. See verification.md for
 
 References: https://markdown-it-py.readthedocs.io/en/latest/using.html and
 https://mermaid.js.org/config/usage.html .
+
+
+A constrained `video` fence accepts one reviewed local public MP4 path and emits a native player;
+raw Markdown HTML stays disabled. The existing static mount serves byte ranges for seeking.
+The recorded-demo README and versioned video live under public-docs/product and assets/demo.
+Video docs are read-only; playing this recording never queues provider inference.

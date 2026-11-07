@@ -70,3 +70,19 @@ This handbook is a reviewed public subset, not an automatic mirror of all intern
 When revising a shared decision or business assumption, update its public counterpart as well.
 
 [^source]: This is a demonstration of a Markdown footnote, not evidence of a bank measurement.
+
+
+## Local video
+
+A fenced block with language `video` and one relative `.mp4` path renders a native player.
+Only reviewed MP4 files under `public-docs/assets/` are accepted. Remote embeds, arbitrary HTML
+and video URL parameters are rejected. Publication checks validate the asset exists.
+
+Example source (remove the four-space indentation when using it):
+
+    ```video
+    ../assets/demo/reconflow-live-demo.mp4
+    ```
+
+Add a normal Markdown download link and a dated README with chapters and evidence limits.
+See the [recorded demo](../product/recorded-demo.md) for a working player.
