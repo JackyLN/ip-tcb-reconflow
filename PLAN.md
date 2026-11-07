@@ -366,4 +366,6 @@ publication/API/browser checks and deployment preserving environment. Existing r
 - [x] Publishable video README/chapters/outcome/usage and native local-only MP4 player.
 - [x] Local lint/51 tests, 23-page validation, JS syntax checks and Docker health.
 - [x] Anonymous browser playback/seeking, desktop/mobile layout and no page/CSP errors.
-- [ ] Deploy and verify anonymous HTTPS playback/download.
+- [x] Deploy and verify anonymous HTTPS playback/download.
+
+Hosted CI 42425952741 passed the public-video source, including clean Docker offline workflow/DB checks.

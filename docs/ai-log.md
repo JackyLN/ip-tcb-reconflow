@@ -132,3 +132,6 @@ seeking and mobile fit. No new model call or re-recording is needed. Results pen
 Local public-video outcome: 51 tests/lint, all 23 pages/link validation, JS checks, Docker health
 and anonymous browser checks passed. Video played and sought to the live-result frame; desktop
 and mobile screenshots reviewed. Publication reuses the existing MP4; no new inference.
+Public video deployment/browser checks passed, including seeking, mobile fit and byte-identical
+MP4 verification over HTTPS. Public page: /docs/product/recorded-demo/. No new model calls.
+Hosted CI 42425952741 passed lint/51 tests, 23-page validation and fresh Docker offline workflow/eval/DB checks.

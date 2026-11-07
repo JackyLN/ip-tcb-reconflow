@@ -194,3 +194,11 @@ Added a local-MP4-only fence renderer; raw HTML remains disabled. Public docs no
 to 43 seconds; 86 < duration < 89 seconds. Desktop/mobile screenshots reviewed; no page overflow,
 external asset requests or page/CSP errors. API test verifies MP4 content type and 206 byte range.
 No recording rerun or provider call is needed for publishing/reading this video.
+
+Deployed source 56e27dd59228ccb072f37a2785c06a1b7c4fb9ec; app/worker/db healthy.
+`DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser` passed, including actual video
+playback/seek and mobile/no-JavaScript reading. Downloaded MP4 SHA-256 matched the reviewed local
+asset; HTTPS Range bytes=0-31 returned 206 with 32 bytes. Readiness 200. No inference triggered.
+Hosted CI for the deployed source passed: https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42425952741 .
+It includes lint/51 tests, 23-page validation, clean Docker migration/seed/full offline workflow/eval
+and PostgreSQL checks. Only the existing unrelated ubuntu-latest migration annotation was shown.
