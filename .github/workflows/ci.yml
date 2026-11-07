@@ -1,0 +1,23 @@
+name: verify
+on: [push, pull_request]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.11.8'
+      - run: uv sync --python 3.12 --frozen
+      - run: make lint test
+      - run: node --check reconflow/static/app.js
+      - run: make configure
+      - run: docker compose up -d db
+      - run: docker compose build
+      - run: make migrate
+      - run: mkdir -p artifacts && (umask 077; make seed > artifacts/demo-credentials.txt)
+      - run: docker compose up -d --wait
+      - run: make smoke eval
+      - run: docker compose exec -T app python -m scripts.postgres_checks
+      - if: always()
+        run: docker compose down

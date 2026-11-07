@@ -1,0 +1,134 @@
+"""Actual adapter logic with mocked provider HTTP, no network or paid inference."""
+
+import json
+
+import httpx
+import pytest
+
+from reconflow.config import settings
+from reconflow.db import SessionLocal
+from reconflow.evaluation import dataset
+from reconflow.services import ai
+
+
+@pytest.fixture
+def fake_provider(monkeypatch):
+    cfg = settings()
+    monkeypatch.setattr(cfg, "llm_api_key", "unit-test-placeholder")
+    monkeypatch.setattr(cfg, "llm_model", "mock-provider")
+    original = httpx.Client
+
+    def install(handler):
+        monkeypatch.setattr(
+            ai.httpx, "Client", lambda **kw: original(transport=httpx.MockTransport(handler), **kw)
+        )
+
+    return install
+
+
+def test_adapter_tool_and_validated_report(fake_provider):
+    case = dataset()[0]
+
+    def respond(request):
+        body = json.loads(request.content)
+        if len(body["messages"]) == 2:
+            message = {
+                "role": "assistant",
+                "content": None,
+                "tool_calls": [
+                    {
+                        "id": "call1",
+                        "type": "function",
+                        "function": {"name": "get_case", "arguments": "{}"},
+                    }
+                ],
+            }
+        else:
+            payload = ai.simulated_report(case["id"], "FEE_MISMATCH", [f"case:{case['id']}"])
+            payload["requires_human_review"] = False
+            message = {"role": "assistant", "content": json.dumps(payload)}
+        return httpx.Response(
+            200,
+            json={
+                "choices": [{"message": message}],
+                "usage": {"prompt_tokens": 100, "completion_tokens": 20},
+            },
+        )
+
+    fake_provider(respond)
+    with SessionLocal.begin() as db:
+        result, trace = ai.live_report(db, case["id"], case["tools"], evaluation=True)
+        assert result["requires_human_review"] is True
+        assert len(trace) == 1
+
+
+def test_adapter_rejects_arbitrary_tool(fake_provider):
+    def respond(request):
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "message": {
+                            "role": "assistant",
+                            "content": None,
+                            "tool_calls": [
+                                {
+                                    "id": "bad",
+                                    "function": {"name": "execute_sql", "arguments": "{}"},
+                                }
+                            ],
+                        }
+                    }
+                ]
+            },
+        )
+
+    fake_provider(respond)
+    case = dataset()[0]
+    with SessionLocal.begin() as db, pytest.raises(ValueError, match="Tool policy"):
+        ai.live_report(db, case["id"], case["tools"], evaluation=True)
+
+
+def test_adapter_rejects_unobserved_citation(fake_provider):
+    case = dataset()[0]
+    payload = ai.simulated_report(case["id"], "FEE_MISMATCH", ["evidence:SECRET"])
+    fake_provider(
+        lambda request: httpx.Response(
+            200, json={"choices": [{"message": {"content": json.dumps(payload)}}]}
+        )
+    )
+    with SessionLocal.begin() as db, pytest.raises(ValueError, match="unobserved"):
+        ai.live_report(db, case["id"], case["tools"], evaluation=True)
+
+
+def test_adapter_stops_after_four_tools(fake_provider):
+    case = dataset()[0]
+    calls = []
+
+    def respond(request):
+        calls.append(1)
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "message": {
+                            "role": "assistant",
+                            "content": None,
+                            "tool_calls": [
+                                {
+                                    "id": str(len(calls)),
+                                    "function": {"name": "get_case", "arguments": "{}"},
+                                }
+                            ],
+                        }
+                    }
+                ]
+            },
+        )
+
+    fake_provider(respond)
+    with SessionLocal.begin() as db, pytest.raises(ValueError, match="Tool policy"):
+        ai.live_report(db, case["id"], case["tools"], evaluation=True)
+    assert len(calls) == 5

@@ -1,0 +1,38 @@
+import { chromium } from '@playwright/test';
+import { readFileSync, mkdirSync } from 'node:fs';
+const line = readFileSync('artifacts/demo-credentials.txt','utf8').split('\n').find(l=>l.startsWith('analyst@reconflow.demo'));
+const [email,password] = line.trim().split(/\s+/);
+const browser = await chromium.launch();
+const page = await browser.newPage({viewport:{width:1440,height:1080}});
+const errors = [];
+page.on('pageerror',error=>errors.push(error.message));
+page.on('console', message => { if(message.type()==='error' && message.text().includes('Content Security Policy')) errors.push(message.text()); });
+const loginResponse = await page.goto('http://localhost:8080/login');
+if (loginResponse.status() !== 200) throw Error('Sign-in page unavailable');
+await page.getByLabel('Email', {exact:true}).fill(email);
+await page.getByLabel('Password', {exact:true}).fill(password);
+const loginResult = page.waitForResponse(r => r.url().endsWith('/login') && r.request().method()==='POST');
+await page.getByRole('button',{name:'Sign in securely'}).click();
+if ((await loginResult).status() !== 303) throw Error('Sign-in rejected; inspect throttle/credentials');
+await page.waitForURL('http://localhost:8080/');
+await page.locator('#distribution').waitFor();
+await page.waitForFunction(()=>window.Chart && window.Chart.getChart('distribution'));
+mkdirSync('artifacts',{recursive:true});
+await page.screenshot({path:'artifacts/overview-desktop.png',fullPage:true});
+await page.getByRole('link',{name:'Exceptions',exact:true}).click();
+await page.locator('tbody a').first().click();
+await page.screenshot({path:'artifacts/exception-desktop.png',fullPage:true});
+await page.goto('http://localhost:8080/');
+await page.setViewportSize({width:390,height:844});
+await page.waitForFunction(() => document.querySelector('canvas').getBoundingClientRect().right <= innerWidth);
+await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+await page.screenshot({path:'artifacts/overview-mobile.png',fullPage:true});
+const overflow = await page.evaluate(()=>document.documentElement.scrollWidth > innerWidth);
+if (errors.length || overflow) throw Error(JSON.stringify({errors,overflow}));
+await page.setViewportSize({width:1440,height:1080});
+for (const route of ['/imports','/runs','/payouts','/investigations','/review','/reports/operations','/reports/impact','/ai/evaluation','/audit','/controls','/operations/health','/guide']) {
+  const response = await page.goto('http://localhost:8080'+route);
+  if (response.status()!==200) throw Error(`${route}: ${response.status()}`);
+}
+await browser.close();
+console.log('PASS: Chromium desktop/mobile, chart rendering, no page errors, no mobile page overflow, 14 screens');

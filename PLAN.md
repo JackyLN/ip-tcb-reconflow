@@ -1,7 +1,65 @@
 # ReconFlow — Product, Engineering & Delivery Plan
 
-> Status: implementation blueprint | Audience: Codex + candidate | Target: Techcombank AI Transformation Division Expert Challenge 2026
+> Status: working prototype in verification; production/live-AI gates outstanding | Audience: Codex + candidate | Target: Techcombank AI Transformation Division Expert Challenge 2026
 > Domain: Bank-side merchant settlement reconciliation and exception investigation, using synthetic/public data ONLY.
+
+## Implementation progress (2026-11-06)
+
+Authoritative scope above/below remains the target. Checked items describe implemented paths,
+not a claim that every phase gate or challenge requirement is met.
+
+- [x] Phase 1 audit: planning-only repository, no existing app or user changes; mapped screens/entities.
+- [x] Foundation: Python 3.12 environment/lockfile, SQLAlchemy schema, explicit Alembic migration,
+  Docker app/worker/PostgreSQL/Caddy, generated secrets/accounts, sessions/CSRF/RBAC, local assets.
+- [x] Core: atomic CSV import, source hashes, deterministic scenarios (100/1,000/10,000), payout
+  aggregation, conservative single-credit matches, persisted exceptions, proposals/dual control.
+- [x] Durable jobs: DB leases/row locks, retry/backoff, expired lease recovery, failure injection,
+  heartbeat/in-app alerts, application append-only audit hash chain.
+- [x] AI: four read-only tools, schema/citation membership checks, quotas, advisory-only reports,
+  explicit simulated no-key mode, configurable HTTP adapter and human fallback, kill switch.
+- [x] Evaluation runner: 72 labeled fixtures (24 development/48 holdout), offline contract checks,
+  optional explicit live mode, invocation accounting; no live model results claimed.
+- [x] UI: all 14 navigation screens, import/run/payout/case detail, human review actions,
+  measured snapshot KPIs, editable assumption-based USD impact, architecture/rollout viewer.
+- [x] Local unit/API verification: `make lint test` passed, 28 tests at hardening checkpoint.
+- [x] Initial Docker build, clean PostgreSQL migration and seed succeeded.
+- [x] Docker HTTP walkthrough, PostgreSQL competing claims/audit guard and isolated benchmark.
+- [x] Chromium desktop/mobile rendering, chart bounds, no page/CSP errors and 14 screens verified.
+- [ ] Live provider-backed investigation and paid holdout evaluation (credentials unavailable).
+- [ ] Five stakeholder interviews across three roles (not conducted; A1 not met).
+- [ ] External VPS/hostname/TLS fresh-install verification and published demo/video.
+- [ ] Full SLA/period reporting, human-control study, semantic hallucination grading, rework/ramp ROI.
+- [ ] Bank production security: SSO/MFA, tenant scopes, separate DB roles, external audit anchoring,
+  secrets management, restore drill and independent security review.
+
+Implementation decisions/deviations: one synthetic merchant workspace; cumulative refunds stored
+on payment lines and fee/adjustment on payouts rather than separate ledgers. Stable internal integer
+IDs plus source IDs replace planned UUIDs. Provider profiles are immutable via UI; use distinct names
+for new policies. Four combined tools include refunds/fees in payout aggregates. No external alerts,
+partial settlements or live integrations. Operations north-star is a labeled current-snapshot proxy,
+not full within-SLA performance. Business impact is annual constant assumptions, not monthly ramp.
+External model calls can repeat after a crash; financial DB effects remain atomic/idempotent.
+These simplifications do not meet all original Definition of Done items. See README known gaps.
+
+Final local acceptance checkpoint: `make lint test` 28 passed (one dependency deprecation warning),
+`npm run check/build/browser`, Docker build/start/migrate/seed/HTTP smoke and offline eval passed.
+All four services healthy. 48/48 simulated contract checks, no live model scores. PostgreSQL locking,
+audit hash-chain/UPDATE guard passed; measured 10,000-payment/500-payout reconcile sample 815 ms.
+See docs/verification.md for exact scope, omissions and source benchmark artifact.
+
+## UI branding update (2026-11-06)
+
+- [x] Audited existing shared CSS, templates and Chart.js configuration; retained existing flows.
+- [x] Implemented user-requested Techcombank-inspired red/black/white/neutral palette with restrained gold.
+  Exact brand red #ED1C24 for graphical accents; darker #CC1720 actions and #B5121B links/focus
+  for text contrast. Gold #B18A49 is a chosen UI accent, not a verified official gold hex.
+- [x] Verified built desktop/mobile screens, login/controls hover and keyboard focus, selected
+  contrast pairs, 28 existing tests, lint/JS checks, Docker health and full HTTP smoke.
+
+Changes scoped to reconflow/static/app.css, app.js, measured badge class and project documentation.
+No official Techcombank logo/affiliation is introduced. Prior navy/teal direction is superseded by
+this explicit user request. Acceptance: no navy/teal accents remain, accessible text/focus colors,
+real chart data, no desktop/mobile overflow, main routes and persistent workflow still operate.
 
 ## 0. North star and non-negotiables
 
@@ -47,7 +105,7 @@ Do not claim bank-specific facts, real financial results, model evaluation outco
 
 ## 3. User experience and navigation
 
-- Professional, elegant, responsive light-first banking operations UI with dark navy/slate typography, restrained teal and amber accents, high contrast, clear table density, no gimmicky gradients. Create a coherent design system and accessible states.
+- Professional, elegant, responsive light-first banking operations UI with charcoal/black typography, Techcombank-inspired red (#ED1C24), white/sky-grey surfaces and restrained gold accents (user-directed palette update), high contrast, clear table density, no gimmicky gradients. Create a coherent design system and accessible states.
 - Sidebar: Overview; Data Sources & Imports; Reconciliation Runs; Transactions & Payouts; Exceptions; AI Investigations; Review Queue; Reports (Operations / Business Impact / AI Evaluation); Audit Trail; Configuration & Controls.
 - Dashboard shows *actual database-calculated* KPIs, latest run, exception distribution, throughput, SLA, and action items; label synthetic environment prominently.
 - Scenario launcher with three scenarios: (1) clean payout; (2) mismatches, fees, refunds, missing bank credit, duplicates; (3) interrupted worker/replay/kill switch. Show before/after impacts and explain outcomes.

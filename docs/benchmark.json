@@ -1,0 +1,26 @@
+{
+  "label": "MEASURED synthetic local Docker, single sample, not a bank benchmark",
+  "architecture": "aarch64",
+  "runtime": "3.12.14",
+  "container_limits": "1 CPU / 512 MB",
+  "records": [
+    {
+      "payments": 100,
+      "payouts": 5,
+      "import_ms": 22,
+      "reconcile_ms": 13
+    },
+    {
+      "payments": 1000,
+      "payouts": 50,
+      "import_ms": 98,
+      "reconcile_ms": 73
+    },
+    {
+      "payments": 10000,
+      "payouts": 500,
+      "import_ms": 1047,
+      "reconcile_ms": 815
+    }
+  ]
+}

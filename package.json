@@ -1,0 +1,16 @@
+{
+  "name": "reconflow-assets",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i frontend.css -o reconflow/static/tailwind.css --minify && node scripts/vendor.mjs",
+    "check": "node --check reconflow/static/app.js && node --check scripts/browser-check.mjs",
+    "browser": "node scripts/browser-check.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/cli": "4.1.3",
+    "chart.js": "4.4.8",
+    "htmx.org": "2.0.4",
+    "tailwindcss": "4.1.3"
+  }
+}
