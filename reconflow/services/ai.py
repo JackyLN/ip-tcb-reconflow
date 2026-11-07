@@ -171,7 +171,12 @@ def live_report(
                     "messages": messages,
                     "tools": specs,
                     "tool_choice": "auto" if calls < 4 else "none",
-                    "max_tokens": 1200,
+                    "max_completion_tokens": 1200,
+                    **(
+                        {"reasoning_effort": "none"}
+                        if cfg.llm_model.startswith("gpt-5.4-mini")
+                        else {}
+                    ),
                     "response_format": {"type": "json_object"},
                 },
             )

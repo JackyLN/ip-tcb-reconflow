@@ -26,11 +26,19 @@ def fake_provider(monkeypatch):
     return install
 
 
-def test_adapter_tool_and_validated_report(fake_provider):
+@pytest.mark.parametrize("model", ["mock-provider", "gpt-5.4-mini-2026-03-17"])
+def test_adapter_tool_and_validated_report(fake_provider, monkeypatch, model):
+    monkeypatch.setattr(settings(), "llm_model", model)
     case = dataset()[0]
 
     def respond(request):
         body = json.loads(request.content)
+        assert body["max_completion_tokens"] == 1200
+        assert "max_tokens" not in body
+        if model.startswith("gpt-5.4-mini"):
+            assert body["reasoning_effort"] == "none"
+        else:
+            assert "reasoning_effort" not in body
         if len(body["messages"]) == 2:
             message = {
                 "role": "assistant",

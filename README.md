@@ -83,10 +83,9 @@ payout rounding and why historical policies are preserved.
 
 Chosen demo model: **GPT-5.4 mini**, pinned to `gpt-5.4-mini-2026-03-17`.
 [ADR 004](docs/adr/004-demo-llm-selection.md) records the rationale, dated pricing assumptions
-(USD 0.75 input / 4.50 output per million tokens), and target environment values. **Adapter changes
-and live evaluation are pending:** replace `max_tokens` with `max_completion_tokens` and explicitly
-set request `reasoning_effort` to `none` initially before enabling this target. The decision does
-not claim measured model quality, latency or live compatibility.
+(USD 0.75 input / 4.50 output per million tokens), and target environment values. **Adapter contract implemented:** requests use `max_completion_tokens` and explicitly set
+`reasoning_effort=none` for GPT-5.4 mini. A user-authorized recorded live demonstration is pending.
+The decision does not claim graded model quality or holdout performance.
 
 Baseline runs with **no key**. SIMULATED results are scripted, low-confidence, advisory only.
 No live model accuracy, live cost or provider compatibility is claimed for the no-key demonstration.
@@ -238,3 +237,14 @@ Only deliberately public content belongs in `public-docs/`. Do not copy environm
 credentials, private deployment runbooks or real customer data there. The existing full operations
 smoke test assumes an offline/no-key demo; use an isolated no-key stack when the local app is
 configured for live inference.
+
+
+## Record one live demo
+
+`RUN_LIVE_DEMO=1 npm run demo:record` records actual synthetic browser actions on the demo site
+and explicitly queues **one live investigation** (which may make multiple bounded provider calls).
+It reads ignored private `artifacts/vps-demo-credentials.txt`; do not publish that file. Override
+DEMO_BASE_URL, DEMO_CREDENTIALS and DEMO_OUTPUT when needed. Outputs are ignored video/screenshots
+and result.json under artifacts/live-demo. Login credentials are submitted outside the recorded DOM.
+The flow uses separate analyst/supervisor accounts and escalates missing independent evidence.
+It is a workflow demonstration, not a live holdout evaluation. Do not run this as a baseline test.

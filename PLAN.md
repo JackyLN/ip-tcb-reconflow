@@ -25,7 +25,8 @@ not a claim that every phase gate or challenge requirement is met.
 - [x] Initial Docker build, clean PostgreSQL migration and seed succeeded.
 - [x] Docker HTTP walkthrough, PostgreSQL competing claims/audit guard and isolated benchmark.
 - [x] Chromium desktop/mobile rendering, chart bounds, no page/CSP errors and 14 screens verified.
-- [ ] Live provider-backed investigation and paid holdout evaluation (credentials unavailable).
+- [ ] Live provider-backed investigation (authorized for a recorded synthetic demo; pending).
+- [ ] Paid holdout evaluation (not run; distinct from one live demo).
 - [ ] Five stakeholder interviews across three roles (not conducted; A1 not met).
 - [x] External VPS/domain/TLS fresh install and live demo verified at https://tcb.jackylenghia.com.
 - [ ] Demo video (not recorded).
@@ -331,3 +332,14 @@ Team: Product/BA (1), backend/data (1), AI/ML (1), frontend/UX (1), platform/sec
 ## 14. Definition of done
 
 All visible dashboard figures trace to persistent source records or visibly labeled assumptions. Every main navigation route loads, imports and jobs are real, reviewer permissions are enforced, at least one AI invocation has a verifiable evidence trail, evaluation is reproducible, seeds reset safely, Docker fresh-install works, tests/README/docs reflect reality, and presentation can clearly show what is built vs planned.
+
+
+## Recorded live demonstration phase (2026-11-08)
+
+User authorized use of deployed credentials/key for one flow and requested a video of actual
+actions. Intended files: AI adapter and mocked request tests, replayable browser recording script,
+README/PLAN/AI log/ADR and observed verification notes. Dependencies: existing Playwright browser
+recording, private generated demo credentials and configured provider; no new paid service.
+Acceptance: baseline tests pass without a key; deploy preserves server environment; one scoped
+synthetic case is investigated, actual mode/usage/evidence recorded, separate maker/checker
+review shown, video inspected and delivered without secrets. This is not a holdout evaluation.

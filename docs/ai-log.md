@@ -108,3 +108,10 @@ checks passed. The isolated no-key full workflow smoke passed, and its disposabl
 Deployed source a489abeea12a3edd4dfd4557139e7e20c600f675; all 22 HTTPS documents and read-only browser
 checks passed. No production investigations were triggered. See verification.md for exact scope.
 Hosted CI 42424030055 also passed the fresh no-key Docker workflow, offline evaluation and DB checks.
+
+Recorded live demo follow-up (2026-11-08): user authorized deployed credentials/key for one flow,
+then asked to record the actions as a video. Inspected the configured model (key presence only)
+and found ADR 004's adapter work still pending. Official OpenAI model/reference pages confirm
+completion-token cap and none reasoning support. Implemented the bounded request update and
+mocked tests before triggering a provider call. Added explicit-opt-in Playwright recording with
+annotations and login via a non-recorded credential submission. Results remain pending.

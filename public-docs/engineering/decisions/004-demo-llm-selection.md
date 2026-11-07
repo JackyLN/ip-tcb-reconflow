@@ -1,7 +1,7 @@
 # ADR 004: GPT-5.4 mini for demo investigations
 
 Date: 2026-11-08
-Status: **Accepted model choice; adapter integration and live evaluation pending.**
+Status: **Accepted model choice; adapter request contract implemented; live demonstration pending.**
 
 ## Decision and rationale
 
@@ -36,21 +36,21 @@ and **USD 4.50 per million output tokens**. These are provider rate assumptions 
 cost estimates, not observed spend. Recheck rates before live evaluation; cached-input discounts,
 regional processing, future pricing changes and provider billing may differ from the simple estimator.
 
-## Integration work still required
+## Integration and verification checklist
 
-- [ ] Update the request adapter to use `max_completion_tokens` instead of deprecated `max_tokens`.
-- [ ] Explicitly set request parameter `reasoning_effort` to `none` initially, as the starting
+- [x] Update the request adapter to use `max_completion_tokens` instead of deprecated `max_tokens`.
+- [x] Explicitly set request parameter `reasoning_effort` to `none` initially, as the starting
   configuration for the demo's bounded output/time budget. This is not a latency measurement.
-- [ ] Test the updated request contract with mocked HTTP responses, retaining all tool/evidence,
+- [x] Test the updated request contract with mocked HTTP responses, retaining all tool/evidence,
   quota, kill-switch and human-review gates.
 - [ ] Verify model availability and real request compatibility with the configured API project.
 - [ ] Run a small explicitly authorized live holdout evaluation, inspect failures/tool traces and
   record actual usage, estimated cost and latency before relying on it during an interview.
 
-`reasoning_effort` is a planned request parameter, **not an existing environment setting**.
-The model choice alone does not implement these changes. No source code, runtime configuration,
-server secrets or deployment is changed by recording this decision. No paid API calls were made
-for this documentation update. Existing no-key SIMULATED behavior remains available.
+`reasoning_effort=none` is now a request parameter for GPT-5.4 mini model IDs, not an environment
+setting. Mocked tests verify the current completion cap and model-specific reasoning option.
+No-key SIMULATED behavior remains available. One user-authorized recorded live demonstration
+is pending; it is separate from a graded holdout evaluation.
 
 ## Sources and follow-up
 
