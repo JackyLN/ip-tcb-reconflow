@@ -1,5 +1,19 @@
 # Evaluation and AI limits
 
+## Selected model and validation status
+
+[ADR 004](adr/004-demo-llm-selection.md) selects GPT-5.4 mini snapshot
+`gpt-5.4-mini-2026-03-17` for the demo, with initial request `reasoning_effort: none`.
+Selection is **ACCEPTED**, adapter changes are **NOT IMPLEMENTED**, and live results are
+**NOT MEASURED** at this documentation checkpoint (2026-11-08). Update the deprecated `max_tokens`
+request parameter to `max_completion_tokens` and verify the request contract before live use.
+The published USD 0.75 / 4.50 per million input/output token rates are dated estimate inputs,
+not recorded provider spend. The existing 48/48 offline contract result is not evidence of this
+model's quality. After an explicitly authorized live run, report the actual model snapshot,
+request/prompt version, sample size, tool/evidence failures, latency and token/cost observations.
+
+## Existing evaluation workflow
+
 Dataset synthetic-v1: 72 deterministic cases, 24 development / 48 holdout; eight root-cause
 categories, including insufficient evidence, contradictions (payout arithmetic), currency,
 duplicates and adversarial notes. Expected labels are absent from live tool input. Rule findings

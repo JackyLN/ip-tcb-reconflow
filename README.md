@@ -81,6 +81,13 @@ payout rounding and why historical policies are preserved.
 
 ## AI configuration and evaluation
 
+Chosen demo model: **GPT-5.4 mini**, pinned to `gpt-5.4-mini-2026-03-17`.
+[ADR 004](docs/adr/004-demo-llm-selection.md) records the rationale, dated pricing assumptions
+(USD 0.75 input / 4.50 output per million tokens), and target environment values. **Adapter changes
+and live evaluation are pending:** replace `max_tokens` with `max_completion_tokens` and explicitly
+set request `reasoning_effort` to `none` initially before enabling this target. The decision does
+not claim measured model quality, latency or live compatibility.
+
 Baseline runs with **no key**. SIMULATED results are scripted, low-confidence, advisory only.
 No live model accuracy, live cost or provider compatibility is claimed for the no-key demonstration.
 To enable the configured OpenAI-compatible HTTP adapter, set private `.env` values:

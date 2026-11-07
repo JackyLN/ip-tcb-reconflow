@@ -66,3 +66,13 @@ See verification.md for exact final checks, observed benchmark and omissions.
    caught; reran the same deployment script using `git rev-parse HEAD` directly. The accepted image
    and .deployed-sha now match 31018ede59dcfd00701eb21471f60ab546be5140. No reset occurred;
    generated account credentials were byte-for-byte preserved across the rerun. Hosted CI passed.
+
+
+10. User asked which small GPT model would be intelligent enough for this demo, then requested:
+    “add this decision in the document, too”. Checked official OpenAI model/API documentation in
+    the preceding recommendation and inspected the existing Chat Completions adapter. Recorded
+    GPT-5.4 mini snapshot gpt-5.4-mini-2026-03-17 in ADR 004, with dated rate assumptions and a
+    planned max_completion_tokens/reasoning_effort=none request update. README, PLAN and evaluation
+    guidance distinguish accepted selection from unimplemented adapter changes and unmeasured
+    live results. Documentation consistency and whitespace were checked; no automated tests,
+    Docker smoke, paid inference, key changes or deployment were run for this documentation-only edit.
