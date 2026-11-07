@@ -144,7 +144,8 @@ audit hash-chain verification and audit UPDATE guard passed. Browser verificatio
 [verification log](docs/verification.md), including corrections and exact final outcomes.
 GitHub Actions lint/tests and Docker workflow passed for the deployed source:
 [verified CI run](https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42415477106).
-Manual CD awaits the user-managed deployment secrets.
+Hosted CD succeeded after user-managed secret setup:
+[successful CD run](https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42421131938).
 
 [Benchmark artifact](docs/benchmark.json) contains actual isolated synthetic measurements and
 instance limits; these measure application processing, not human labor savings or bank throughput.
@@ -195,3 +196,9 @@ Public HTTPS, secure cookies, 14 screens, 1,000-payment/approval/replay/retry wo
 checks passed; app/worker/db are healthy. Public credentials are separate from local demo credentials:
 retrieve privately from `/opt/reconflow/.secrets/demo-credentials.txt` via the trusted SSH alias,
 or use local ignored `artifacts/vps-demo-credentials.txt`. Actual results: `docs/verification.md`.
+
+CI/CD action runtimes use Node.js 24: checkout v7.0.1 and setup-uv v10.3.3, each pinned to its
+exact release commit SHA in both workflows. The installed uv CLI stays at 0.11.8. This addresses
+the Node.js 20 action deprecation warning; it does not change the Node.js image used to build
+frontend assets. Start a new CD run from main after pulling these changes; retrying an old run
+continues to use its original workflow revision.

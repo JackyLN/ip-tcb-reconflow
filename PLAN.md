@@ -71,7 +71,7 @@ real chart data, no desktop/mobile overflow, main routes and persistent workflow
 - [x] Added/validated only tcb.jackylenghia.com on shared Caddy; trusted Let's Encrypt HTTPS verified.
 - [x] Public synthetic workflow/browser/DB/offline eval checks passed; existing applications retained
   their expected HTTP 401 protected responses. Deployment source CI passed on GitHub.
-- [ ] GitHub Actions execution after the user configures the four deployment secrets.
+- [x] User-configured GitHub Actions CD succeeded: run 42421131938 (verify and deploy).
 
 User chose tcb.jackylenghia.com and explicitly reserved GitHub secret/key setup for themselves.
 Existing shared Caddy owns 80/443; standalone ReconFlow Caddy is omitted on this VPS. App joins
@@ -85,7 +85,24 @@ Verified deployment: commit 31018ede59dcfd00701eb21471f60ab546be5140; app/worker
 HTTP redirects to HTTPS (308), Secure/HttpOnly/SameSite=Lax cookies, certificate hostname/trust
 verified (expiry 2027-02-05 UTC). Public 1,000-payment/replay/AI/dual-control/retry smoke and all
 14 browser screens passed. Credentials preserved across deployment rerun; backups nonempty.
-GitHub CI run 42415477106 succeeded. CD is published but intentionally awaits user-managed secrets.
+GitHub CI run 42415477106 succeeded. Subsequent user-configured hosted CD run 42421131938
+succeeded; its Node.js 20 deprecation warnings are addressed by the maintenance phase below.
+
+## Actions runtime maintenance (2026-11-08)
+
+- [x] Inspect reported CD run 42421131938: verify/deploy both succeeded; Node.js 20 messages are warnings.
+- [x] Verify official release manifests: checkout v7.0.1 and setup-uv v10.3.3 both declare node24.
+- [x] Update all checkout/setup-uv references in both CI and CD to exact release commit SHAs.
+  Keep installed uv CLI version 0.11.8 and the application/deployment commands unchanged.
+- [x] actionlint v1.7.7 and baseline lint/tests passed (28 tests; existing TestClient warning).
+- [ ] Validate new hosted CI and inspect Node.js deprecation annotations.
+
+Files: .github/workflows/ci.yml, .github/workflows/cd.yml, README.md, docs/ai-log.md and
+verification notes. Acceptance: official Node.js 24 action runtimes, valid YAML/workflow expressions,
+baseline checks pass, hosted actions run with updated references and no Node.js 20 warning.
+No secrets are read/changed, no paid model evaluation and no production redeployment are required
+for this workflow-only change. Start a new CD run from main to use the new workflow; re-running
+an older run retains that run's workflow revision.
 
 ## 0. North star and non-negotiables
 

@@ -18,13 +18,13 @@ jobs:
       revision: ${{ steps.source.outputs.revision }}
     steps:
       - name: Check out main
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 (Node.js 24)
         with:
           ref: main
       - name: Record verified revision
         id: source
         run: echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3 (Node.js 24)
         with:
           version: '0.11.8'
       - run: uv sync --python 3.12 --frozen
@@ -39,7 +39,7 @@ jobs:
       url: https://tcb.jackylenghia.com
     steps:
       - name: Check out verified revision
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 (Node.js 24)
         with:
           ref: ${{ needs.verify.outputs.revision }}
       - name: Configure SSH

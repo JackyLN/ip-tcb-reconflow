@@ -6,7 +6,8 @@ LIVE and verified on 2026-11-08. This is a public **synthetic-only demo**, with 
 cookies and no LLM key. Deployed source: `31018ede59dcfd00701eb21471f60ab546be5140`.
 App/worker/DB and public login/readiness, synthetic end-to-end flow and browser checks passed.
 GitHub CI succeeded: https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42415477106 .
-CD is active but has not been executed from GitHub, pending the user-managed secrets.
+Hosted CD subsequently succeeded after user-managed secret setup:
+https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42421131938 .
 
 ## Topology and bootstrap
 
@@ -57,8 +58,8 @@ This session does not upload or change deployment credentials. A copy of the ser
 Ed25519 host-key line is provided locally at `artifacts/vps-known-hosts` for the known-hosts secret;
 it was obtained over the existing trusted SSH connection, not blindly trusted from a network scan.
 
-After setting secrets, open Actions → CD → Run workflow → main. Hosted execution remains
-unverified until that run succeeds. The current GitHub CLI account has only repository READ
+After setting secrets, open Actions → CD → Run workflow → main. The first user-configured hosted CD run succeeded (42421131938); validate subsequent runs
+against their own revision and public readiness result. The current GitHub CLI account has only repository READ
 permission, so it cannot set secrets or dispatch CD; Git SSH is authenticated separately as JackyLN.
 
 ## Deployment behavior and operation

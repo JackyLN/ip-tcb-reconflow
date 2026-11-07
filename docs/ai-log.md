@@ -76,3 +76,11 @@ See verification.md for exact final checks, observed benchmark and omissions.
     guidance distinguish accepted selection from unimplemented adapter changes and unmeasured
     live results. Documentation consistency and whitespace were checked; no automated tests,
     Docker smoke, paid inference, key changes or deployment were run for this documentation-only edit.
+
+
+Deployment maintenance follow-up (2026-11-08): user supplied Node.js 20 deprecation warnings from
+CD run 42421131938. Inspected the run: both jobs succeeded, so the messages were warnings rather
+than a deployment failure. Verified official checkout v7.0.1/setup-uv v10.3.3 action manifests use
+Node.js 24 and replaced all old references in CI/CD with exact release commit pins. Kept the uv
+CLI version and deployment/application commands intact. Validation outcomes are recorded in
+verification.md. No API keys, SSH secrets or production environment values were inspected/changed.

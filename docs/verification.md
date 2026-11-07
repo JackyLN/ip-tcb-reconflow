@@ -88,3 +88,20 @@ MEASURED on 187.127.220.131 (x86_64), source commit
 NOT EXECUTED: hosted CD (user owns secret setup), database restore drill, live provider inference,
 independent security assessment, stakeholder interviews or a real-bank pilot. Source remains a
 synthetic demonstration. Latest subsequent documentation commit does not change deployed runtime code.
+
+## GitHub Actions Node.js 24 maintenance · 2026-11-08
+
+Reported CD run 42421131938 completed successfully (both verify/deploy); Node.js 20 messages were
+deprecation warnings, not failed steps. Official action manifests were inspected at release tags:
+checkout v7.0.1 and setup-uv v10.3.3 declare runs.using=node24. Both CI and CD now pin their exact
+release commits: checkout 3d3c42e5aac5ba805825da76410c181273ba90b1 and setup-uv
+68559e99cc807c1eb7e9238fd43a15bba460eec2. Installed uv stays 0.11.8; no app/runtime config changes.
+
+Local `go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/ci.yml .github/workflows/cd.yml`
+and `make lint test` passed: 28 tests, one pre-existing Starlette/httpx warning. `git diff --check`
+passed. Hosted verification of the new action references is pending at this commit checkpoint.
+No production restart, paid model calls or secret changes were needed for this workflow change.
+
+Sources: https://github.com/actions/checkout/releases/tag/v7.0.1 ,
+https://github.com/astral-sh/setup-uv/releases/tag/v10.3.3 , and
+https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ .
