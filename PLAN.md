@@ -95,7 +95,8 @@ succeeded; its Node.js 20 deprecation warnings are addressed by the maintenance 
 - [x] Update all checkout/setup-uv references in both CI and CD to exact release commit SHAs.
   Keep installed uv CLI version 0.11.8 and the application/deployment commands unchanged.
 - [x] actionlint v1.7.7 and baseline lint/tests passed (28 tests; existing TestClient warning).
-- [ ] Validate new hosted CI and inspect Node.js deprecation annotations.
+- [x] Hosted CI 42421513904 passed with the updated action references; completed check annotations
+  contain no Node.js 20 warning (only a separate hosted-runner OS migration notice).
 
 Files: .github/workflows/ci.yml, .github/workflows/cd.yml, README.md, docs/ai-log.md and
 verification notes. Acceptance: official Node.js 24 action runtimes, valid YAML/workflow expressions,

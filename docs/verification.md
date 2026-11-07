@@ -99,7 +99,12 @@ release commits: checkout 3d3c42e5aac5ba805825da76410c181273ba90b1 and setup-uv
 
 Local `go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/ci.yml .github/workflows/cd.yml`
 and `make lint test` passed: 28 tests, one pre-existing Starlette/httpx warning. `git diff --check`
-passed. Hosted verification of the new action references is pending at this commit checkpoint.
+passed. Hosted verification completed successfully for workflow commit db64a57:
+https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42421513904 . It ran the new checkout and
+setup-uv actions, baseline lint/tests, Docker build/migrate/seed/start, smoke/eval and PostgreSQL
+checks. Completed check-run 128550741336 has no Node.js 20 deprecation annotation; its only
+annotation is an independent ubuntu-latest OS migration notice. The changed CD workflow has not
+been dispatched again as part of this maintenance; start a new CD run from main to use it.
 No production restart, paid model calls or secret changes were needed for this workflow change.
 
 Sources: https://github.com/actions/checkout/releases/tag/v7.0.1 ,

@@ -84,3 +84,8 @@ than a deployment failure. Verified official checkout v7.0.1/setup-uv v10.3.3 ac
 Node.js 24 and replaced all old references in CI/CD with exact release commit pins. Kept the uv
 CLI version and deployment/application commands intact. Validation outcomes are recorded in
 verification.md. No API keys, SSH secrets or production environment values were inspected/changed.
+
+Node.js 24 follow-up outcome: local actionlint/Ruff/28 tests passed, and hosted CI run 42421513904
+passed the full Docker smoke/eval/DB checks with the new exact action pins. Completed annotations
+were inspected: no Node.js 20 warning. CD was updated but not redispatched; the original reported
+CD run was already successful. Only workflow/docs changed, with no production restart.

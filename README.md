@@ -202,3 +202,7 @@ exact release commit SHA in both workflows. The installed uv CLI stays at 0.11.8
 the Node.js 20 action deprecation warning; it does not change the Node.js image used to build
 frontend assets. Start a new CD run from main after pulling these changes; retrying an old run
 continues to use its original workflow revision.
+
+The Node.js 24 action upgrade passed [hosted CI](https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42421513904),
+including Docker smoke/evaluation/database checks. Completed annotations show no Node.js 20
+warning. A new manual CD run will exercise the updated deployment workflow.
