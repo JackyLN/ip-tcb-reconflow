@@ -52,3 +52,12 @@ See verification.md for exact final checks, observed benchmark and omissions.
    workflows and the ReconFlow synthetic-demo identity are retained. Exact gold is a UI choice,
    not a fabricated official specification. Contrast and final browser/build outcomes are in
    verification.md. No live AI inference was required or performed for this UI update.
+
+9. User requested VPS deployment via `ssh jackylenghia`, checking reverse proxy/HTTPS and adding a
+   GitHub deployment workflow based on Lite Trading Bot. Inspected that workflow and the live VPS:
+   existing shared Stayflow Caddy owns 80/443, so a second public proxy would conflict. User clarified
+   the hostname is `tcb.jackylenghia.com` and explicitly reserved SSH-secret setup for themselves.
+   Added separate production Compose, preserve-only secret bootstrap, deployment backup/migration/
+   readiness script and manual CD with four user-managed secrets. SSH Git is JackyLN; GitHub CLI
+   account jackyln1203 has READ only. Do not claim hosted CD execution without an actual run.
+   Public deployment, certificate and existing-site regression results are in verification.md.

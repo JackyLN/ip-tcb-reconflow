@@ -1,0 +1,12 @@
+# Add this site to /opt/stayflow/deploy/Caddyfile; keep the existing sites intact.
+tcb.jackylenghia.com {
+    encode zstd gzip
+    request_body {
+        max_size 8MB
+    }
+    reverse_proxy reconflow-app:8000
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+    }
+}

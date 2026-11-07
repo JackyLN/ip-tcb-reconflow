@@ -61,6 +61,24 @@ No official Techcombank logo/affiliation is introduced. Prior navy/teal directio
 this explicit user request. Acceptance: no navy/teal accents remain, accessible text/focus colors,
 real chart data, no desktop/mobile overflow, main routes and persistent workflow still operate.
 
+## VPS deployment phase (2026-11-08)
+
+- [x] Inspected reference Lite Trading Bot CD workflow, server containers, ports, shared Caddy and DNS.
+- [x] Added production Compose (no public container ports), shared-Caddy snippet, secure bootstrap,
+  backup/migrate/seed/readiness deployment script and manual GitHub Actions CD workflow.
+- [ ] Verify code/config, deploy isolated ReconFlow database/app/worker at /opt/reconflow.
+- [ ] Add and validate only tcb.jackylenghia.com on existing Stayflow Caddy; verify trusted HTTPS.
+- [ ] Run public synthetic workflow smoke, verify existing applications and document exact outcomes.
+- [ ] GitHub Actions execution after the user configures the four deployment secrets.
+
+User chose tcb.jackylenghia.com and explicitly reserved GitHub secret/key setup for themselves.
+Existing shared Caddy owns 80/443; standalone ReconFlow Caddy is omitted on this VPS. App joins
+stayflow_backend as reconflow-app, with separate private reconflow backend/database volume.
+Changes: compose.production.yaml, deploy/Caddyfile.snippet, scripts/configure_production.py,
+scripts/deploy.sh, .github/workflows/cd.yml, secret/build exclusions and operational documentation.
+Acceptance: valid configs, baseline tests, app/worker/db healthy, safe migration/seed/replay,
+valid public certificate, secure cookies, and no regression in Stayflow/Lite Trading Bot routing.
+
 ## 0. North star and non-negotiables
 
 Build an interview-ready **working banking operations product**, not a static dashboard, a generic chat assistant, or a fake demo. An interviewer should be able to sign in, load a deterministic scenario, import or inspect records, run reconciliation, investigate mismatches with bounded AI, make role-gated human decisions, see a complete audit trail, simulate failure/re-run and view measured analytics and AI evaluation.

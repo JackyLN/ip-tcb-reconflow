@@ -1,7 +1,8 @@
 # VPS deployment and operations
 
-IMPLEMENTED Docker Compose target; tested locally on Docker Desktop. External VPS, DNS and public
-TLS issuance are NOT VERIFIED. Baseline needs no LLM API key. Use only synthetic/public records.
+Standalone Docker Compose instructions below remain for local/dedicated-host use. For the
+shared VPS at tcb.jackylenghia.com, use docs/deployment-shared-vps.md and compose.production.yaml;
+do not start a second Caddy on ports 80/443. Public acceptance results are in verification.md. Baseline needs no LLM API key. Use only synthetic/public records.
 
 On a clean machine with Docker Compose, Git and Python 3:
 

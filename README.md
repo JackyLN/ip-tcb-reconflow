@@ -172,3 +172,14 @@ UI palette verification: `make test` (28 passed, one existing dependency depreca
 `make lint`, `npm run check`, `npm run build`, `npm run browser`, `make smoke` and
 `docker compose up --build -d --wait` passed. Screenshots were visually checked at desktop/mobile
 sizes; no page/CSP errors or mobile overflow were observed. All four services are healthy.
+
+## Shared VPS / GitHub CD
+
+Production deployment target: **https://tcb.jackylenghia.com** (`187.127.220.131`). The shared VPS
+uses its existing Stayflow Caddy proxy; ReconFlow publishes no host ports and keeps a separate
+PostgreSQL volume. See [shared VPS deployment and recovery](docs/deployment-shared-vps.md).
+
+`.github/workflows/cd.yml` provides manual **CD** from verified main, with backups, migrations,
+preserve-only seeding and public HTTPS checks. User-managed secrets: `VPS_HOST`, `VPS_USER`,
+`VPS_SSH_PRIVATE_KEY`, `VPS_KNOWN_HOSTS`. No secret upload/key changes are performed in this session.
+Actual public acceptance results are recorded in `docs/verification.md` when checks complete.
