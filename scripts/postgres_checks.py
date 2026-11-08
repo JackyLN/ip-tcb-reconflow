@@ -3,13 +3,26 @@
 import hashlib
 import json
 import secrets
+from concurrent.futures import ThreadPoolExecutor
+from threading import Barrier
 
 from sqlalchemy import create_engine, select, text
 from sqlalchemy.orm import Session
 
 from reconflow.config import settings
-from reconflow.db import Base
-from reconflow.models import Audit, Control, Job, Provider, User
+from reconflow.db import Base, now
+from reconflow.models import (
+    Audit,
+    Case,
+    Control,
+    ImportBatch,
+    Job,
+    Payout,
+    Proposal,
+    Provider,
+    User,
+)
+from reconflow.services import reviews
 from reconflow.services.audit import append
 
 engine = create_engine(settings().database_url)
@@ -50,6 +63,60 @@ try:
                 head = hashlib.sha256((head + body).encode()).hexdigest()
                 assert row.event_hash == head
             assert db.get(Control, 1).audit_head == head
+    # Race two independent checker transactions in the disposable schema only.
+    with engine.begin() as conn:
+        conn.execute(text(f'SET LOCAL search_path TO "{schema}"'))
+        with Session(bind=conn) as db:
+            db.add(
+                User(
+                    id=2, email="checker@synthetic.demo", role="supervisor", password_hash="unused"
+                )
+            )
+            db.add(
+                ImportBatch(
+                    id=1, digest="synthetic-check", name="Synthetic check", raw_csv="synthetic"
+                )
+            )
+            db.flush()
+            db.add(
+                Payout(
+                    id=1,
+                    provider_id=1,
+                    import_id=1,
+                    external_id="check-payout",
+                    currency="VND",
+                    account="synthetic",
+                    fee=2,
+                    adjustment=0,
+                    declared_net=98,
+                    settled_at=now(),
+                )
+            )
+            db.flush()
+            db.add(Case(id=1, payout_id=1, classification="FEE_MISMATCH", status="NEEDS_REVIEW"))
+            db.flush()
+            db.add(
+                Proposal(id=1, case_id=1, maker_id=1, note="Synthetic concurrent decision check")
+            )
+            db.flush()
+    barrier = Barrier(2)
+
+    def checker(_: int) -> str:
+        try:
+            with engine.begin() as conn:
+                conn.execute(text(f'SET LOCAL search_path TO "{schema}"'))
+                with Session(bind=conn) as db:
+                    actor = db.get(User, 2)
+                    barrier.wait(timeout=10)
+                    reviews.decide(db, 1, actor, "APPROVED")
+                    db.flush()
+            return "APPROVED"
+        except ValueError:
+            return "BLOCKED"
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        assert sorted(pool.map(checker, range(2))) == ["APPROVED", "BLOCKED"]
+    print("PASS: competing supervisor decisions commit exactly once (temporary schema)")
     # Existing deployed audit table must reject SQL UPDATE, even from application role.
     from sqlalchemy.exc import DBAPIError
 

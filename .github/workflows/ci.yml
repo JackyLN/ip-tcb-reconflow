@@ -18,7 +18,7 @@ jobs:
       - run: make migrate
       - run: mkdir -p artifacts && (umask 077; make seed > artifacts/demo-credentials.txt)
       - run: docker compose up -d --wait
-      - run: make smoke eval
+      - run: make smoke eval eval-v2
       - run: docker compose exec -T app python -m scripts.postgres_checks
       - if: always()
         run: docker compose down

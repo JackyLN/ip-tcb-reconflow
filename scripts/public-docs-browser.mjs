@@ -35,6 +35,8 @@ try {
   await page.locator('.docs-sidebar').getByRole('link', {name: 'ADR 004: GPT-5.4 mini for demo investigations', exact: true}).click();
   await expect(page.locator('.markdown-body h1')).toContainText('ADR 004');
   await page.locator('.docs-pager a').last().click();
+  await expect(page.locator('.markdown-body h1')).toHaveText('ADR 005: Controlled findings and a separate investigation contract');
+  await page.locator('.docs-pager a').last().click();
   await expect(page.locator('.markdown-body h1')).toHaveText('Advisory AI');
   await page.goto(base + '/docs/authoring/');
   await expect(page.locator('.docs-diagram[data-rendered="true"]')).toHaveCount(1, {timeout: 30000});

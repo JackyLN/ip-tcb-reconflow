@@ -7,7 +7,7 @@ from typing import Literal
 
 import httpx
 from pydantic import BaseModel, ConfigDict, Field
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session
 
 from reconflow.config import settings
@@ -23,6 +23,7 @@ from reconflow.models import (
     Payout,
     Provider,
 )
+from reconflow.services import controlled
 from reconflow.services.audit import append
 
 CLASSIFICATIONS = Literal[
@@ -83,6 +84,7 @@ def evidence_tools(db: Session, case_id: int) -> dict:
         "get_payment_and_payout": {
             "evidence_id": f"payout:{payout.id}",
             "currency": payout.currency,
+            "settled_at": payout.settled_at.isoformat(),
             **match.evidence,
         },
         "find_candidate_bank_credits": {
@@ -135,15 +137,24 @@ uncalibrated. Always require human review. Return a JSON object conforming to th
 
 
 def live_report(
-    db: Session, case_id: int, tools: dict, evaluation: bool = False, capture: dict | None = None
+    db: Session,
+    case_id: int,
+    tools: dict,
+    evaluation: bool = False,
+    capture: dict | None = None,
+    profile: str = "raw-v1",
 ) -> tuple[dict, list]:
     """At most four tool calls, five HTTP calls, 6k completion tokens and 45s wall budget."""
     cfg = settings()
     if not cfg.llm_api_key or not cfg.llm_model:
         raise ValueError("Live provider is not configured")
+    if profile not in ("raw-v1", controlled.VERSION):
+        raise ValueError("Unknown investigation profile")
+    system = controlled.SYSTEM_V2 if profile == controlled.VERSION else SYSTEM
+    schema = controlled.ControlledReport if profile == controlled.VERSION else Report
     started = perf_counter()
     messages = [
-        {"role": "system", "content": SYSTEM + json.dumps(Report.model_json_schema())},
+        {"role": "system", "content": system + json.dumps(schema.model_json_schema())},
         {"role": "user", "content": f"Investigate synthetic exception {case_id}."},
     ]
     specs = [
@@ -158,7 +169,7 @@ def live_report(
         for name in tools
     ]
     trace, allowed, calls = [], set(), 0
-    if evaluation and capture is not None:
+    if capture is not None:
         capture["trace"] = trace
     with httpx.Client(timeout=10, follow_redirects=False, trust_env=False) as client:
         for _turn in range(5):
@@ -197,7 +208,7 @@ def live_report(
             invocation.latency_ms = int((perf_counter() - call_start) * 1000)
             if response.status_code != 200:
                 invocation.status = "HTTP_ERROR"
-                if evaluation and capture is not None:
+                if capture is not None:
                     capture["http_status"] = response.status_code
                 raise ValueError("Provider unavailable (response body redacted)")
             invocation.status = "RESPONSE_INVALID"
@@ -219,8 +230,10 @@ def live_report(
             message = data["choices"][0]["message"]
             if not message.get("tool_calls"):
                 payload = json.loads(message["content"])
-                if evaluation and capture is not None:
+                if capture is not None:
                     capture["raw_report"] = payload
+                if profile == controlled.VERSION:
+                    return payload, trace  # Caller retains/validates original, including failures.
                 return validate_report(payload, case_id, allowed).model_dump(), trace
             messages.append(message)
             for call in message["tool_calls"]:
@@ -276,7 +289,7 @@ def enqueue(db: Session, case_id: int, actor: int) -> Job:
     job = Job(
         kind="investigate",
         key=f"ai:{case_id}:{secrets.token_hex(8)}",
-        payload={"case_id": case_id},
+        payload={"case_id": case_id, "investigator_version": controlled.VERSION},
         actor_id=actor,
     )
     db.add(job)
@@ -285,7 +298,7 @@ def enqueue(db: Session, case_id: int, actor: int) -> Job:
     return job
 
 
-def investigate(db: Session, job: Job) -> None:
+def _investigate_v1(db: Session, job: Job) -> None:
     control = db.scalar(select(Control).where(Control.id == 1).with_for_update())
     if not control.ai_enabled:
         raise ValueError("AI disabled before execution")
@@ -316,3 +329,81 @@ def investigate(db: Session, job: Job) -> None:
     if case.status == "INVESTIGATING":
         case.status = "OPEN"  # no resolution proposal is ever created by AI
     append(db, job.actor_id, "investigation.completed", f"case:{case_id}", mode=mode)
+
+
+def investigate(db: Session, job: Job) -> None:
+    """Version new jobs explicitly; keep pre-existing queued v1 jobs and old records intact."""
+    if job.payload.get("investigator_version") != controlled.VERSION:
+        return _investigate_v1(db, job)
+    control = db.scalar(select(Control).where(Control.id == 1).with_for_update())
+    if not control.ai_enabled:
+        raise ValueError("AI disabled before execution")
+    stamp, before = perf_counter(), set(db.new)
+    case_id = job.payload["case_id"]
+    tools, assessment = controlled.enrich_tools(evidence_tools(db, case_id))
+    cfg, capture = settings(), {}
+    payload, trace = None, []
+    mode = "LIVE" if cfg.llm_api_key and cfg.llm_model else "SIMULATED"
+    observed = {t["evidence_id"] for t in tools.values()} if mode == "SIMULATED" else set()
+    try:
+        if mode == "SIMULATED":
+            payload = controlled.scripted_report(case_id, assessment)
+            trace = [{"tool": name, "result": value} for name, value in tools.items()]
+        else:
+            payload, trace = live_report(
+                db, case_id, tools, capture=capture, profile=controlled.VERSION
+            )
+            observed = {t["result"]["evidence_id"] for t in trace}
+        validation = controlled.validate(payload, case_id, assessment, observed)
+    except (ValueError, KeyError, TypeError, httpx.HTTPError) as exc:
+        trace = capture.get("trace", [])
+        payload = capture.get("raw_report")
+        validation = {
+            "status": "REVIEW_REQUIRED",
+            "consistent": False,
+            "flags": ["PROVIDER_OR_TOOL_FAILURE"],
+            "failure_type": type(exc).__name__,
+        }
+    if mode == "LIVE" and not validation["consistent"]:
+        mode = "LIVE_REVIEW_REQUIRED"
+    invocations = [i for i in db.new if isinstance(i, Invocation) and i not in before]
+    db.flush()
+    usage = {
+        "requests": len(invocations),
+        "input_tokens": sum(i.input_tokens for i in invocations),
+        "output_tokens": sum(i.output_tokens for i in invocations),
+        "estimated_usd": str(sum((Decimal(i.cost_usd) for i in invocations), Decimal(0))),
+        "unmetered_requests": sum(i.status != "RECEIVED_UNVALIDATED" for i in invocations),
+        "wall_latency_ms": int((perf_counter() - stamp) * 1000),
+        "invocation_ids": [i.id for i in invocations],
+    }
+    # Raw output is retained verbatim; no failed result is rewritten into a passing report.
+    report = {
+        "version": controlled.VERSION,
+        "prompt_schema_sha256": controlled.contract_digest(),
+        "usage": usage,
+        "raw_output": payload,
+        "assessment": assessment,
+        "validation": validation,
+        "model": cfg.llm_model if mode != "SIMULATED" else None,
+        "requires_human_review": True,
+    }
+    db.add(Investigation(case_id=case_id, job_id=job.id, mode=mode, report=report, trace=trace))
+    needs_escalation = not validation["consistent"] or assessment["must_escalate"]
+    # A human proposal can arrive while a job is queued; do not overwrite its state.
+    db.execute(
+        update(Case)
+        .where(Case.id == case_id, Case.status.in_(["OPEN", "INVESTIGATING"]))
+        .values(status="ESCALATED" if needs_escalation else "OPEN")
+    )
+    append(
+        db,
+        job.actor_id,
+        "investigation.completed",
+        f"case:{case_id}",
+        mode=mode,
+        version=controlled.VERSION,
+        consistency=validation["status"],
+        flags=validation["flags"],
+        escalation_required=needs_escalation,
+    )

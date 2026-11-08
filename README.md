@@ -285,3 +285,16 @@ All 30 failures and synthetic reports/traces are public; no retries/tuning hid t
 reference-label grading on templated fixtures, not semantic/bank safety validation.
 Production snapshot/progress were synchronized to artifacts/holdout-20261108 and imported into
 the local demo evaluation dashboard without model calls or finance-record changes.
+
+## Controlled AI Investigation v2
+
+New jobs compute deterministic fee/net/currency/timing/duplicate/missing-evidence facts before
+inference. V2 material claims, classification, abstention, safe recommendations and human review
+are validated against them. Original failed output is retained as LIVE_REVIEW_REQUIRED; pending
+or unsupported findings block approval and require rejection/escalation. Old records/jobs and
+the November 8 raw-v1 18/48 result remain intact. No finance records are written by AI.
+
+`make eval-v2` (or `python -m reconflow.cli eval --track controlled-v2`) checks a fresh
+120-case fixture set (48 development/72 holdout) offline. Scripted checks are not model scores.
+See [v2 methods and status](https://tcb.jackylenghia.com/docs/ai/controlled-v2/) and
+[ADR 005](docs/adr/005-controlled-investigation-v2.md). No paid v2 bulk run was performed.

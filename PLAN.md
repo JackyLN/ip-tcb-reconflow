@@ -403,3 +403,33 @@ semantic/hallucination or high-risk-recall targets. No prompt/model change or ex
 Final source ab91db1465eed4b248f97ab9cd76e53a7a0a111e deployed and healthy; CI 42429726168
 passed 59 tests, 24-page validation and fresh Docker/offline workflow/PostgreSQL checks.
 Public report/snapshot/progress and authenticated dashboard verified over HTTPS on desktop/mobile.
+
+
+## Controlled AI Investigation v2 milestone (2026-11-08)
+
+Inspection: existing worker invokes four scoped read-only tools; deterministic Match evidence
+contains partial calculated money fields, but no complete timing/missing/duplicate assessment.
+V1 checks schema/citation membership without factual consistency. Human review locks and audit
+exist; inconsistent AI output does not currently block approval. Raw-v1 benchmark/artifacts and
+18/48 result remain immutable. No mandatory dependency, new framework or schema reset is planned.
+
+Increment plan/acceptance:
+- [x] Pure deterministic evidence assessment (money helpers, timing/currency/duplicates/missing).
+- [x] Controlled-v2 structured claims and validation; retain original failed payload/flags.
+- [x] Pending/unsupported report approval gates; independent maker-checker, duplicate decisions.
+- [x] Fresh controlled-v2 dataset and separate offline/live harness, labels outside tools.
+- [x] Dashboard track comparison, failure categories, review outcomes, model/usage visibility.
+- [x] No-key automated/Docker checks, historical hash regression, public methods/results docs.
+
+Impacted modules: new services/controlled.py and evaluation_v2.py, bounded adapter/worker glue,
+reviews, existing CLI/dashboard/templates, tests and ADR/docs. Risks: derived findings must not
+rewrite stored financial truth; citation membership is not factual accuracy; arbitrary hypotheses
+remain unverified. Use checkable material claims and explicitly scoped support metrics. Serialize
+review/control lock order, preserve legacy JSON rows/jobs and show offline checks separately
+from live quality. No paid v2 bulk inference is authorized or planned in this milestone.
+
+Local acceptance: 83 tests/Ruff/publication checks passed. No-key Docker HTTP workflow,
+PostgreSQL competing decisions/audit guards, 72 scripted contracts/rules reference checks,
+controlled desktop/mobile and existing docs/video/Mermaid browser checks passed. Live v2
+quality, expert source/semantic grading and productivity remain NOT MEASURED. Deployment
+and production read-only checks are the final acceptance step.

@@ -36,7 +36,7 @@ from reconflow.models import (
 )
 from reconflow.public_docs import router as public_docs_router
 from reconflow.security import csrf, csrf_token, current_user, login, require
-from reconflow.services import ai, analytics, ingestion, reviews
+from reconflow.services import ai, analytics, controlled, ingestion, reviews
 from reconflow.services.audit import append
 from reconflow.services.money import display
 from reconflow.services.public_docs import PUBLIC_ROOT
@@ -499,13 +499,15 @@ def case_detail(request: Request, db: DB, case_id: int) -> Response:
     case = db.get(Case, case_id)
     if not case:
         raise HTTPException(404, "Case not found")
+    evidence = ai.evidence_tools(db, case_id)
     return render(
         request,
         db,
         f"Exception #{case.id}",
         view="case",
         case=case,
-        evidence=ai.evidence_tools(db, case_id),
+        evidence=evidence,
+        controlled_assessment=controlled.assess(evidence),
         investigations=db.scalars(
             select(Investigation)
             .where(Investigation.case_id == case_id)
@@ -544,12 +546,19 @@ def propose(
 
 @app.get("/review")
 def review(request: Request, db: DB) -> Response:
+    current_user(request, db)
+    proposals = db.scalars(select(Proposal).order_by(Proposal.id.desc()).limit(100)).all()
     return render(
         request,
         db,
         "Dual-control review",
         view="review",
-        proposals=db.scalars(select(Proposal).order_by(Proposal.id.desc()).limit(100)).all(),
+        proposals=proposals,
+        approval_blocks={
+            p.id: reviews.approval_block_reason(db, p.case_id)
+            for p in proposals
+            if p.status == "PENDING"
+        },
     )
 
 
@@ -580,7 +589,7 @@ def investigations(request: Request, db: DB) -> Response:
                 i.id,
                 link(i.case_id, f"/exceptions/{i.case_id}"),
                 i.mode,
-                i.report["confidence_band"],
+                i.report.get("confidence_band", "Controlled contract; uncalibrated"),
                 i.created_at,
             ]
             for i in db.scalars(select(Investigation).order_by(Investigation.id.desc()).limit(100))
@@ -631,6 +640,7 @@ def evaluation(request: Request, db: DB) -> Response:
         db,
         "AI evaluation",
         view="evaluation",
+        investigation_visibility=analytics.investigation_visibility(db),
         evaluations=db.scalars(select(Evaluation).order_by(Evaluation.id.desc()).limit(10)).all(),
         columns=[
             "Invocation",

@@ -58,7 +58,8 @@ def import_snapshot(db: Session, payload: dict) -> int:
     result = copy.deepcopy(payload["results"])
     if result.get("status") != "COMPLETED" or result["cases_run"] != len(result["cases"]):
         raise ValueError("Only complete snapshots with all case records may be imported")
-    if len(result["cases"]) > 48 or len(payload["invocations"]) > 240:
+    max_cases = 72 if result.get("track") == "controlled-v2" else 48
+    if len(result["cases"]) > max_cases or len(payload["invocations"]) > max_cases * 5:
         raise ValueError("Snapshot exceeds bounded evaluation limits")
     fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
     for existing in db.scalars(select(Evaluation)):
@@ -96,11 +97,19 @@ def import_snapshot(db: Session, payload: dict) -> int:
         case["source_invocation_ids"] = case["invocation_ids"]
         case["invocation_ids"] = [mapping[i] for i in case["invocation_ids"]]
     # Keep failures in sync with remapped canonical case records.
-    result["failures"] = [
-        c
-        for c in result["cases"]
-        if not c["accepted"] or (result["mode"] == "LIVE" and not c["correct"])
-    ]
+    if result.get("track") == "controlled-v2":
+        result["failures"] = [
+            c
+            for c in result["cases"]
+            if not c["validation"]["consistent"]
+            or (result["mode"] == "V2_LIVE" and not c["accepted_correct"])
+        ]
+    else:
+        result["failures"] = [
+            c
+            for c in result["cases"]
+            if not c["accepted"] or (result["mode"] == "LIVE" and not c["correct"])
+        ]
     result["source_evaluation_id"] = result["evaluation_id"]
     result["sync_origin"] = payload["origin"]
     result["sync_fingerprint"] = fingerprint

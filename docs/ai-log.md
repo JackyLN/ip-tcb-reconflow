@@ -158,3 +158,25 @@ Final outcome: production authenticated dashboard/export and public report/JSON/
 HTTPS desktop/mobile checks. Public snapshot matches original bytes; local repeat import reused
 evaluation #3. Hosted CI 42429726168 passed 59 tests, 24-page validation and fresh Docker offline
 workflow/DB checks. Live 37.5% remains plainly distinct from passing software/offline tests.
+
+Controlled AI Investigation v2 milestone (2026-11-08): user requested inspection first, stronger
+deterministic facts, consistency checks, maker-checker review, fresh separate benchmarks and
+public documentation, explicitly withholding expensive bulk inference authorization. Reported
+existing pipeline/37.5% history before changes; implemented pure evidence assessment, a closed
+typed-claim/canonical-summary/catalog-hypothesis contract and versioned worker envelope. Failed
+outputs remain original, flagged and blocked from approval. Read current state under consistent
+review lock order; pending/failed/mandatory-escalation records cannot be approved. Legacy rows
+and raw SYSTEM/dataset/report artifacts are unchanged (hash regressions).
+
+Built controlled-synthetic-v2.0: 120 seeded cases, 48 development/72 holdout, independent expected
+rubrics outside tools. Stable policy IDs identify immutable rate profiles; no model sees rubric
+keys. Added scoped grading/support/abstention/escalation/latency/cost counters with explicit
+unassessed denominators, and preserved raw track. A closed catalog was chosen instead of
+claiming reliable semantic validation of unrestricted prose; live usefulness remains unmeasured.
+
+Actual local checks: Ruff/83 tests, 26-page publication and JS/actionlint passed; no-key disposable
+Docker migration/seed/HTTP flow/replay/independent approval/kill/retry passed; PostgreSQL competing
+supervisor decisions committed once and audit/hash guards passed. Controlled offline 72/72
+contracts and reference outcomes, zero provider calls. Desktop/mobile controlled-case/dashboard
+and docs/Mermaid/video browser checks passed. Initial scripted fixtures use no model and cannot
+be reported as AI accuracy. No paid v2 call or historical benchmark rerun was performed.

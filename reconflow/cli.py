@@ -51,7 +51,8 @@ def main() -> None:
     evaluation.add_argument(
         "--live", action="store_true", help="Explicitly authorize paid provider calls"
     )
-    evaluation.add_argument("--limit", type=int, default=48)
+    evaluation.add_argument("--limit", type=int)
+    evaluation.add_argument("--track", choices=["raw-v1", "controlled-v2"], default="raw-v1")
     reset = sub.add_parser("reset")
     reset.add_argument("--confirm-synthetic-reset", action="store_true")
     reset.add_argument("--confirm-destroy-all-demo-data", action="store_true")
@@ -63,10 +64,16 @@ def main() -> None:
     elif args.command == "seed":
         seed()
     elif args.command == "eval":
-        from reconflow.evaluation import evaluate
+        if args.track == "controlled-v2":
+            from reconflow.evaluation_v2 import evaluate
 
+            limit = args.limit if args.limit is not None else 72
+        else:
+            from reconflow.evaluation import evaluate
+
+            limit = args.limit if args.limit is not None else 48
         with SessionLocal() as db:
-            print(json.dumps(evaluate(db, args.live, args.limit, checkpoint=True), indent=2))
+            print(json.dumps(evaluate(db, args.live, limit, checkpoint=True), indent=2))
     elif args.command == "reset":
         if not (
             settings().demo_mode

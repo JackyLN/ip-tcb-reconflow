@@ -62,7 +62,10 @@ with httpx.Client(base_url=args.url, follow_redirects=True, timeout=30) as clien
     page = client.get("/exceptions").text
     ids = re.findall(r'href="/exceptions/(\d+)"', page)
     case_id = next(
-        i for i in ids if '<span class="badge">OPEN</span>' in client.get(f"/exceptions/{i}").text
+        i
+        for i in ids
+        if '<span class="badge">OPEN</span>' in client.get(f"/exceptions/{i}").text
+        and '<span class="badge">FEE_MISMATCH</span>' in client.get(f"/exceptions/{i}").text
     )
     path = f"/exceptions/{case_id}"
     client.post(path + "/investigate", data={"csrf_value": token}).raise_for_status()

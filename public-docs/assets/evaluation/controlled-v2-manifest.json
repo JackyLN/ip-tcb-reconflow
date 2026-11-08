@@ -1,0 +1,24 @@
+{
+  "dataset_version": "controlled-synthetic-v2.0",
+  "seed": 20261108,
+  "sha256": "8a4f669c94e48400b8e42e6545c65dbcecf8a8b213aa5a5c67e9a9b8c371a0ca",
+  "total": 120,
+  "development": 48,
+  "holdout": 72,
+  "families": [
+    "adjustment",
+    "ambiguous",
+    "clean",
+    "contradictory",
+    "currency",
+    "delayed",
+    "early",
+    "fee",
+    "missing_evidence",
+    "missing_settlement",
+    "multiple",
+    "refund"
+  ],
+  "label_boundary": "expected grading rubric is outside model tools; deterministic findings are deliberately supplied",
+  "live_v2_model_evaluations_performed": 0
+}

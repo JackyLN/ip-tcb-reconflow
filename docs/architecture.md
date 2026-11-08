@@ -25,3 +25,11 @@ Implementation references: PostgreSQL SELECT/locking semantics:
 https://www.postgresql.org/docs/16/sql-select.html
 FastAPI templates/static-files integration:
 https://fastapi.tiangolo.com/advanced/templates/
+
+## Controlled investigation v2
+
+The bounded adapter now has a versioned controlled profile, using existing four tools and a
+read-only evidence assessment. Parsed failures are preserved in Investigation JSON envelopes;
+legacy records require no migration. Material claims are closed/typed with source relationships.
+Review gates use Control → Case → Proposal lock order, current-state refresh and atomic decisions.
+See ADR 005 for the expressiveness/verification tradeoff and remaining semantic limits.

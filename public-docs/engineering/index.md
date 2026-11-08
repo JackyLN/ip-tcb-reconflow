@@ -54,3 +54,6 @@ deterministic finance, synthetic sources and model choice. The [security boundar
 distinguishes implemented controls from the proposed production target.
 
 The [development log](development-log.md) records actual requests, corrections and reflections from the build.
+
+The [controlled-v2 investigation contract](../ai/controlled-v2.md) enriches existing read-only tools
+and preserves flagged output; it leaves persisted reconciliation/finance records intact.

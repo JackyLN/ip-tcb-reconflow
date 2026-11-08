@@ -107,7 +107,7 @@ try {
   await caption('08 · Actual AI result', `Provider result: ${result.mode}. Citations are validated; semantic accuracy still needs human review.`, 8000);
   await page.screenshot({path: `${output}/ai-result.png`, fullPage:true});
   if (result.mode !== 'LIVE') throw Error(`Actual result was ${result.mode}; keep recording as failure evidence and diagnose before another paid run.`);
-  await investigation.getByText('Read-only tool trace · investigator-v1', {exact:true}).click();
+  await investigation.locator('summary').filter({hasText:'Read-only tool trace'}).click();
   await investigation.locator('details').scrollIntoViewIfNeeded();
   await caption('09 · Inspect the tool trace', 'Only observed evidence IDs can be cited. The model cannot approve, write finance records or execute SQL.', 5000);
   await page.getByLabel('Evidence-based recommendation').fill(`Recorded synthetic demo: fee mismatch reviewed against payout and policy evidence for case #${result.case_id}. The live report is advisory. Independent provider confirmation is not available in this demo; escalate for a provider statement. Do not adjust balances or treat the discrepancy as financially settled.`);

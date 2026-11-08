@@ -82,3 +82,9 @@ The user-authorized production run completed: 18/48 correct, 47/48 schema/citati
 
 See the [full measured holdout report and all failure cases](holdout-2026-11-08.md),
 including the downloadable synthetic JSON and original progress log.
+
+## Controlled Investigation v2
+
+See [the public v2 method/status](../public-docs/ai/controlled-v2.md) and ADR 005.
+`make eval-v2` runs a 72-case offline harness with zero provider requests; it does not replace
+raw-v1 or measure live AI accuracy. Live v2 metrics require separate explicit authorization.

@@ -17,9 +17,11 @@
     "engineering/decisions/002-deterministic-financial-truth.md",
     "engineering/decisions/003-synthetic-sources.md",
     "engineering/decisions/004-demo-llm-selection.md",
+    "engineering/decisions/005-controlled-investigation-v2.md",
     "ai/index.md",
     "ai/evaluation.md",
     "ai/holdout-2026-11-08.md",
+    "ai/controlled-v2.md",
     "rollout/index.md",
     "rollout/plan.md",
     "authoring/index.md"

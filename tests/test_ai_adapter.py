@@ -160,3 +160,50 @@ def test_adapter_accounts_for_transport_error_without_logging_exception(fake_pro
         assert invocation.status == "TRANSPORT_ERROR"
         assert invocation.input_tokens == 0 and invocation.output_tokens == 0
         assert invocation.case_id is None
+
+
+def test_controlled_adapter_preserves_failed_raw_payload_and_versioned_prompt(fake_provider):
+    from reconflow.evaluation_v2 import dataset as dataset_v2
+    from reconflow.services import controlled
+
+    case = dataset_v2()[0]
+    tools, assessment = controlled.enrich_tools(case["tools"])
+    payload = controlled.scripted_report(case["id"], assessment)
+    payload["requires_human_review"] = False
+
+    def respond(request):
+        body = json.loads(request.content)
+        assert controlled.VERSION in body["messages"][0]["content"]
+        if len(body["messages"]) == 2:
+            message = {
+                "role": "assistant",
+                "content": None,
+                "tool_calls": [
+                    {
+                        "id": str(i),
+                        "type": "function",
+                        "function": {"name": name, "arguments": "{}"},
+                    }
+                    for i, name in enumerate(tools)
+                ],
+            }
+        else:
+            message = {"role": "assistant", "content": json.dumps(payload)}
+        return httpx.Response(
+            200,
+            json={
+                "choices": [{"message": message}],
+                "usage": {"prompt_tokens": 100, "completion_tokens": 20},
+            },
+        )
+
+    fake_provider(respond)
+    with SessionLocal.begin() as db:
+        report, trace = ai.live_report(
+            db, case["id"], tools, evaluation=True, profile=controlled.VERSION
+        )
+        assert report == payload and report["requires_human_review"] is False
+        check = controlled.validate(
+            report, case["id"], assessment, {t["result"]["evidence_id"] for t in trace}
+        )
+        assert "HUMAN_REVIEW_REQUIRED" in check["flags"]

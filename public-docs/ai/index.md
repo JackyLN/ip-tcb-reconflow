@@ -31,3 +31,6 @@ Read the [evaluation contract](evaluation.md) for the synthetic holdout split, a
 results, the [measured holdout and failure report](holdout-2026-11-08.md), and remaining semantic
 grading gaps. Confidence remains
 uncalibrated; there is no automatic financial approval in any mode.
+
+[Controlled Investigation v2](controlled-v2.md) now supplies deterministic findings and checks
+material claims. Its 72-case offline contract check is not a live AI score.

@@ -255,3 +255,32 @@ source: Ruff/59 tests, 24-page publication gate, clean Docker migration/seed/rea
 no-key workflow/offline evaluation and PostgreSQL checks. Existing Starlette TestClient warning
 and unrelated ubuntu-latest migration notice remain. No live holdout score was substituted with
 CI's scripted offline contract score.
+
+
+## Controlled AI Investigation v2 · 8 November 2026
+
+Inspection/plan recorded before implementation. Core finance matcher/money helpers/schema and
+all historical November 8 artifacts remain unchanged; guarded raw dataset/SYSTEM/asset hashes.
+`make lint test docs-check`: Ruff/83 tests and 26 pages passed (existing Starlette warning only).
+`npm run check` and pinned Go actionlint v1.7.7 on CI/CD workflows passed.
+`docker compose build` passed. Used disposable project reconflow-v2-qa with its own DB/volumes
+and explicitly empty provider key/model (asserted inside container). Alembic/seed/health passed;
+`uv run python scripts/smoke.py --url http://localhost:18080 --credentials artifacts/v2-qa.credentials`
+passed import/1,000-payment reconciliation/replay/simulated v2/independent approval/kill/retry/14
+screens. Smoke now chooses a fee case eligible for approval, instead of ignoring escalation gates.
+`python -m scripts.postgres_checks` passed competing SKIP LOCKED jobs, concurrent supervisor
+decisions (exactly one committed), audit hash chain and UPDATE guard in disposable QA only.
+
+`python -m reconflow.cli eval --track controlled-v2` inside QA completed 72 scripted contracts
+and 72 reference outcomes; zero provider requests/tokens, model metrics null. This checks software,
+not model quality. `V2_CHECK_CASE=1 npm run v2:browser` passed authenticated offline scores/export,
+review outcomes, controlled simulated case, desktop/mobile no overflow/page errors. Screenshots
+controlled-dashboard-{desktop,mobile}.png and controlled-case-desktop.png visually reviewed.
+`DOCS_BASE_URL=http://localhost:18080 npm run docs:browser` passed existing docs/nested navigation,
+Mermaid/video/Markdown/mobile/no-JavaScript and no external asset/CSP errors checks.
+
+Public controlled-v2 methods/ADR, manifest, offline-only summary and scripted development examples
+are prepared. No paid v2 inference or live productivity/semantic-rate measurement was performed.
+The initial local offline artifact has UNRECORDED source metadata; production offline checkpoint
+will pin the deployed source without making model calls. Current live-request phase timeouts
+remain soft wall-budget checks, not hard cancellation; external calls can repeat after a DB crash.

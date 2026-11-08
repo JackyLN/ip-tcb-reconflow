@@ -84,3 +84,8 @@ The user-authorized production run completed: 18/48 correct, 47/48 schema/citati
 
 See the [full measured holdout report and all failure cases](holdout-2026-11-08.md),
 including the downloadable synthetic JSON and original progress log.
+
+## Controlled Investigation v2 track
+
+The [v2 method and actual offline status](controlled-v2.md) are separate from the frozen
+November 8 raw-evidence benchmark. Live v2 quality remains NOT MEASURED.

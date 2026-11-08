@@ -1,0 +1,18 @@
+{% set r=i.report %}{% set output=r.raw_output %}
+<section class="panel controlled-report">
+<div class="section-heading"><h2>Investigation #{{ i.id }}</h2><span class="badge">{{ i.mode }}</span></div>
+<p class="small muted">{{ r.version }} · {{ r.model or 'No live model — scripted offline output' }} · Independent human review required</p>
+<p class="{{ 'success' if r.validation.consistent else 'alert' }}">{{ r.validation.status }}{% if r.validation.flags %}: {{ r.validation.flags|join(', ') }}{% endif %}. {% if r.assessment.must_escalate %}Deterministic evidence requires escalation.{% endif %}</p>
+{% if output is mapping and r.validation.get('schema_valid') %}<p><b>Original output summary:</b> {{ output.get('summary', 'No summary') }}</p><p>Reported classification: {{ output.get('classification', 'Unavailable') }} · Abstention: {{ output.get('abstain', 'Unavailable') }} · Proposed follow-up: {{ output.get('recommended_next_step', 'Unavailable') }}</p>{% endif %}
+<p><b>Deterministic reference:</b> {{ r.assessment.summary }}</p>
+<p class="small muted">Requests {{ r.usage.requests }} · tokens {{ r.usage.input_tokens }}/{{ r.usage.output_tokens }} · estimated USD {{ r.usage.estimated_usd }} · investigation wall time {{ r.usage.wall_latency_ms }} ms · unmetered requests {{ r.usage.unmetered_requests }}. Scripted wall time is not model latency; unknown usage can omit charges.</p>
+<p class="small muted">A consistency result checks a closed typed-claim contract, not independent real-world truth. Original failed output remains below; it is not repaired into success.</p>
+<h3>Material claims and supporting evidence</h3><p class="small muted">Currency: {{ r.assessment.get('currency', 'See source payout') }} · minor-unit exponent: {{ r.assessment.get('currency_exponent', 'See source payout') }}. Money values below are integers; no cross-currency conversion is inferred.</p>
+{% if output is mapping and r.validation.get('schema_valid') %}<div class="table-scroll"><table><thead><tr><th>Claim ID</th><th>Original value</th><th>Deterministic value</th><th>References</th></tr></thead><tbody>{% for claim in output.claims if claim is mapping %}<tr><td>{{ claim.get('fact_id') }}</td><td>{{ claim.get('value') }}</td><td>{{ r.assessment.facts.get(claim.get('fact_id'), {}).get('value', 'Unknown fact') }}</td><td>{{ claim.get('evidence_refs', [])|join(', ') }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+<h3>Hypotheses — explicitly unverified</h3>
+{% if output is mapping and r.validation.get('schema_valid') %}{% for h in output.get('hypotheses', []) if h is mapping %}<p>{{ r.assessment.hypothesis_catalog.get(h.get('code'), 'Unsupported hypothesis code; review original output') }}</p>{% else %}<p class="muted">No catalog hypothesis proposed.</p>{% endfor %}{% endif %}
+<p>Missing mandatory evidence: {{ r.assessment.mandatory_missing|join(', ') or 'None in supplied fields; independent source authenticity is not established.' }}</p>
+<details><summary>Original unmodified output and consistency checks</summary><p class="small muted">Prompt/schema SHA-256: <code class="break">{{ r.prompt_schema_sha256 }}</code></p>
+<pre>{{ r|tojson(indent=2) }}</pre></details>
+<details><summary>Read-only tool trace · {{ r.version }}</summary><pre>{{ i.trace|tojson(indent=2) }}</pre></details>
+</section>

@@ -8,3 +8,5 @@ These records explain the prototype's boundaries and the work still outstanding.
 4. [Demo model selection](004-demo-llm-selection.md): accepted target, price assumptions and pending integration.
 
 A recorded decision is not proof of live model quality or production banking readiness.
+
+- [ADR 005: Controlled Investigation v2](005-controlled-investigation-v2.md) — closed material claims and separate benchmarks.

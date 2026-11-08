@@ -1,5 +1,6 @@
 """Measured database reports and separately labeled assumption-based projections."""
 
+from collections import Counter
 from decimal import Decimal
 from statistics import median
 
@@ -7,7 +8,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from reconflow.db import now
-from reconflow.models import Case, Match, Payment, Payout, Proposal, Run
+from reconflow.models import Case, Investigation, Match, Payment, Payout, Proposal, Run
 
 
 def count(db: Session, model: type) -> int:
@@ -77,4 +78,25 @@ def impact(
         "low_net": str((monthly * 12 * Decimal("0.5") - cost).quantize(Decimal("0.01"))),
         "high_net": str((monthly * 12 * Decimal("1.5") - cost).quantize(Decimal("0.01"))),
         "break_even_month": str((cost / monthly).quantize(Decimal("0.1"))) if monthly else "never",
+    }
+
+
+def investigation_visibility(db: Session) -> dict:
+    """Measured stored workflow outcomes; no productivity or causal improvement inference."""
+    modes = dict(
+        db.execute(select(Investigation.mode, func.count()).group_by(Investigation.mode)).all()
+    )
+    reviews = dict(
+        db.execute(select(Proposal.status, func.count()).group_by(Proposal.status)).all()
+    )
+    failures: Counter = Counter()
+    for report in db.scalars(select(Investigation.report)):
+        for flag in report.get("validation", {}).get("flags", []):
+            failures[flag] += 1
+    return {
+        "modes": modes,
+        "review_outcomes": reviews,
+        "failure_categories": dict(failures),
+        "total_investigations": sum(modes.values()),
+        "total_proposals": sum(reviews.values()),
     }
