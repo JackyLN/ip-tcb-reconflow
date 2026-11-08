@@ -551,3 +551,28 @@ Cleanup source 553be52718b43c5b38be0f2c5af504810badb5bd deployed healthy. CI 424
 passed. Production checks confirmed the cleaned recording/report/ADR prose, both video players,
 unchanged original evidence/metadata hashes and repaired heading anchor. Full public-docs browser
 checks passed desktop/mobile, playback/seeking, no-JS reading and CSP; no model calls were made.
+
+## Executive documentation homepage
+
+User requests a product introduction for the Expert Challenge, preserving the documentation
+reader/navigation/search/evidence and all banking/AI/approval logic. User clarified that the
+content reference is the existing `/docs/` homepage itself, not a separate review document.
+Use verified project problem, capability, evaluation and rollout content; do not invent review
+material or stakeholder validation.
+Intended files: public homepage/product intro, existing docs template/CSS, relevant browser/API
+checks, README and AI log. No dependencies or runtime processing changes. Acceptance: clear
+challenge/problem/rationale/vision/ownership, accessible five-step workflow, six-stop reviewer
+journey, accurate distinct raw-v1/controlled-v2 results, prototype versus proposed bank rollout,
+latest actual 188-second recording linked, all links/search/no-JS/mobile reading preserved.
+
+- [x] Reuse verified content and preserve the existing public reader, library and source links.
+- [x] Add challenge/rationale/vision/ownership, six-step reviewer journey and native five-stage flow.
+- [x] Distinguish measured raw-v1 and controlled-v2 development results and proposed bank rollout.
+- [x] Verify/link the existing actual 188-second recording; retain the original workflow video.
+- [x] Ruff/93 tests, 27-page links and full public-reader browser checks passed.
+- [x] All journey links, console sign-in boundary, keyboard and 320–1440px/no-JS layouts verified.
+- [x] Resolve local Docker disk-full recovery by removing unused cache only; all services healthy.
+
+Implementation passed local review at http://localhost:8080/docs/. The user authorized committing
+and pushing to main with the message `polishing the document homepage`. No production publishing
+or new provider evaluation is performed as part of this commit/push instruction.

@@ -209,7 +209,13 @@ warning. A new manual CD run will exercise the updated deployment workflow.
 ## Public documentation
 
 The anonymous reader is live at [tcb.jackylenghia.com/docs/](https://tcb.jackylenghia.com/docs/)
-(**`/docs/`** locally). It publishes every non-hidden `.md` file under
+(**`/docs/`** locally). Its homepage introduces the Expert Challenge, selected problem, product
+vision and ownership approach. A six-stop reviewer journey links the latest actual 3:08 demo,
+console, original evaluation evidence, architecture and proposed rollout. The accessible workflow
+and prototype/30/60/90-day roadmap distinguish implemented features, different measured AI tasks,
+synthetic/offline behavior and proposed bank work before the full document library.
+
+The reader publishes every non-hidden `.md` file under
 [`public-docs/`](public-docs/index.md), with grouped/nested navigation, heading outlines, rewritten
 relative Markdown links, previous/next pages and document-title search. Links are on the login
 page and console sidebar. Internal `docs/` runbooks and generated credentials are not published.

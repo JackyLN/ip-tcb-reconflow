@@ -21,8 +21,15 @@ mkdirSync('artifacts', {recursive: true});
 try {
   const response = await page.goto(base + '/docs/');
   expect(response.status()).toBe(200);
-  await expect(page.getByRole('heading', {name: 'ReconFlow handbook', exact: true})).toBeVisible();
-  expect(chunks.length).toBe(0); // Mermaid loads only when the document contains a diagram.
+  await expect(page.getByRole('heading', {name: 'ReconFlow', exact: true})).toBeVisible();
+  expect(chunks.length).toBe(0); // Native homepage workflow needs no diagram bundle.
+  const journey=page.locator('#reviewer-journey + ol');
+  await expect(journey.locator('a')).toHaveCount(6);
+  await expect(page.locator('#from-evidence-to-accountable-review + ol > li')).toHaveCount(5);
+  await expect(page.locator('.docs-home')).toContainText('not equivalent');
+  await expect(page.locator('.docs-home')).toContainText('12/12 accepted; 72/72 typed claims supported');
+  const demo=journey.getByRole('link',{name:/Watch the latest demo/});
+  expect(await demo.getAttribute('href')).toBe('/docs/product/recorded-demo/#controlled-v2-results-walkthrough');
   await page.screenshot({path: 'artifacts/public-docs-desktop.png', fullPage: true});
   await page.getByLabel('Find a document').fill('architecture');
   await page.locator('#docs-search-results').getByRole('link', {name: 'Architecture', exact: true}).click();

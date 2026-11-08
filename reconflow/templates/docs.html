@@ -18,7 +18,7 @@
 <p class="docs-sidebar-note">Public reading. Synthetic data.<br>No account required.</p></details></aside>
 <main id="content" class="docs-main"><div class="docs-breadcrumb"><a href="/docs/">Documentation</a>{% if document.slug %}<span>/</span><span>{{ title }}</span>{% endif %}</div>
 <p class="docs-status">SYNTHETIC DEMONSTRATION · PUBLIC DOCUMENTATION</p>
-<article class="markdown-body">{{ content|safe }}</article>
+<article class="markdown-body{% if is_home %} docs-home{% endif %}">{{ content|safe }}</article>
 {% if is_home %}<section class="docs-library" aria-labelledby="library-title"><div class="docs-section-title"><h2 id="library-title">Document library</h2><span>{{ documents|length }} published pages</span></div>
 {% for section in navigation if section.url != document.url %}<section class="docs-library-section"><h3>{% if section.url %}<a href="{{ section.url }}">{{ section.title }}</a>{% else %}{{ section.title }}{% endif %}</h3>{% if section.children %}<ul>{% for page in documents if page.path.startswith(section.prefix) %}{% if page.url != section.url %}<li><a href="{{ page.url }}">{{ page.title }} <span aria-hidden="true">↗</span></a></li>{% endif %}{% endfor %}</ul>{% endif %}</section>{% endfor %}</section>{% endif %}
 <nav class="docs-pager" aria-label="Adjacent documents">{% if previous %}<a href="{{ previous.url }}"><span>Previous</span><strong>← {{ previous.title }}</strong></a>{% else %}<span></span>{% endif %}{% if next %}<a href="{{ next.url }}"><span>Next</span><strong>{{ next.title }} →</strong></a>{% endif %}</nav>

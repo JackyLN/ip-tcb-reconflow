@@ -301,3 +301,33 @@ CI 42474613834 passed. Anonymous HTTPS recording/report/ADR pages have no execut
 callouts. Original raw-v1/pilot JSON and chapter metadata hashes matched; measured figures, two
 videos and renamed anchors remain accessible. `DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser`
 passed playback/seeking, desktop/mobile/no-JS and CSP checks. No model inference was performed.
+
+## Executive documentation homepage
+
+Actual request: turn the `/docs/` directory into an executive product introduction while keeping
+reader/navigation/search/evidence and all banking logic. User clarified the content reference
+is the current homepage itself; no separate draft was required. Initial repository/Drive searches
+found no separate review document and no unrelated connected-file contents were read.
+Inspected existing homepage/rendering, problem/decision/rollout pages, saved raw-v1/pilot results
+and actual recording metadata. Kept the copy authored in public-docs/index.md, with homepage-only
+CSS and an article class in the existing template. Used a native five-step ordered workflow
+instead of loading a diagram bundle for the home page. Added a six-stop reviewer journey,
+scoped distinct benchmark results, ownership and prototype-versus-proposed rollout.
+
+The product guide still described only the older 87-second video: corrected its link/description
+to the existing actual 188-second recording while preserving the earlier video. No new result,
+recording, stakeholder validation, bank rollout or productivity gain was invented.
+`make lint test docs-check` passed 93 tests/Ruff and 27 public pages (one existing Starlette/httpx
+warning). The public reader browser checks passed navigation, title search, both existing video
+playback/seeking, Markdown/diagram sources, mobile/no-JS and CSP/no external asset requests.
+
+Local Docker build succeeded, but health/console checks initially failed because its virtual disk
+was full and PostgreSQL was rejecting connections during recovery. Cleared 5.323 GB of unused
+build cache older than 24 hours, keeping database volumes and records. PostgreSQL recovered;
+app, worker, db and Caddy became healthy. A dedicated read-only browser check passed all six
+journey destinations, separate console sign-in, keyboard entry to the actual latest recording,
+1440/1024/768/390/320 layouts and native workflow/no-JS reading. Screenshots inspected.
+No reconciliation/AI/approval/financial-processing code changed and no AI action was queued.
+
+After reviewing the local homepage, the user authorized commit/push to main and specified the
+commit message `polishing the document homepage`. No production deployment was requested.

@@ -167,3 +167,37 @@ def test_video_fence_rejects_missing_asset(tmp_path):
     (tmp_path / "index.md").write_text("# Home\n```video\nassets/missing.mp4\n```\n")
     with pytest.raises(ValueError, match="Missing public documentation asset"):
         validate(tmp_path)
+
+
+def test_executive_home_keeps_evidence_and_reviewer_paths(client):
+    """The introduction must remain anonymous, navigable and honest about benchmark scope."""
+    response = client.get("/docs/")
+    assert response.status_code == 200
+    html = response.text
+    assert 'class="markdown-body docs-home"' in html
+    assert 'id="docs-search"' in html and 'id="library-title"' in html
+    assert 'aria-label="Documentation"' in html and 'aria-label="On this page"' in html
+    for href in [
+        "/docs/framing/",
+        "/docs/product/recorded-demo/#controlled-v2-results-walkthrough",
+        "/",
+        "/docs/ai/evaluation/",
+        "/docs/engineering/",
+        "/docs/rollout/plan/",
+    ]:
+        assert f'href="{href}"' in html
+    for finding in [
+        "18/48 correct (37.5%)",
+        "12/12 accepted; 72/72 typed claims supported",
+        "not equivalent",
+        "72-case live holdout",
+        "NOT RUN",
+        "No Techcombank stakeholder interviews",
+        "SIMULATED",
+        "ASSUMED",
+        "PROPOSED",
+    ]:
+        assert finding.lower() in html.lower()
+    assert "payment evidence" in html.lower() and "audit &amp; measurement" in html.lower()
+    # Dedicated homepage styling must not change ordinary technical documents.
+    assert 'class="markdown-body docs-home"' not in client.get("/docs/engineering/").text
