@@ -520,6 +520,13 @@ labels, public HTTPS playback/download and dashboard/Markdown/browser verificati
       fix first capture's HTMX caption removal without repeating inference.
 - [x] Prepare public report, full original JSON/progress, transcript/metadata, second video section;
       92 tests/Ruff, 27-page checks, local Docker and both-video desktop/mobile playback passed.
-- [ ] Publish and verify final anonymous HTTPS report/video and authenticated dashboard.
+- [x] Publish and verify final anonymous HTTPS report/video and authenticated dashboard.
 
 The 72-case live holdout is NOT RUN; separate authorization is still required after pilot review.
+
+Final publication: source adcb3c8fcbabc914b47052442f7cbaf9d7ed4ed6 deployed healthy;
+CI 42474078101 passed 92 tests and clean Docker/offline/PostgreSQL checks. Production browser
+checks passed both video playback/seeking and desktop/mobile/no-JS docs. Public original pilot
+JSON/new MP4 hashes match local artifacts; byte ranges serve correctly. Live Evaluation #4 and
+legacy raw/offline dashboards verified read-only. Post-deploy historical #2 hash/finance counts
+match pre-run. Exactly one live v2 run and no provider requests after its completion.

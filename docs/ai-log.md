@@ -275,3 +275,13 @@ Restored the caption recreation behavior already used in the older recorder and 
 continuous read-only capture; the incomplete first capture remains private as diagnostic evidence.
 Independent integer-only fee/net recount also passed for every complete pilot fixture; missing
 gross was skipped as unknown rather than filled with a value.
+
+Final observed acceptance: source adcb3c8fcbabc914b47052442f7cbaf9d7ed4ed6 deployed healthy,
+CI 42474078101 passed (92 tests, clean Docker/offline workflow and PostgreSQL checks).
+`DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser`, `npm run eval:browser`,
+and explicit offline `v2:browser` passed. Additional read-only browser checks verified public
+pilot report/JSON and new MP4 hashes/ranges, live #4 metrics, desktop/mobile layout and no page
+errors. Old raw #2 canonical JSON/financial-table counts are unchanged after publishing.
+Production has exactly one V2_LIVE evaluation and zero provider requests after pilot completion.
+Original paid responses are locally imported as #5; the video adds no provider spend.
+The 72-case live holdout remains unrun and requires a separate approval after review.
