@@ -238,3 +238,20 @@ initially detected mobile table overflow; minmax grid tracks/min-width fixed it,
 48-case authenticated export, 30 failures and mobile/page-error checks passed.
 Independent semantic hallucination rate, calibrated confidence, high-risk recall, clean/refund/mixed
 scenario coverage and real-bank generalization remain unmeasured/incomplete.
+
+Final source ab91db1465eed4b248f97ab9cd76e53a7a0a111e deployed and healthy; private provider
+environment preserved. `npm run eval:browser` on production passed 48-case completed LIVE
+record/export, 30 failures, desktop/mobile without page errors/overflow. Summary/failure/mobile
+screenshots visually inspected. `DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser`
+passed existing public docs, Mermaid, video playback/seek and mobile/no-JavaScript checks.
+Anonymous report/snapshot/log/readiness checks passed; public snapshot SHA-256 matches the
+original local production export, and progress has exactly 48 lines. Separate public-report
+Chromium desktop/mobile checks passed with full failure inventory/no overflow. Local Docker
+updated and healthy; repeating the same snapshot import returned evaluation #3 again, confirming
+actual idempotent sync. No additional inference was triggered by these checks.
+
+Hosted CI https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42429726168 passed the final
+source: Ruff/59 tests, 24-page publication gate, clean Docker migration/seed/readiness, full
+no-key workflow/offline evaluation and PostgreSQL checks. Existing Starlette TestClient warning
+and unrelated ubuntu-latest migration notice remain. No live holdout score was substituted with
+CI's scripted offline contract score.

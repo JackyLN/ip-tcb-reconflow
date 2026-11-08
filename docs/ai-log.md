@@ -154,3 +154,7 @@ semantic grading. Preserved all failures, synced snapshot/progress locally, inde
 checked fixture/count/Decimal-cost integrity and imported into local demo without inference.
 Local browser initially found mobile table overflow; constrained grid tracks/min-width, then
 read-only desktop/mobile/export checks passed with all 30 failures visible.
+Final outcome: production authenticated dashboard/export and public report/JSON/progress passed
+HTTPS desktop/mobile checks. Public snapshot matches original bytes; local repeat import reused
+evaluation #3. Hosted CI 42429726168 passed 59 tests, 24-page validation and fresh Docker offline
+workflow/DB checks. Live 37.5% remains plainly distinct from passing software/offline tests.

@@ -398,4 +398,8 @@ semantic/hallucination or high-risk-recall targets. No prompt/model change or ex
 - [x] Sync original results/progress/request snapshot locally and import without inference.
 - [x] Independent reference/count/cost checks; 59 regression tests, 24-page link checks.
 - [x] Prepare public full results, 30 failure explanations and synthetic machine-readable evidence.
-- [ ] Verify final deployed authenticated dashboard/mobile and anonymous reviewer report/downloads.
+- [x] Verify final deployed authenticated dashboard/mobile and anonymous reviewer report/downloads.
+
+Final source ab91db1465eed4b248f97ab9cd76e53a7a0a111e deployed and healthy; CI 42429726168
+passed 59 tests, 24-page validation and fresh Docker/offline workflow/PostgreSQL checks.
+Public report/snapshot/progress and authenticated dashboard verified over HTTPS on desktop/mobile.
