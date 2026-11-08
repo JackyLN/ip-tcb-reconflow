@@ -225,3 +225,27 @@ Read-only HTTPS dashboard/raw export and anonymous pending-approval protocol/Mer
 passed. Historical Evaluation #2 canonical JSON and five financial-table counts are unchanged.
 Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
 executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.
+
+## Workspace navigation polish · 2026-11-08
+
+Actual user request: group the flat sidebar so banking work is distinct from administration and
+resources. Follow-up constraint: do not commit or push until instructed. Inspected the existing
+15 links, charcoal/red brand tokens and flat mobile scroll strip; captured desktop/mobile before
+screenshots. Reused existing Jinja/CSS with a shared grouped navigation partial for desktop and
+native mobile disclosure, preserving labels, URLs and server permissions. Included active-parent
+highlighting for nested pages. No framework/dependency, backend financial or AI changes.
+`make lint test docs-check` passed Ruff, 92 tests and 26-page link validation; one existing
+Starlette/httpx deprecation warning. Local Docker app rebuilt/restarted healthy. No paid inference,
+production deployment, commit or push performed. Browser verification observations follow below.
+
+Browser observation/correction: first 320px check found existing fixed-width latest-run columns
+and timestamps overflowing the page. Made mobile columns flexible and long run text wrap, then
+rebuilt/rechecked. `node artifacts/navigation-polish-browser.mjs` passed four groups/all 15 routes,
+nested active selection, desktop/short viewport, 320/390px layouts, keyboard/no-JS disclosure and
+worker-health navigation. Screenshots before/after saved privately under artifacts and inspected.
+No new persistent test suite was added for this presentation-only change. All edits remain local,
+uncommitted/unpushed; production remains on its previous source and no model calls were made.
+
+After local review, the user explicitly authorized committing and pushing the navigation polish
+to main. The earlier local-only approval boundary is satisfied. This instruction does not request
+a production deployment or authorize paid AI evaluation.

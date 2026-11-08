@@ -5,3 +5,27 @@
 .sidebar :focus-visible{outline-color:var(--brand-red)}
 .evaluation-run .metrics strong{font-size:28px;overflow-wrap:anywhere}.evaluation-run .metrics small{font-size:15px}.evaluation-run code{overflow-wrap:anywhere}.evaluation-failure{padding:12px;border-left:3px solid var(--brand-red);background:#fff8f8}.evaluation-run .overview-grid{grid-template-columns:1fr 1fr}.evaluation-run .table-scroll{max-width:100%}@media(max-width:1150px){.evaluation-run .overview-grid{grid-template-columns:1fr}}
 .evaluation-run .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evaluation-run .overview-grid>section{min-width:0}@media(max-width:1150px){.evaluation-run .overview-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Workspace hierarchy: keep operational work distinct from administration and resources. */
+.sidebar .wordmark,.sidebar .workspace,.sidebar-foot{flex-shrink:0}
+.sidebar .workspace{margin-bottom:16px}
+.sidebar nav.desktop-navigation{min-height:0;gap:0;padding:0 3px 3px;scrollbar-width:thin;scrollbar-color:#626262 transparent}
+.nav-group{flex-shrink:0}
+.nav-group+.nav-group{margin-top:14px;padding-top:14px;border-top:1px solid #333}
+.sidebar .nav-group-title{margin:0 10px 7px;color:#ababab;font-size:10px;font-weight:650;letter-spacing:1px;line-height:1.5;text-transform:uppercase}
+.nav-group-links{display:grid;gap:2px}
+.sidebar nav a{display:block;min-height:36px}
+.mobile-navigation{display:none}
+@media(max-width:760px){
+  .sidebar nav.desktop-navigation{display:none}
+  .mobile-navigation{display:block;margin:14px 0 0}
+  .mobile-navigation>summary{min-height:44px;padding:11px 10px;border:1px solid #454545;border-radius:5px;color:#f5f5f5;font-size:12px}
+  .mobile-navigation>summary>span{float:right;max-width:65%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#bcbcbc;font-weight:400}
+  .sidebar nav.mobile-navigation-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:22px 12px;margin-top:16px;padding:3px;max-height:65dvh;overflow:auto;scrollbar-width:thin;scrollbar-color:#626262 transparent}
+  .mobile-navigation .nav-group+.nav-group{margin:0;padding:0;border:0}
+  .sidebar .mobile-navigation .nav-group-title{margin-left:8px;font-size:9px;letter-spacing:.8px}
+  .sidebar .mobile-navigation nav a{padding:11px 8px;min-height:44px;font-size:12px;white-space:normal}
+  .sidebar .mobile-navigation nav a[aria-current]{padding-left:5px}
+  .run-list a{grid-template-columns:60px minmax(0,1fr) 60px;gap:12px}
+  .run-list a>span{min-width:0;overflow-wrap:anywhere}
+}

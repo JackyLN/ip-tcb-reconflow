@@ -1,0 +1,19 @@
+{% macro workspace_navigation(prefix, class_name) %}
+<nav class="{{ class_name }}" aria-label="Main navigation">
+  {% for heading, links in nav_groups %}
+  <section class="nav-group" aria-labelledby="{{ prefix }}-group-{{ loop.index }}">
+    <h2 class="nav-group-title" id="{{ prefix }}-group-{{ loop.index }}">{{ heading }}</h2>
+    <div class="nav-group-links">
+      {% for href, label in links %}
+      <a href="{{ href }}" {% if path == href or (href != '/' and path.startswith(href.rstrip('/') + '/')) %}aria-current="page"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</nav>
+{% endmacro %}
+{{ workspace_navigation('desktop', 'desktop-navigation') }}
+<details class="mobile-navigation">
+  <summary>Navigation <span>{{ title }}</span></summary>
+  {{ workspace_navigation('mobile', 'mobile-navigation-links') }}
+</details>

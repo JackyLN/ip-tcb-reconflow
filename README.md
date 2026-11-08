@@ -305,3 +305,9 @@ do not run without operator approval. Budget reservations are conservative confi
 estimates, not provider-side billing limits. A full `--split holdout --limit 72` run needs separate
 approval after pilot review; repeated frozen live holdouts are blocked. No paid v2 run has started.
 See [the evaluation protocol](docs/evaluation.md#live-v2-preparation-audit--2026-11-08).
+
+Workspace navigation groups everyday reconciliation, investigations and review under **Banking
+operations**; reports, evaluation and audit under **Reporting & assurance**; worker health and
+controls under **Administration**; and architecture/public documentation under **Resources**.
+On mobile, open **Navigation** to see the same groups. Grouping changes discovery only; route
+permissions and maker-checker controls remain enforced on the server.

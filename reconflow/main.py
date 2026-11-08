@@ -54,22 +54,42 @@ app.mount("/docs-assets", StaticFiles(directory=PUBLIC_ROOT / "assets"), name="d
 app.include_router(public_docs_router)
 templates = Jinja2Templates(directory="reconflow/templates")
 templates.env.filters["money"] = display
-NAV = [
-    ("/", "Overview"),
-    ("/imports", "Sources & imports"),
-    ("/runs", "Reconciliation runs"),
-    ("/payouts", "Transactions & payouts"),
-    ("/exceptions", "Exceptions"),
-    ("/investigations", "AI investigations"),
-    ("/review", "Review queue"),
-    ("/reports/operations", "Operations report"),
-    ("/reports/impact", "Business impact"),
-    ("/ai/evaluation", "AI evaluation"),
-    ("/audit", "Audit trail"),
-    ("/operations/health", "Worker health"),
-    ("/controls", "Configuration & controls"),
-    ("/guide", "Architecture & rollout"),
-    ("/docs/", "Public documentation"),
+NAV_GROUPS = [
+    (
+        "Banking operations",
+        [
+            ("/", "Overview"),
+            ("/imports", "Sources & imports"),
+            ("/runs", "Reconciliation runs"),
+            ("/payouts", "Transactions & payouts"),
+            ("/exceptions", "Exceptions"),
+            ("/investigations", "AI investigations"),
+            ("/review", "Review queue"),
+        ],
+    ),
+    (
+        "Reporting & assurance",
+        [
+            ("/reports/operations", "Operations report"),
+            ("/reports/impact", "Business impact"),
+            ("/ai/evaluation", "AI evaluation"),
+            ("/audit", "Audit trail"),
+        ],
+    ),
+    (
+        "Administration",
+        [
+            ("/operations/health", "Worker health"),
+            ("/controls", "Configuration & controls"),
+        ],
+    ),
+    (
+        "Resources",
+        [
+            ("/guide", "Architecture & rollout"),
+            ("/docs/", "Public documentation"),
+        ],
+    ),
 ]
 
 
@@ -89,7 +109,7 @@ def render(request: Request, db: Session, title: str, **context: object) -> Resp
         context={
             "title": title,
             "user": user,
-            "nav": NAV,
+            "nav_groups": NAV_GROUPS,
             "csrf": csrf_token(request),
             "path": request.url.path,
             **context,

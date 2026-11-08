@@ -474,3 +474,26 @@ Read-only HTTPS dashboard/raw export and anonymous pending-approval protocol/Mer
 passed. Historical Evaluation #2 canonical JSON and five financial-table counts are unchanged.
 Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
 executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.
+
+## Grouped workspace navigation polish (2026-11-08)
+
+User requests hierarchy separating banking tasks from administration/resources. User explicitly
+requires local changes only: do not commit or push until instructed. Intended files: existing
+navigation data, Jinja shell/sidebar partial, sidebar CSS and README/AI log. Preserve brand,
+link labels, routes and server RBAC; no dependencies or financial/AI changes. Group into Banking
+operations, Reporting & assurance, Administration and Resources. Provide a native collapsed mobile
+menu with the same groups and retain keyboard focus/current-page indication on nested routes.
+Acceptance: existing lint/API tests, Docker-rendered desktop/mobile/short-viewport/keyboard checks;
+all links available, no page overflow, no commits/pushes or deployment in this phase.
+
+- [x] Group all 15 existing destinations; preserve labels/URLs and route authorization.
+- [x] Native mobile disclosure, semantic group headings and nested-route active states.
+- [x] `make lint test docs-check`: Ruff, 92 tests, 26 pages passed.
+- [x] Local Docker app healthy; browser checks passed at desktop/short viewport and 320/390px,
+      including all routes, keyboard/no-JS menu and nested active state. Narrow-screen QA exposed
+      existing fixed-width run-list overflow; responsive columns/wrapping corrected it.
+- [x] Remain local/uncommitted/unpushed, with no production deploy or paid inference.
+
+After local review, the user explicitly authorized committing and pushing the navigation polish
+to main. The earlier local-only approval boundary is satisfied. This instruction does not request
+a production deployment or authorize paid AI evaluation.
