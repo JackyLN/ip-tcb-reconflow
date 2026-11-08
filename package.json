@@ -3,12 +3,13 @@
   "private": true,
   "scripts": {
     "build": "tailwindcss -i frontend.css -o reconflow/static/tailwind.css --minify && node scripts/vendor.mjs",
-    "check": "node --check reconflow/static/app.js && node --check scripts/browser-check.mjs && node --check frontend/docs.js && node --check scripts/public-docs-browser.mjs && node --check scripts/record-demo.mjs && node --check scripts/evaluation-browser.mjs && node --check scripts/controlled-browser.mjs",
+    "check": "node --check reconflow/static/app.js && node --check scripts/browser-check.mjs && node --check frontend/docs.js && node --check scripts/public-docs-browser.mjs && node --check scripts/record-demo.mjs && node --check scripts/evaluation-browser.mjs && node --check scripts/controlled-browser.mjs && node --check scripts/record-evaluation-demo.mjs",
     "browser": "node scripts/browser-check.mjs",
     "docs:browser": "node scripts/public-docs-browser.mjs",
     "demo:record": "node scripts/record-demo.mjs",
     "eval:browser": "node scripts/evaluation-browser.mjs",
-    "v2:browser": "node scripts/controlled-browser.mjs"
+    "v2:browser": "node scripts/controlled-browser.mjs",
+    "demo:record-results": "node scripts/record-evaluation-demo.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",

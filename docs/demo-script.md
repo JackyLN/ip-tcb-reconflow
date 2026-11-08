@@ -45,3 +45,18 @@ Do not use it as a baseline test or rerun just to recreate this video.
 
 Published recording and README: https://tcb.jackylenghia.com/docs/product/recorded-demo/ .
 The same reviewed MP4 is versioned in public-docs/assets/demo for reproducible deployments.
+
+## Controlled-v2 pilot results companion · 8 November 2026
+
+The new [recording README](../public-docs/product/recorded-demo.md#controlled-v2-results-walkthrough)
+contains an actual 188-second read-only production walkthrough with 18 captioned chapters.
+The paid development pilot completed before filming: production #4, local snapshot #5,
+12/12 accepted, 72/72 supported typed claims, 2/2 abstentions and 4/4 escalations. See the
+[measured report and every inspected scenario](../public-docs/ai/controlled-v2-pilot-2026-11-08.md).
+
+`RECORD_EVAL_DEMO=1 npm run demo:record-results` uses the existing private analyst credential
+file and defaults to completed Evaluation #4. It performs no imports, investigation jobs or
+review decisions; authentication is submitted outside the recorded DOM. Set DEMO_OUTPUT,
+DEMO_BASE_URL, DEMO_EVALUATION_ID and DEMO_CREDENTIALS explicitly when reproducing another
+approved/read-only recording. The original state-changing workflow recorder/video is preserved.
+The 72-case live holdout requires separate approval; this recording does not authorize it.

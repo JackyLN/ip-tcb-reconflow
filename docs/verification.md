@@ -313,3 +313,21 @@ Read-only HTTPS dashboard/raw export and anonymous pending-approval protocol/Mer
 passed. Historical Evaluation #2 canonical JSON and five financial-table counts are unchanged.
 Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
 executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.
+
+## Authorized v2 pilot and production results recording · 2026-11-08
+
+Executed once: production `python -m reconflow.cli eval --live --track controlled-v2 --split development --limit 12 --max-cost-usd 2`,
+source 4a4865ae3b4e7e0110a8cea620fa4f56f4ae1fee, Evaluation #4 COMPLETED. Recounted all 24
+invocations, 44798/4722 tokens, Decimal USD 0.05484750 and p50/p95 2869/6299 ms; 12 accepted,
+72 supported typed claims, two abstentions/four required escalations. Pure integer fee/net
+recount matched complete fixtures; missing gross remained unknown. Original snapshot imported
+locally as #5 without inference. Financial counts and historical Evaluation #2 JSON hash match
+pre-run; original historical reports/JSON/log/video remain byte-identical.
+
+`make lint test docs-check`: Ruff, 92 tests and 27 public pages passed (one existing
+Starlette/httpx warning). Both MP4 byte-range downloads tested. `npm run check` passed.
+`RECORD_EVAL_DEMO=1 DEMO_OUTPUT=artifacts/controlled-v2-pilot-20261108/video-final node scripts/record-evaluation-demo.mjs`
+completed 18 chapters in 188 seconds after correcting a caption/HTMX removal failure in the
+first read-only attempt. No additional model run was made. H.264/yuv420p MP4 converted using
+an existing cached imageio-ffmpeg tool in an ephemeral uv environment, faststart enabled;
+metadata and sampled frames were inspected. No new application dependency.

@@ -464,8 +464,9 @@ and holdout results remain pending operator authorization; existing measurements
       retained original invalid content with separate failure categories.
 - [x] No-key regression: 92 tests, Ruff, 26-page publication validation; Docker 72 holdout/12
       development scripted contracts, HTTP smoke and PostgreSQL concurrency/audit checks passed.
-- [ ] Obtain approval for proposed 12-case development pilot, USD 2 estimated-cost reservation cap.
-- [ ] Execute/publish actual pilot, review every failure and request separate holdout authorization.
+- [x] Obtain approval for proposed 12-case development pilot, USD 2 estimated-cost reservation cap.
+- [x] Execute pilot and inspect every original outcome; publication/video acceptance below.
+- [ ] Obtain separate frozen-holdout approval after development-pilot review.
 - [ ] Run frozen 72-case live holdout once; publish/sync actual outcomes and limitations.
 
 Live-evaluation preparation acceptance: source d3a1dd909d1661bf00373f1d770811707fc59660
@@ -497,3 +498,28 @@ all links available, no page overflow, no commits/pushes or deployment in this p
 After local review, the user explicitly authorized committing and pushing the navigation polish
 to main. The earlier local-only approval boundary is satisfied. This instruction does not request
 a production deployment or authorize paid AI evaluation.
+
+## Authorized live development pilot and v2 video (2026-11-08)
+
+User authorized running the proposed production pilot and recording/publishing a new demo section.
+Scope: one 12-case development evaluation, USD 2 estimated-cost reservation cap, unchanged model,
+prompt and dataset; no 72-case holdout. Inspect every original result, export/sync synthetic data
+locally and publish measured findings separately from historical raw-v1. Record actual production
+browser actions and add a second MP4/README section on the existing recorded-demo page, preserving
+the original video. Reuse existing tooling, no dependencies/framework/financial rule changes.
+Acceptance: frozen hashes and historical DB/artifact preservation checks, source-pinned usage and
+failure analysis, local snapshot import, secret-free video/chapters with measured versus estimated
+labels, public HTTPS playback/download and dashboard/Markdown/browser verification.
+
+- [x] One live development pilot completed on source 4a4865ae3b4e7e0110a8cea620fa4f56f4ae1fee:
+      production #4, 12/12 accepted, 72/72 supported typed claims, 2/2 abstentions, 4/4 escalations;
+      24 requests, 44798/4722 tokens, estimated USD 0.05484750; p50/p95 2869/6299 ms.
+- [x] Inspect every original report and independently recount money/usage/latency; no observed
+      failures. Preserve raw-v1/historical video and sync full snapshot locally as Evaluation #5.
+- [x] Continuous 188-second production results video with 18 chapters, zero extra model calls;
+      fix first capture's HTMX caption removal without repeating inference.
+- [x] Prepare public report, full original JSON/progress, transcript/metadata, second video section;
+      92 tests/Ruff, 27-page checks, local Docker and both-video desktop/mobile playback passed.
+- [ ] Publish and verify final anonymous HTTPS report/video and authenticated dashboard.
+
+The 72-case live holdout is NOT RUN; separate authorization is still required after pilot review.

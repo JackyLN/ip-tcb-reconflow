@@ -88,4 +88,9 @@ including the downloadable synthetic JSON and original progress log.
 ## Controlled Investigation v2 track
 
 The [v2 method and actual offline status](controlled-v2.md) are separate from the frozen
-November 8 raw-evidence benchmark. Live v2 quality remains NOT MEASURED.
+November 8 raw-evidence benchmark. The [live development pilot](controlled-v2-pilot-2026-11-08.md)
+accepted 12/12 with 72/72 supported closed claims; the 72-case live v2 holdout is NOT RUN.
+
+The [measured controlled-v2 development pilot](controlled-v2-pilot-2026-11-08.md) is separate
+from raw-v1 and offline contract checks: 12/12 accepted, estimated USD 0.05484750; generalization
+and human productivity remain unmeasured.

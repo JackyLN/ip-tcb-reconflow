@@ -20,5 +20,7 @@
     "refund"
   ],
   "label_boundary": "expected grading rubric is outside model tools; deterministic findings are deliberately supplied",
-  "live_v2_model_evaluations_performed": 0
+  "live_v2_model_evaluations_performed": 1,
+  "live_development_runs": 1,
+  "live_holdout_runs": 0
 }

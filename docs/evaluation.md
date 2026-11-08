@@ -141,3 +141,17 @@ outputs/metrics. Only after pilot review, request separate authorization/budget 
 72-case holdout. The runner refuses partial live holdout runs and any second live run of this
 dataset, including after an interrupted run. Any future prompt/dataset tuning needs a separately
 versioned protocol; do not tune against the holdout or relabel its failures.
+
+## Authorized live v2 pilot outcome · 2026-11-08
+
+Production Evaluation #4 completed 12 development cases once on source
+4a4865ae3b4e7e0110a8cea620fa4f56f4ae1fee, with USD 2 estimated-cost cap. All 12 accepted,
+72/72 supported typed claims, 2/2 required abstentions, 4/4 required escalations; no observed
+provider/schema/claim/classification/unsafe-action failures. 24 requests, 44,798 input/4,722 output
+tokens; estimated USD 0.05484750, p50/p95 2869/6299 ms. No retries/tuning, no live holdout run.
+Full original responses/tool traces/grades and scoped invocation snapshot synchronized locally
+as Evaluation #5. Historical raw-v1 #2 and financial-table counts stayed unchanged.
+See [all twelve inspected scenarios, evidence, limitations and product decisions](../public-docs/ai/controlled-v2-pilot-2026-11-08.md).
+This measures a closed rule-guided development contract, not autonomous diagnosis, real-bank
+accuracy, independent source authenticity, semantic creativity or productivity. The 72-case live
+holdout requires separate approval after pilot review.

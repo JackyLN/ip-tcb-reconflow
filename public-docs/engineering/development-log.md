@@ -50,3 +50,15 @@ the recorder, then queued one investigation. It returned LIVE with four evidence
 supervisor escalated for missing independent provider proof. The 87-second actual browser recording
 contains explanatory captions. One successful workflow is not a model-accuracy benchmark; see
 the [evaluation observation](../ai/evaluation.md#observed-single-live-demonstration--2026-11-08).
+
+## Live controlled-v2 development pilot and updated recording · 8 November 2026
+
+The authorized 12-case production pilot accepted 12/12 with 72/72 supported typed claims,
+2/2 required abstentions and 4/4 escalations. No failure was observed; estimated model cost was
+USD 0.05484750. The [complete measured report](../ai/controlled-v2-pilot-2026-11-08.md) publishes
+all original responses, every inspected scenario and the limits of this rule-guided score.
+The scoped snapshot was synchronized locally without changing finance records; raw-v1 is preserved.
+A [new results walkthrough](../product/recorded-demo.md#controlled-v2-results-walkthrough) reviews
+persisted production evidence without additional inference. The first read-only capture hit an
+HTMX caption-removal issue; the handler was corrected for the completed continuous recording.
+The 72-case live holdout still requires separate authorization.

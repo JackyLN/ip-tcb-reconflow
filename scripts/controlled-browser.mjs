@@ -15,7 +15,7 @@ try {
  const token=await page.locator('[name="csrf_value"]').inputValue();
  expect((await context.request.post(base+'/login',{form:{csrf_value:token,email,password},maxRedirects:0})).status()).toBe(303);
  await page.goto(base+'/ai/evaluation');
- const run=page.locator('.controlled-evaluation').first();
+ const run=page.locator('.controlled-evaluation').filter({hasText:'V2_OFFLINE_CONTRACT'}).first();
  await expect(run).toContainText('LIVE V2 QUALITY NOT MEASURED');
  const link=await run.getByRole('link',{name:'Download evaluation JSON',exact:true}).getAttribute('href');
  const result=await (await context.request.get(base+link)).json();

@@ -34,3 +34,7 @@ uncalibrated; there is no automatic financial approval in any mode.
 
 [Controlled Investigation v2](controlled-v2.md) now supplies deterministic findings and checks
 material claims. Its 72-case offline contract check is not a live AI score.
+
+The [measured controlled-v2 development pilot](controlled-v2-pilot-2026-11-08.md) is separate
+from raw-v1 and offline contract checks: 12/12 accepted, estimated USD 0.05484750; generalization
+and human productivity remain unmeasured.

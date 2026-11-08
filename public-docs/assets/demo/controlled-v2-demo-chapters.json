@@ -1,0 +1,139 @@
+{
+  "base": "https://tcb.jackylenghia.com",
+  "recorded_at": "2026-11-08T10:56:44.433Z",
+  "data": "SYNTHETIC",
+  "evaluation_id": 4,
+  "model_calls_during_recording": 0,
+  "financial_mutations": 0,
+  "measured_summary": {
+    "accepted": 12,
+    "cases": 12,
+    "claims_supported": 72,
+    "claims_checked": 72,
+    "usage": {
+      "requests": 24,
+      "input_tokens": 44798,
+      "output_tokens": 4722,
+      "estimated_usd": "0.05484750",
+      "unmetered_requests": 0
+    },
+    "p50_ms": 2869,
+    "p95_ms": 6299,
+    "source_revision": "4a4865ae3b4e7e0110a8cea620fa4f56f4ae1fee"
+  },
+  "status": "completed",
+  "stages": [
+    {
+      "seconds": 2,
+      "title": "01 \u00b7 Production workspace",
+      "detail": "The live pilot finished before this recording. This walkthrough reads actual saved results; it queues no AI jobs.",
+      "url": "https://tcb.jackylenghia.com/"
+    },
+    {
+      "seconds": 11,
+      "title": "02 \u00b7 Grouped navigation",
+      "detail": "Banking operations, Reporting & assurance, Administration and Resources separate daily work from system tasks.",
+      "url": "https://tcb.jackylenghia.com/"
+    },
+    {
+      "seconds": 21,
+      "title": "03 \u00b7 Synthetic intake",
+      "detail": "Only synthetic or public evidence belongs here. No import is submitted in this results walkthrough.",
+      "url": "https://tcb.jackylenghia.com/imports"
+    },
+    {
+      "seconds": 30,
+      "title": "04 \u00b7 Payouts, not one-to-one payments",
+      "detail": "Payments are aggregated into payouts; Python integer arithmetic establishes financial findings.",
+      "url": "https://tcb.jackylenghia.com/payouts"
+    },
+    {
+      "seconds": 40,
+      "title": "05 \u00b7 Financial evidence first",
+      "detail": "This stored operational case shows fee, net, currency and timing checks. It is separate from synthetic evaluation fixture IDs.",
+      "url": "https://tcb.jackylenghia.com/exceptions/1"
+    },
+    {
+      "seconds": 51,
+      "title": "06 \u00b7 Actual controlled-v2 pilot",
+      "detail": "12/12 accepted; 72/72 closed claims supported. One development example per family; this is not a holdout score.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 62,
+      "title": "07 \u00b7 Measured usage and latency",
+      "detail": "24 requests; 44798/4722 input/output tokens; p50/p95 2869/6299 ms. Estimated USD 0.05484750.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 73,
+      "title": "08 \u00b7 No observed pilot failures",
+      "detail": "No provider, schema, unsupported-claim or policy failure appeared in these 12 cases. This does not establish a zero production failure rate.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 83,
+      "title": "09 \u00b7 Original fee report",
+      "detail": "Fixture 200101: expected fee 94,593 USD minor units; observed 94,672; difference 79. The model cites payout and policy evidence.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 94,
+      "title": "10 \u00b7 Missing evidence means abstain",
+      "detail": "Fixture 200703 lacks payout.gross. The original model response says INSUFFICIENT_EVIDENCE, abstains and escalates.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 106,
+      "title": "11 \u00b7 Conflicting records stay visible",
+      "detail": "Fixture 200800 retains the stored-rule conflict and 731 VND difference. It abstains and escalates instead of choosing a convenient record.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 117,
+      "title": "12 \u00b7 Simultaneous findings",
+      "detail": "Fixture 200901 preserves late settlement, a 41-cent fee difference and a 127-cent amount difference; escalation is required.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 128,
+      "title": "13 \u00b7 Scope of the result",
+      "detail": "Both required abstentions and all four required escalations were correct. Six injected-note cases passed; broad prompt-injection safety is unmeasured.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 138,
+      "title": "14 \u00b7 Historical benchmark preserved",
+      "detail": "Raw-v1 remains 18/48 (37.5%). It tests diagnosis from raw evidence; v2 is rule-guided compliance, so the scores are not directly comparable.",
+      "url": "https://tcb.jackylenghia.com/ai/evaluation"
+    },
+    {
+      "seconds": 149,
+      "title": "15 \u00b7 Independent human review",
+      "detail": "Maker-checker remains enforced by the server. This read-only recording submits no recommendation, approval or financial change.",
+      "url": "https://tcb.jackylenghia.com/review"
+    },
+    {
+      "seconds": 158,
+      "title": "16 \u00b7 Durable audit evidence",
+      "detail": "Evaluation start/completion events are persisted. The original workflow video separately records analyst and supervisor escalation.",
+      "url": "https://tcb.jackylenghia.com/audit"
+    },
+    {
+      "seconds": 168,
+      "title": "17 \u00b7 Administration stays separate",
+      "detail": "Worker visibility and controls live outside banking tasks. No service control is changed for this recording.",
+      "url": "https://tcb.jackylenghia.com/operations/health"
+    },
+    {
+      "seconds": 177,
+      "title": "18 \u00b7 Reviewer handoff",
+      "detail": "The earlier workflow video is retained. This results walkthrough, complete pilot JSON and measured report will be added alongside it.",
+      "url": "https://tcb.jackylenghia.com/docs/product/recorded-demo/"
+    }
+  ],
+  "duration_seconds": 188,
+  "video_duration_seconds": 188.32,
+  "video_size_bytes": 3363795,
+  "video_sha256": "2bf8553b8312f023d3f7465cb742fc6b3264661b4c8b8bd36f549f14ca45c89a"
+}

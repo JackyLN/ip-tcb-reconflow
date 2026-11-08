@@ -1,6 +1,6 @@
 # ADR 005: Controlled findings and a separate investigation contract
 
-Date: 2026-11-08. Status: IMPLEMENTED; offline verified; live v2 quality NOT MEASURED.
+Date: 2026-11-08. Status: IMPLEMENTED; offline verified; live development pilot measured; v2 live holdout NOT RUN.
 
 Keep the modular monolith, database worker, four read-only tools and integer-money engine.
 Preserve the November 8 raw-v1 benchmark and its 37.5% result as historical evidence. New jobs
@@ -31,3 +31,7 @@ escalated or rejected. No model can approve or mutate finance records. No human-
 is claimed without a controlled study. See the public controlled-v2 method/status page.
 
 Reference: https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=chat .
+
+Dated observation (8 November 2026): the authorized development pilot accepted 12/12 reports,
+72/72 typed claims, estimated USD 0.05484750. This supports demo compatibility with the existing
+contract; it does not establish real-bank safety or alter the decision to require human review.

@@ -58,22 +58,28 @@ try {
   await noJS.close();
   await page.setViewportSize({width:1440, height:1080});
   await page.goto(base + '/docs/product/recorded-demo/');
-  await expect(page.locator('video')).toBeVisible();
-  await page.waitForFunction(() => document.querySelector('video').readyState >= 1);
-  const duration = await page.locator('video').evaluate(video => video.duration);
-  expect(duration).toBeGreaterThan(86);
-  expect(duration).toBeLessThan(89);
-  await page.locator('video').evaluate(video => video.play());
-  await page.waitForFunction(() => document.querySelector('video').currentTime > 0);
-  await page.locator('video').evaluate(video => {video.pause(); video.currentTime=43;});
-  await page.waitForFunction(() => {const v=document.querySelector('video'); return !v.seeking && v.readyState >= 2;});
+  const videos=page.locator('video');
+  await expect(videos).toHaveCount(2);
+  for (let index=0; index<2; index++) {
+    const video=videos.nth(index);
+    await video.scrollIntoViewIfNeeded();
+    await expect(video).toBeVisible();
+    await expect.poll(()=>video.evaluate(v=>v.readyState)).toBeGreaterThanOrEqual(1);
+    const duration=await video.evaluate(v=>v.duration);
+    expect(duration).toBeGreaterThan(index===0 ? 86 : 150);
+    expect(duration).toBeLessThan(index===0 ? 89 : 300);
+    await video.evaluate(v=>v.play());
+    await expect.poll(()=>video.evaluate(v=>v.currentTime)).toBeGreaterThan(0);
+    await video.evaluate(v=>{v.pause();v.currentTime=v.duration/2;});
+    await expect.poll(()=>video.evaluate(v=>!v.seeking && v.readyState>=2)).toBe(true);
+  }
   await page.screenshot({path:'artifacts/public-demo-video-desktop.png', fullPage:true});
   await page.setViewportSize({width:390, height:844});
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   await page.screenshot({path:'artifacts/public-demo-video-mobile.png', fullPage:true});
   expect(errors).toEqual([]);
   expect(foreignRequests).toEqual([]);
-  console.log('PASS: anonymous public docs, title search, nested/adjacent links, TOC, 3 diagram types, rich Markdown, video playback/seeking, mobile/no-JS reading, no page/CSP errors or external asset requests');
+  console.log('PASS: anonymous public docs, title search, nested/adjacent links, TOC, 3 diagram types, rich Markdown, both video playback/seeking, mobile/no-JS reading, no page/CSP errors or external asset requests');
 } finally {
   await browser.close();
 }

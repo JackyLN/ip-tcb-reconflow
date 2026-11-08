@@ -303,7 +303,8 @@ Live controlled-v2 evaluation preparation supports `--split development --limit 
 family-balanced pilot. Paid v2 calls additionally require `--live --max-cost-usd <approved-budget>`;
 do not run without operator approval. Budget reservations are conservative configured-rate
 estimates, not provider-side billing limits. A full `--split holdout --limit 72` run needs separate
-approval after pilot review; repeated frozen live holdouts are blocked. No paid v2 run has started.
+approval after pilot review; repeated frozen live holdouts are blocked. The authorized 12-case development pilot completed: 12/12 accepted, 72/72 supported typed
+claims, estimated USD 0.05484750. The live holdout remains unrun.
 See [the evaluation protocol](docs/evaluation.md#live-v2-preparation-audit--2026-11-08).
 
 Workspace navigation groups everyday reconciliation, investigations and review under **Banking
@@ -311,3 +312,10 @@ operations**; reports, evaluation and audit under **Reporting & assurance**; wor
 controls under **Administration**; and architecture/public documentation under **Resources**.
 On mobile, open **Navigation** to see the same groups. Grouping changes discovery only; route
 permissions and maker-checker controls remain enforced on the server.
+
+Measured production pilot: [full result and every inspected scenario](public-docs/ai/controlled-v2-pilot-2026-11-08.md).
+Original outputs/usage were synchronized locally as Evaluation #5; no finance data was reset.
+
+The [updated production video and transcript](public-docs/product/recorded-demo.md#controlled-v2-results-walkthrough)
+review the saved pilot in 3 minutes 8 seconds. The original workflow recording is preserved;
+watching/replaying the read-only results recorder makes no additional model call.

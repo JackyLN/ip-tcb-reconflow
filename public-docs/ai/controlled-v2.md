@@ -1,6 +1,9 @@
 # Controlled AI Investigation v2
 
-**IMPLEMENTED · OFFLINE VERIFIED · LIVE V2 QUALITY NOT MEASURED.** This milestone strengthens
+**IMPLEMENTED · LIVE DEVELOPMENT PILOT MEASURED · V2 HOLDOUT NOT RUN.**
+See the [12-case live pilot results](controlled-v2-pilot-2026-11-08.md): 12/12 accepted,
+72/72 closed claims supported; small rule-guided development sample, not general accuracy.
+ This milestone strengthens
 how ReconFlow investigates a deterministic finding. It does not replace reconciliation, approve
 funds or rebuild the application. New jobs are versioned `controlled-investigator-v2`; pre-existing
 queued jobs and stored reports retain their legacy interpretation.
@@ -90,7 +93,7 @@ conflicting or multiple-finding assessments also require escalation even if the 
 | Track | Task | Current observation |
 | --- | --- | --- |
 | A · raw-v1 | Infer a root cause from raw synthetic evidence, without rule findings | Historical live 18/48; all 30 failures remain public |
-| B · controlled-v2 | Explain supplied deterministic findings using checked claims and safe recommendations | Offline harness only; live classification/support/latency/cost quality NOT MEASURED |
+| B · controlled-v2 | Explain supplied deterministic findings using checked claims and safe recommendations | Live development pilot 12/12 accepted; 72-case live holdout NOT RUN |
 
 Track B uses `controlled-synthetic-v2.0`: **120** seeded cases, **48 development / 72 holdout**,
 with fresh IDs and varied VND/USD amounts, fee policies, refunds and signed adjustments. Families:
@@ -133,7 +136,7 @@ The unsupported-claim rate covers typed claim values and source relationships. C
 hypothesis and action failures are separate flags. Structured contradictions mean a differing
 classification/finding set or typed fact value, not a complete semantic grading of arbitrary prose.
 
-**NOT MEASURED:** live v2 model quality, independent source authenticity, calibrated confidence,
+**NOT MEASURED:** live v2 holdout/generalization quality, independent source authenticity, calibrated confidence,
 broad unrestricted-prose factuality, bank-risk safety rates, or human productivity improvement.
 Existing business-case projections remain labeled assumptions; no productivity uplift is claimed here.
 
@@ -146,30 +149,28 @@ docker compose run --rm app python -m reconflow.cli eval --track controlled-v2
 ```
 
 Baseline `make eval` remains raw-v1 offline contract checking. Explicit paid v2 evaluation requires
-a separate authorization and `--live --track controlled-v2`; none was run for this milestone.
-Recommended next step: a small authorized development-set pilot and independent expert review of
-rubric adequacy, followed by a frozen live holdout only after the contract is fit for purpose.
+a separate authorization and `--live --track controlled-v2`. The later authorized development
+pilot is measured in the linked report; the 72-case live holdout remains unrun.
+Recommended next step: independent expert review of the measured pilot and rubric adequacy,
+followed by a separately authorized frozen live holdout only after the contract is fit for purpose.
 A useful no-key demonstration is to inject a contradictory mocked claim, show its retained output,
 then show supervisor approval blocked and escalation recorded.
 
-## Live evaluation preparation · awaiting operator authorization
+## Live evaluation protocol and current status
 
-**No paid v2 evaluation has started.** The audited runner now supports an explicitly selected
-48-case development split and unchanged frozen 72-case holdout. A proposed 12-case development
-pilot takes one example from each family: six VND and six USD payouts, six with adversarial
-notes and six without. Labels and
-reference rubrics remain outside adapter inputs/tools; supplied deterministic findings are
-intentional in this benchmark. Dataset and prompt/schema hashes above remain frozen and are
-checked before running. Results record the selected IDs/hash and split.
+The operator authorized and the VPS completed the [12-case live development pilot](controlled-v2-pilot-2026-11-08.md).
+All 12 were accepted with 72/72 supported typed claims, correct 2/2 required abstentions and
+4/4 required escalations. Actual usage: 24 requests, 44,798 input/4,722 output tokens; estimated
+USD 0.05484750. No failure was observed. These are scoped development observations.
 
-Before each paid request, an explicit operator `--max-cost-usd` bounds conservative configured-rate
-reservations. This is an application estimate, not a provider billing guarantee. Unknown usage
-stops further cases. Original malformed text, model messages, finish reasons, model IDs and usage
-are retained alongside parsed reports, validation flags and separate provider/output/tool failure
-categories. Invalid outputs never receive a deterministic replacement counted as AI success.
+Labels/reference rubrics stay outside adapter inputs/tools; supplied deterministic findings are
+intentional. Dataset and prompt/schema hashes are frozen and checked before running. Results
+record selected IDs/hash and split. Explicit `--max-cost-usd` reserves conservatively before each
+request, stops before exceeding the application estimate and stops further cases on unknown
+usage. This is not a provider billing limit. Original malformed text/messages/finish reasons and
+validation failures would be retained, never repaired into AI success.
 
-**PROPOSED, NOT RUN:** 12 development cases using `gpt-5.4-mini-2026-03-17`, USD 2 estimated-cost
-reservation cap, no retries and at most 60 requests. Pilot review and separate authorization are
-required before a single frozen 72-case holdout run. The runner blocks partial live holdouts and
-repeat runs of the same frozen dataset. No live quality, cost, token or latency measurement is
-inferred from this preparation. Historical raw-v1 and the earlier offline summary are unchanged.
+The 72-case live holdout is still **NOT RUN** and requires separate authorization after pilot
+review. The runner blocks partial live holdouts and repeat runs of the same frozen dataset.
+The historical raw-v1 and earlier offline summary remain unchanged. The [new results recording](../product/recorded-demo.md#controlled-v2-results-walkthrough)
+reviews persisted production evidence without another provider call.

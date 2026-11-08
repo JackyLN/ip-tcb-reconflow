@@ -148,12 +148,12 @@ def test_public_video_player_and_range_download(client):
     assert '<video controls playsinline preload="metadata"' in response.text
     assert 'type="video/mp4"' in response.text
     assert "0.00339525" in response.text and "NOT MEASURED" in response.text
-    response = client.get(
-        "/docs-assets/demo/reconflow-live-demo.mp4", headers={"Range": "bytes=0-31"}
-    )
-    assert response.status_code == 206
-    assert response.headers["content-type"] == "video/mp4"
-    assert len(response.content) == 32
+    assert "0.05484750" in response.text and "controlled-v2-results-walkthrough" in response.text
+    for filename in ["reconflow-live-demo.mp4", "reconflow-controlled-v2-demo.mp4"]:
+        response = client.get(f"/docs-assets/demo/{filename}", headers={"Range": "bytes=0-31"})
+        assert response.status_code == 206
+        assert response.headers["content-type"] == "video/mp4"
+        assert len(response.content) == 32
 
 
 @pytest.mark.parametrize("source", ["https://example.com/video.mp4", "/login", "assets/a.svg"])

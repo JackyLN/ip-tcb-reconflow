@@ -249,3 +249,29 @@ uncommitted/unpushed; production remains on its previous source and no model cal
 After local review, the user explicitly authorized committing and pushing the navigation polish
 to main. The earlier local-only approval boundary is satisfied. This instruction does not request
 a production deployment or authorize paid AI evaluation.
+
+## Authorized production pilot and updated video · 2026-11-08
+
+Actual user instruction: go ahead on production, store outcomes back in docs and add a new
+section on the existing recorded-demo page. Interpreted as authorization for the proposed
+12-case/USD 2 development pilot and production results recording/publication; no 72-case holdout.
+Ran the existing frozen v2 command once: all 12 accepted with 72/72 typed claims supported,
+2/2 abstentions and 4/4 escalations. No observed failure to fabricate or repair. Saved raw JSON,
+progress and scoped request snapshot locally; imported as #5. Independently recounted 24 requests,
+44798/4722 tokens, Decimal USD 0.05484750 and latency ranks 2869/6299 ms. All reported models
+matched the snapshot; four tools per case; all final responses stopped normally. Historical
+Evaluation #2 canonical JSON and financial table counts matched pre-run. Reviewed each report,
+including missing gross, stale-rule conflict and simultaneous discrepancies; LATE_CREDIT for an
+early credit remains a vocabulary limitation, not silently relabeled.
+
+Recording approach: a read-only browser walkthrough of persisted results on production after
+the CLI pilot completed. No additional model job or human decision is queued during filming;
+login secrets are submitted outside the recorded DOM, only captions are injected. The original
+87-second workflow video remains intact. No expert-human grading/productivity claim is invented.
+
+Recording correction: the first read-only capture stopped after the historical benchmark because
+an HTMX body replacement removed the injected caption. No paid inference or decision was repeated.
+Restored the caption recreation behavior already used in the older recorder and reran a fresh
+continuous read-only capture; the incomplete first capture remains private as diagnostic evidence.
+Independent integer-only fee/net recount also passed for every complete pilot fixture; missing
+gross was skipped as unknown rather than filled with a value.
