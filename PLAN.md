@@ -436,3 +436,13 @@ quality, expert source/semantic grading and productivity remain NOT MEASURED. So
 passed 72/72 contracts/reference outcomes, zero calls; synchronized locally as #4. Production
 read-only desktop/mobile dashboard, historical live export and public docs checks passed.
 Historical Evaluation #2 JSON hash and five financial table counts are unchanged.
+
+Final verification: runtime/public documentation source
+`6f4b940bb6cc71f7bee6deb43fb7024bc51e498b` deployed healthy.
+CI [42447744341](https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42447744341)
+passed Ruff, 83 tests, 26-page link validation, fresh Docker migration/seed/smoke,
+raw/offline-v2 harnesses and PostgreSQL concurrent-decision/audit checks.
+Final production read-only v2/raw dashboard and anonymous source-pinned summary/Mermaid/mobile
+checks passed; historical public result/log download hashes are unchanged. Local snapshot import
+was repeated and returned the same Evaluation #4. Disposable no-key QA volumes were removed;
+production/local application volumes were retained. No live v2 inference was performed.

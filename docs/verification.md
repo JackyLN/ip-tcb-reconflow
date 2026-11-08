@@ -296,3 +296,13 @@ Canonical historical Evaluation #2 SHA256 stayed
 `db0120ef3595138742377901ce30ba6e583f11c2ea66bf7ac1eaccd424c5813d`;
 financial counts stayed 1100 payments, 55 payouts, 54 credits, 55 matches, 2 imports.
 These are preservation checks, not production security assurance or live v2 model measurements.
+
+Final verification: runtime/public documentation source
+`6f4b940bb6cc71f7bee6deb43fb7024bc51e498b` deployed healthy.
+CI [42447744341](https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42447744341)
+passed Ruff, 83 tests, 26-page link validation, fresh Docker migration/seed/smoke,
+raw/offline-v2 harnesses and PostgreSQL concurrent-decision/audit checks.
+Final production read-only v2/raw dashboard and anonymous source-pinned summary/Mermaid/mobile
+checks passed; historical public result/log download hashes are unchanged. Local snapshot import
+was repeated and returned the same Evaluation #4. Disposable no-key QA volumes were removed;
+production/local application volumes were retained. No live v2 inference was performed.
