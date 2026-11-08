@@ -252,3 +252,13 @@ It is a workflow demonstration, not a live holdout evaluation. Do not run this a
 The [public demo video and README](https://tcb.jackylenghia.com/docs/product/recorded-demo/)
 include playback/download, chapters, observed usage and interpretation limits. The reviewed MP4
 is versioned under public-docs/assets/demo; viewing it triggers no model call.
+
+
+## Graded live holdout evaluation
+
+The explicitly authorized `python -m reconflow.cli eval --live --limit 48` runs the frozen
+synthetic holdout sequentially. It can incur up to 240 bounded HTTP requests (five per case);
+no retries or tuning against observed holdout failures. Baseline `make eval` stays offline.
+Each completed case is checkpointed with scoped usage, validation outcome, reference label and
+tool trace. `/ai/evaluation` shows grading and JSON downloads to authenticated reviewers;
+public methods/results are in `/docs/ai/evaluation/`. See docs/evaluation.md for limitations.

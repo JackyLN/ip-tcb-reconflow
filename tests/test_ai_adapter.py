@@ -140,3 +140,23 @@ def test_adapter_stops_after_four_tools(fake_provider):
     with SessionLocal.begin() as db, pytest.raises(ValueError, match="Tool policy"):
         ai.live_report(db, case["id"], case["tools"], evaluation=True)
     assert len(calls) == 5
+
+
+def test_adapter_accounts_for_transport_error_without_logging_exception(fake_provider):
+    def respond(request):
+        raise httpx.ReadTimeout("sensitive diagnostic")
+
+    fake_provider(respond)
+    case = dataset()[0]
+    from sqlalchemy import select
+
+    from reconflow.models import Invocation
+
+    with SessionLocal.begin() as db:
+        with pytest.raises(httpx.ReadTimeout):
+            ai.live_report(db, case["id"], case["tools"], evaluation=True)
+        db.flush()
+        invocation = db.scalar(select(Invocation))
+        assert invocation.status == "TRANSPORT_ERROR"
+        assert invocation.input_tokens == 0 and invocation.output_tokens == 0
+        assert invocation.case_id is None

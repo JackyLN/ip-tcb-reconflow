@@ -135,3 +135,11 @@ and mobile screenshots reviewed. Publication reuses the existing MP4; no new inf
 Public video deployment/browser checks passed, including seeking, mobile fit and byte-identical
 MP4 verification over HTTPS. Public page: /docs/product/recorded-demo/. No new model calls.
 Hosted CI 42425952741 passed lint/51 tests, 23-page validation and fresh Docker offline workflow/eval/DB checks.
+
+Graded holdout follow-up (2026-11-08): user explicitly requested the outstanding 48-case real
+provider evaluation and reviewer-visible failure explanations, then authorized production work
+and local synchronization. Inspected PLAN section 6/B2 and the existing raw-JSON dashboard.
+Implemented frozen dataset/prompt metadata, per-case checkpoints, exact-label/abstention grading,
+scoped usage IDs and a readable dashboard/export. Transport/invalid responses now retain bounded
+usage diagnostics. Expected labels are never added to model tool inputs. No prompt or fixture
+change is made to optimize this holdout. Paid execution remains pending checks/deployment.

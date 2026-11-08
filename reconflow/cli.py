@@ -65,8 +65,8 @@ def main() -> None:
     elif args.command == "eval":
         from reconflow.evaluation import evaluate
 
-        with SessionLocal.begin() as db:
-            print(json.dumps(evaluate(db, args.live, args.limit), indent=2))
+        with SessionLocal() as db:
+            print(json.dumps(evaluate(db, args.live, args.limit, checkpoint=True), indent=2))
     elif args.command == "reset":
         if not (
             settings().demo_mode

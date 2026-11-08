@@ -369,3 +369,17 @@ publication/API/browser checks and deployment preserving environment. Existing r
 - [x] Deploy and verify anonymous HTTPS playback/download.
 
 Hosted CI 42425952741 passed the public-video source, including clean Docker offline workflow/DB checks.
+
+
+## Graded 48-case live holdout phase (2026-11-08)
+
+User explicitly requested and authorized a real graded 48-case provider evaluation, dashboard
+results and failure explanations; this implements outstanding B2/section 6 acceptance. Freeze
+synthetic-v1 fixtures and investigator-v1 prompt before calling the provider. Intended files:
+evaluation runner, adapter evaluation capture, explicit CLI checkpointing, dashboard partial,
+mocked grading/accounting/API tests, README/evaluation/failure-analysis/public docs and AI log.
+No new dependency or mandatory paid baseline test. Persist per-case outputs, traces, invocation
+IDs, actual usage and configured-rate estimates, completion status and dataset/prompt hashes.
+Acceptance: no-key regression passes; one bounded sequential 48-case live run; dashboard verified;
+all observed failures explained without hiding errors or substituting offline output. Exact-label
+grading is separate from independent semantic/hallucination grading and bank-domain generalization.

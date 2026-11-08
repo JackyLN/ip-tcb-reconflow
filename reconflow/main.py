@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Form, Request, UploadFile
-from fastapi.responses import HTMLResponse, RedirectResponse, Response
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import select, text
@@ -653,6 +653,19 @@ def evaluation(request: Request, db: DB) -> Response:
             ]
             for i in db.scalars(select(Invocation).order_by(Invocation.id.desc()).limit(100))
         ],
+    )
+
+
+@app.get("/ai/evaluation/{evaluation_id}/export")
+def export_evaluation(request: Request, db: DB, evaluation_id: int) -> Response:
+    """Authenticated synthetic evaluation evidence; never export runtime configuration/secrets."""
+    current_user(request, db)
+    evaluation = db.get(Evaluation, evaluation_id)
+    if not evaluation:
+        raise HTTPException(404, "Evaluation not found")
+    return JSONResponse(
+        evaluation.results,
+        headers={"Content-Disposition": f'attachment; filename="evaluation-{evaluation_id}.json"'},
     )
 
 

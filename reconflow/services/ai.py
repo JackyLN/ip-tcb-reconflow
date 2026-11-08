@@ -135,7 +135,7 @@ uncalibrated. Always require human review. Return a JSON object conforming to th
 
 
 def live_report(
-    db: Session, case_id: int, tools: dict, evaluation: bool = False
+    db: Session, case_id: int, tools: dict, evaluation: bool = False, capture: dict | None = None
 ) -> tuple[dict, list]:
     """At most four tool calls, five HTTP calls, 6k completion tokens and 45s wall budget."""
     cfg = settings()
@@ -158,60 +158,69 @@ def live_report(
         for name in tools
     ]
     trace, allowed, calls = [], set(), 0
+    if evaluation and capture is not None:
+        capture["trace"] = trace
     with httpx.Client(timeout=10, follow_redirects=False, trust_env=False) as client:
         for _turn in range(5):
             if perf_counter() - started > 40:
                 raise ValueError("Investigation time budget exceeded")
             call_start = perf_counter()
-            response = client.post(
-                cfg.llm_base_url.rstrip("/") + "/chat/completions",
-                headers={"Authorization": f"Bearer {cfg.llm_api_key}"},
-                json={
-                    "model": cfg.llm_model,
-                    "messages": messages,
-                    "tools": specs,
-                    "tool_choice": "auto" if calls < 4 else "none",
-                    "max_completion_tokens": 1200,
-                    **(
-                        {"reasoning_effort": "none"}
-                        if cfg.llm_model.startswith("gpt-5.4-mini")
-                        else {}
-                    ),
-                    "response_format": {"type": "json_object"},
-                },
+            invocation = Invocation(
+                case_id=None if evaluation else case_id,
+                model=cfg.llm_model,
+                status="REQUEST_STARTED",
+                latency_ms=0,
             )
-            elapsed = int((perf_counter() - call_start) * 1000)
-            if response.status_code != 200:
-                db.add(
-                    Invocation(
-                        case_id=None if evaluation else case_id,
-                        model=cfg.llm_model,
-                        status="HTTP_ERROR",
-                        latency_ms=elapsed,
-                    )
+            db.add(invocation)
+            try:
+                response = client.post(
+                    cfg.llm_base_url.rstrip("/") + "/chat/completions",
+                    headers={"Authorization": f"Bearer {cfg.llm_api_key}"},
+                    json={
+                        "model": cfg.llm_model,
+                        "messages": messages,
+                        "tools": specs,
+                        "tool_choice": "auto" if calls < 4 else "none",
+                        "max_completion_tokens": 1200,
+                        **(
+                            {"reasoning_effort": "none"}
+                            if cfg.llm_model.startswith("gpt-5.4-mini")
+                            else {}
+                        ),
+                        "response_format": {"type": "json_object"},
+                    },
                 )
+            except httpx.HTTPError:
+                invocation.status = "TRANSPORT_ERROR"
+                invocation.latency_ms = int((perf_counter() - call_start) * 1000)
+                raise
+            invocation.latency_ms = int((perf_counter() - call_start) * 1000)
+            if response.status_code != 200:
+                invocation.status = "HTTP_ERROR"
+                if evaluation and capture is not None:
+                    capture["http_status"] = response.status_code
                 raise ValueError("Provider unavailable (response body redacted)")
+            invocation.status = "RESPONSE_INVALID"
             data = response.json()
-            usage = data.get("usage", {})
+            usage = data.get("usage") or {}
             inp, out = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
             cost = (
                 Decimal(inp) * Decimal(cfg.llm_input_usd_per_million)
                 + Decimal(out) * Decimal(cfg.llm_output_usd_per_million)
             ) / Decimal(1_000_000)
-            db.add(
-                Invocation(
-                    case_id=None if evaluation else case_id,
-                    model=cfg.llm_model,
-                    status="RECEIVED_UNVALIDATED",
-                    latency_ms=elapsed,
-                    input_tokens=inp,
-                    output_tokens=out,
-                    cost_usd=str(cost),
-                )
+            invocation.status = (
+                "RECEIVED_UNVALIDATED"
+                if "prompt_tokens" in usage and "completion_tokens" in usage
+                else "USAGE_UNAVAILABLE"
             )
+            invocation.input_tokens = inp
+            invocation.output_tokens = out
+            invocation.cost_usd = str(cost)
             message = data["choices"][0]["message"]
             if not message.get("tool_calls"):
                 payload = json.loads(message["content"])
+                if evaluation and capture is not None:
+                    capture["raw_report"] = payload
                 return validate_report(payload, case_id, allowed).model_dump(), trace
             messages.append(message)
             for call in message["tool_calls"]:

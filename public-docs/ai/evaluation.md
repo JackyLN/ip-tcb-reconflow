@@ -21,7 +21,7 @@ Evaluation fixtures are deliberately separate and omit those rule findings.
 outputs and scores the deterministic fixture baseline. It never calls a provider and never reports
 a model classification score. This does not measure live accuracy or prompt-injection resistance.
 
-Explicit paid live command: `docker compose run --rm app python -m reconflow.cli eval --live --limit 6`.
+Explicit paid full holdout command: `docker compose run --rm app python -m reconflow.cli eval --live --limit 48`.
 Set LLM_API_KEY, LLM_MODEL, LLM_BASE_URL and operator-verified USD input/output prices per million.
 The OpenAI-compatible adapter uses /chat/completions, four allowlisted tools, <=5 HTTP calls,
 <=1200 completion tokens each, 10s HTTP timeout and a time check before each request. HTTP phase
@@ -36,7 +36,7 @@ NOT MEASURED: calibrated confidence, semantic hallucination rate, high-risk esca
 blinded abstention quality, real-bank accuracy and controlled AI versus human workflow benefit.
 Review failed reports manually; citation membership alone cannot prove a statement is supported.
 
-Limits: provider response compatibility is unverified without credentials. A worker crash after
+Limits: compatibility was observed for the selected model in one demo; this does not establish quality. A worker crash after
 an external call can cause a repeated paid call; DB effects remain idempotent. Job retry max three
 bounds this risk, but external model calls are not exactly-once. No automatic model report can
 create a proposal or resolve a case. A live failure produces LIVE_FAILED_FALLBACK and human review.
@@ -55,3 +55,28 @@ records changed. The actual browser flow was recorded with explanatory captions.
 request sequence does not establish semantic accuracy, safety rates or general latency/cost.
 
 See the [video and full run README](../product/recorded-demo.md) for the recording and chapters.
+
+
+## Graded holdout method
+
+The explicit live runner freezes synthetic-v1 (72 total, 24 development/48 holdout, six holdout
+variants for each of eight labels) and the investigator-v1 prompt using SHA-256. Expected labels
+and grading reasons are not supplied to model tools. This is a small templated set sharing
+patterns with development, with no clean MATCHED examples or broad refund/mixed-error coverage.
+It is not an independent sample of real bank exceptions.
+
+Exact-label accuracy includes invalid reports and provider errors as incorrect. Also report
+42 determinable-label cases separately, macro F1, abstention precision/recall, confusion counts,
+schema/evidence acceptance and adversarial-note classification counts. Evidence membership is
+not semantic support. High-risk recall and unsupported-claim rate remain NOT MEASURED.
+Per-case latency includes all model/tool HTTP turns and validation; p50/p95 use nearest rank over
+all attempted cases. Provider token usage and configured-price estimates are scoped to the run,
+with unknown/unmetered requests visible rather than declared free. There are no automatic case
+retries. The admin kill switch is checked before each case.
+
+The CLI checkpoints each completed case, its report/trace/reference evidence and request IDs.
+An interrupted run stays RUNNING with the completed prefix; it is not a completed 48-case score.
+An in-flight provider call may be charged without a saved response if its process is killed.
+The signed-in evaluation dashboard provides scores, all failures and a JSON download.
+The current user-authorized production run is pending; results will be published with every
+failure explanation and the synthetic JSON export.
