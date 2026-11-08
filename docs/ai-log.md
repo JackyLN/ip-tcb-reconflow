@@ -218,3 +218,10 @@ Actual preparation verification: `make lint test docs-check` passed 92 tests, Ru
 replay, simulated investigation, independent approval, kill switch/retry and 14 screens; PostgreSQL
 competing decisions/audit protections passed. Historical four-file hashes matched. Pilot selection
 was staggered before any paid call to cover both payout currencies and six injected/six plain cases.
+
+Live-evaluation preparation acceptance: source d3a1dd909d1661bf00373f1d770811707fc59660
+deployed healthy; CI 42450227897 passed (92 tests, fresh Docker/offline and PostgreSQL checks).
+Read-only HTTPS dashboard/raw export and anonymous pending-approval protocol/Mermaid/mobile checks
+passed. Historical Evaluation #2 canonical JSON and five financial-table counts are unchanged.
+Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
+executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.

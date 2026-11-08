@@ -306,3 +306,10 @@ Final production read-only v2/raw dashboard and anonymous source-pinned summary/
 checks passed; historical public result/log download hashes are unchanged. Local snapshot import
 was repeated and returned the same Evaluation #4. Disposable no-key QA volumes were removed;
 production/local application volumes were retained. No live v2 inference was performed.
+
+Live-evaluation preparation acceptance: source d3a1dd909d1661bf00373f1d770811707fc59660
+deployed healthy; CI 42450227897 passed (92 tests, fresh Docker/offline and PostgreSQL checks).
+Read-only HTTPS dashboard/raw export and anonymous pending-approval protocol/Mermaid/mobile checks
+passed. Historical Evaluation #2 canonical JSON and five financial-table counts are unchanged.
+Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
+executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.

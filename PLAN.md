@@ -467,3 +467,10 @@ and holdout results remain pending operator authorization; existing measurements
 - [ ] Obtain approval for proposed 12-case development pilot, USD 2 estimated-cost reservation cap.
 - [ ] Execute/publish actual pilot, review every failure and request separate holdout authorization.
 - [ ] Run frozen 72-case live holdout once; publish/sync actual outcomes and limitations.
+
+Live-evaluation preparation acceptance: source d3a1dd909d1661bf00373f1d770811707fc59660
+deployed healthy; CI 42450227897 passed (92 tests, fresh Docker/offline and PostgreSQL checks).
+Read-only HTTPS dashboard/raw export and anonymous pending-approval protocol/Mermaid/mobile checks
+passed. Historical Evaluation #2 canonical JSON and five financial-table counts are unchanged.
+Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
+executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.
