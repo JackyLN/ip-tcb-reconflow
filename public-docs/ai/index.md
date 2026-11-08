@@ -24,9 +24,10 @@ band. Human review is enforced independently of a model's suggested confidence.
 ## Selected model and measured limits
 
 [ADR 004](../engineering/decisions/004-demo-llm-selection.md) records the accepted GPT-5.4 mini
-snapshot, dated token-price assumptions and pending request-adapter work. Model selection is not
-a quality measurement. This handbook does not claim that live evaluation has passed.
+snapshot and dated token-price assumptions. The adapter is implemented, and a real 48-case
+holdout scored **18/48 (37.5%)**. This does not pass as a reliable authoritative classifier.
 
 Read the [evaluation contract](evaluation.md) for the synthetic holdout split, actual offline
-results and metrics that still require live inference or human grading. Confidence remains
+results, the [measured holdout and failure report](holdout-2026-11-08.md), and remaining semantic
+grading gaps. Confidence remains
 uncalibrated; there is no automatic financial approval in any mode.

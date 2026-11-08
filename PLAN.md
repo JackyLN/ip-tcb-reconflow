@@ -18,7 +18,7 @@ not a claim that every phase gate or challenge requirement is met.
 - [x] AI: four read-only tools, schema/citation membership checks, quotas, advisory-only reports,
   explicit simulated no-key mode, configurable HTTP adapter and human fallback, kill switch.
 - [x] Evaluation runner: 72 labeled fixtures (24 development/48 holdout), offline contract checks,
-  optional explicit live mode, invocation accounting; no live model results claimed.
+  explicit live mode and scoped accounting; 48-case measured run: 18/48 (37.5%).
 - [x] UI: all 14 navigation screens, import/run/payout/case detail, human review actions,
   measured snapshot KPIs, editable assumption-based USD impact, architecture/rollout viewer.
 - [x] Local unit/API verification: `make lint test` passed, 28 tests at hardening checkpoint.
@@ -26,7 +26,7 @@ not a claim that every phase gate or challenge requirement is met.
 - [x] Docker HTTP walkthrough, PostgreSQL competing claims/audit guard and isolated benchmark.
 - [x] Chromium desktop/mobile rendering, chart bounds, no page/CSP errors and 14 screens verified.
 - [x] One recorded provider-backed investigation: case #1 / investigation #2, LIVE; separate supervisor escalation.
-- [ ] Paid holdout evaluation (not run; distinct from one live demo).
+- [x] Real paid 48-case holdout: 18/48 correct, 47/48 schema/citation valid; all 30 failures published.
 - [ ] Five stakeholder interviews across three roles (not conducted; A1 not met).
 - [x] External VPS/domain/TLS fresh install and live demo verified at https://tcb.jackylenghia.com.
 - [x] Actual browser walkthrough video recorded (87 seconds, synthetic flow; no narration).
@@ -224,7 +224,8 @@ Do not claim bank-specific facts, real financial results, model evaluation outco
   version pinning rationale and unchanged deterministic-finance/advisory-only policy.
 - [x] Implement/test `max_completion_tokens` request parameter and explicit `reasoning_effort: none`.
 - [x] Verify account availability/live compatibility and observe single-demo latency/usage/cost.
-- [ ] Measure graded semantic quality and holdout performance.
+- [x] Measure exact-label holdout performance, abstention, latency/cost and explain failures.
+- [ ] Independent blinded semantic/unsupported-claim and bank-risk grading.
 
 The initial selection phase edited documentation only: docs/adr/004-demo-llm-selection.md, docs/evaluation.md,
 README.md, PLAN.md and docs/ai-log.md. Acceptance: consistent target/rates, official source links,
@@ -383,3 +384,18 @@ IDs, actual usage and configured-rate estimates, completion status and dataset/p
 Acceptance: no-key regression passes; one bounded sequential 48-case live run; dashboard verified;
 all observed failures explained without hiding errors or substituting offline output. Exact-label
 grading is separate from independent semantic/hallucination grading and bank-domain generalization.
+
+
+Holdout outcome: production evaluation #2 on source cc3c2e1c1fafbefa3fda3218201d4d1e65ff86a0
+completed all 48 cases without retries. Correct 18/48, valid 47/48, 29 accepted wrong labels +
+one citation rejection, no abstentions; deterministic fixture baseline 48/48. p50/p95 3,369/4,582
+ms; 96 requests, 82,342 input/20,290 output tokens, estimated USD 0.15306150. Full snapshot and
+progress synchronized locally; imported locally with remapped request IDs and no finance writes.
+Public all-failures report/JSON/log prepared; exact-label grading does not fulfill independent
+semantic/hallucination or high-risk-recall targets. No prompt/model change or extra paid run.
+
+- [x] Freeze fixture/instruction hashes and run the authorized 48-case batch once on VPS.
+- [x] Sync original results/progress/request snapshot locally and import without inference.
+- [x] Independent reference/count/cost checks; 59 regression tests, 24-page link checks.
+- [x] Prepare public full results, 30 failure explanations and synthetic machine-readable evidence.
+- [ ] Verify final deployed authenticated dashboard/mobile and anonymous reviewer report/downloads.

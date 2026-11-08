@@ -79,3 +79,6 @@ downloading this existing recording is read-only and makes no model call. See th
 
 The reproducible recording script is `scripts/record-demo.mjs` with explicit `RUN_LIVE_DEMO=1`
 opt-in; private credentials are submitted outside the recorded DOM. They are never included here.
+
+The later [48-case graded holdout](../ai/holdout-2026-11-08.md) scored 37.5%; this single
+successful workflow recording is not evidence of general diagnostic accuracy.

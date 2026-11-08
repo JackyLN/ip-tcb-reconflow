@@ -38,3 +38,6 @@ Authors can add another `.md` file under `public-docs/` and it will appear autom
 See [writing documentation](authoring/index.md) for tables, code, footnotes and Mermaid diagrams.
 
 Watch the [recorded live demo](product/recorded-demo.md) with its chapters and measured results.
+
+Read the [48-case live evaluation and all failures](ai/holdout-2026-11-08.md):
+18/48 correct (37.5%), with synthetic evidence and measured usage available for review.

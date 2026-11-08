@@ -44,7 +44,7 @@ regional processing, future pricing changes and provider billing may differ from
 - [x] Test the updated request contract with mocked HTTP responses, retaining all tool/evidence,
   quota, kill-switch and human-review gates.
 - [x] Verify model availability and real request compatibility with the configured API project.
-- [ ] Run a small explicitly authorized live holdout evaluation, inspect failures/tool traces and
+- [x] Run the explicitly authorized 48-case live holdout evaluation, inspect failures/tool traces and
   record actual usage, estimated cost and latency before relying on it during an interview.
 
 `reasoning_effort=none` is now a request parameter for GPT-5.4 mini model IDs, not an environment
@@ -60,3 +60,12 @@ succeeded on 2026-11-08 (case #1, investigation #2, LIVE); it is separate from a
   `max_completion_tokens` and deprecation of `max_tokens`.
 - [Evaluation contract](../../ai/evaluation.md): synthetic holdout, explicit live command, reporting limits.
 - [ADR 002](002-deterministic-financial-truth.md): deterministic finance and advisory-only AI boundary.
+
+
+## Measured holdout follow-up
+
+The 48-case run completed with 18/48 accepted exact-label answers correct (37.5%), 47/48
+schema/citation-valid and estimated cost USD 0.15306150. This configuration is not a reliable
+authoritative raw-evidence classifier. Retain deterministic finance and human review; model/prompt
+improvements remain proposed and must be developed without retuning this observed holdout.
+See the [complete failure report](../../ai/holdout-2026-11-08.md) for evidence, latency and scope limits.

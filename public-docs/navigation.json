@@ -19,6 +19,7 @@
     "engineering/decisions/004-demo-llm-selection.md",
     "ai/index.md",
     "ai/evaluation.md",
+    "ai/holdout-2026-11-08.md",
     "rollout/index.md",
     "rollout/plan.md",
     "authoring/index.md"

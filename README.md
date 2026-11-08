@@ -107,7 +107,7 @@ HTTP timeouts and daily job caps (20/user, 100/global). Reports never create pro
 ```sh
 make eval                         # offline contract validation, never paid
 # Optional paid holdout inference, only when explicitly chosen:
-docker compose run --rm app python -m reconflow.cli eval --live --limit 6
+docker compose run --rm app python -m reconflow.cli eval --live --limit 48
 ```
 
 Export generator CSV/ground truth independently:
@@ -262,3 +262,26 @@ no retries or tuning against observed holdout failures. Baseline `make eval` sta
 Each completed case is checkpointed with scoped usage, validation outcome, reference label and
 tool trace. `/ai/evaluation` shows grading and JSON downloads to authenticated reviewers;
 public methods/results are in `/docs/ai/evaluation/`. See docs/evaluation.md for limitations.
+
+
+Evaluation snapshots can be synchronized to the local demo without calling a model or modifying
+finance records. Export the specific run using `python -m scripts.evaluation_snapshot export
+--id RUN_ID --origin https://tcb.jackylenghia.com`, then feed its JSON to
+`docker compose exec -T app python -m scripts.evaluation_snapshot import < snapshot.json`.
+Imports require DEMO_MODE, remap request IDs and deduplicate the exact snapshot. Keep the
+original export/progress log locally; only reviewed synthetic artifacts belong in public docs.
+
+
+### Observed 48-case production holdout · 8 November 2026
+
+[Public reviewer report](https://tcb.jackylenghia.com/docs/ai/holdout-2026-11-08/) ·
+[signed-in dashboard](https://tcb.jackylenghia.com/ai/evaluation#evaluation-2).
+GPT-5.4 mini: **18/48 correct (37.5%)**, macro F1 0.3401; schema/citation acceptance 47/48.
+There are 29 accepted wrong labels and one rejected citation prefix; no abstentions on six
+insufficient-evidence cases. p50/p95 3,369/4,582 ms; 96 requests, 82,342 input/20,290 output
+tokens, estimated USD 0.15306150. Failure themes: arithmetic/policy omissions, duplicate
+ambiguity, invented same-day timing and missed abstention. Deterministic fixture baseline 48/48.
+All 30 failures and synthetic reports/traces are public; no retries/tuning hid them. This is
+reference-label grading on templated fixtures, not semantic/bank safety validation.
+Production snapshot/progress were synchronized to artifacts/holdout-20261108 and imported into
+the local demo evaluation dashboard without model calls or finance-record changes.

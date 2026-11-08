@@ -143,3 +143,14 @@ Implemented frozen dataset/prompt metadata, per-case checkpoints, exact-label/ab
 scoped usage IDs and a readable dashboard/export. Transport/invalid responses now retain bounded
 usage diagnostics. Expected labels are never added to model tool inputs. No prompt or fixture
 change is made to optimize this holdout. Paid execution remains pending checks/deployment.
+
+Actual production holdout outcome: source cc3c2e1c1fafbefa3fda3218201d4d1e65ff86a0 ran all
+48 cases once, with no paid retry or post-observation prompt tuning. Score 18/48 (37.5%), valid
+47/48; 29 accepted wrong labels and one rejected evidence_id prefix. No provider failure or
+unknown usage. 96 requests, 82,342 input/20,290 output tokens; estimated USD 0.15306150.
+Failure review found unsupported same-day rules, missed fee/net arithmetic, duplicate-credit
+ambiguity and missing abstention. These are AI-assisted qualitative observations, not blinded
+semantic grading. Preserved all failures, synced snapshot/progress locally, independently
+checked fixture/count/Decimal-cost integrity and imported into local demo without inference.
+Local browser initially found mobile table overflow; constrained grid tracks/min-width, then
+read-only desktop/mobile/export checks passed with all 30 failures visible.

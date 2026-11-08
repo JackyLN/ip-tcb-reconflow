@@ -4,3 +4,4 @@
 /* Bright brand red maintains a visible keyboard focus ring on charcoal navigation. */
 .sidebar :focus-visible{outline-color:var(--brand-red)}
 .evaluation-run .metrics strong{font-size:28px;overflow-wrap:anywhere}.evaluation-run .metrics small{font-size:15px}.evaluation-run code{overflow-wrap:anywhere}.evaluation-failure{padding:12px;border-left:3px solid var(--brand-red);background:#fff8f8}.evaluation-run .overview-grid{grid-template-columns:1fr 1fr}.evaluation-run .table-scroll{max-width:100%}@media(max-width:1150px){.evaluation-run .overview-grid{grid-template-columns:1fr}}
+.evaluation-run .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evaluation-run .overview-grid>section{min-width:0}@media(max-width:1150px){.evaluation-run .overview-grid{grid-template-columns:minmax(0,1fr)}}

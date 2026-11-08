@@ -7,7 +7,8 @@
 Selection and the adapter request contract are **IMPLEMENTED**. Requests use
 `max_completion_tokens`; GPT-5.4 mini explicitly uses `reasoning_effort=none`. Mocked HTTP tests
 verify this contract without a paid key. A single authorized recorded live demonstration
-succeeded; graded holdout results remain **NOT MEASURED**.
+succeeded. The subsequent 48-case live holdout scored **18/48 (37.5%)**;
+semantic hallucination/safety rates remain **NOT MEASURED**.
 
 ## Existing evaluation workflow
 
@@ -76,5 +77,8 @@ The CLI checkpoints each completed case, its report/trace/reference evidence and
 An interrupted run stays RUNNING with the completed prefix; it is not a completed 48-case score.
 An in-flight provider call may be charged without a saved response if its process is killed.
 The signed-in evaluation dashboard provides scores, all failures and a JSON download.
-The current user-authorized production run is pending; results will be published with every
-failure explanation and the synthetic JSON export.
+The user-authorized production run completed: 18/48 correct, 47/48 schema/citation-valid,
+30 failures, p50/p95 3,369/4,582 ms, estimated USD 0.15306150.
+
+See the [full measured holdout report and all failure cases](holdout-2026-11-08.md),
+including the downloadable synthetic JSON and original progress log.

@@ -202,3 +202,39 @@ asset; HTTPS Range bytes=0-31 returned 206 with 32 bytes. Readiness 200. No infe
 Hosted CI for the deployed source passed: https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42425952741 .
 It includes lint/51 tests, 23-page validation, clean Docker migration/seed/full offline workflow/eval
 and PostgreSQL checks. Only the existing unrelated ubuntu-latest migration annotation was shown.
+
+
+## Real graded 48-case holdout · 8 November 2026
+
+User explicitly requested live grading, reviewer visibility and production-to-local log sync.
+Baseline tests use mocked HTTP/no key: initial 58 passed; snapshot import test added (59 passed),
+Ruff and publication checks passed. Initial source CI 42428835618 passed fresh Docker smoke,
+offline eval and PostgreSQL checks. Deployed cc3c2e1c1fafbefa3fda3218201d4d1e65ff86a0 with
+backup/migrate/preserve-environment/readiness; app/worker/db healthy. No schema migration needed.
+
+Preflight confirmed key presence only, selected model/rates and AI enabled. Started exactly one
+detached, host-locked `python -m reconflow.cli eval --live --limit 48` inside the production app.
+Evaluation #2 COMPLETED 2026-11-08T00:15:16Z–00:18:03Z (07:15–07:18 Vietnam), checkpointing
+each completed case. Source/dataset/instruction hashes and all reference evidence are retained.
+48 attempts; exact-label score 18/48 (37.5%), macro F1 0.3400621; accepted schema/citations 47/48.
+30 failures = 29 accepted wrong labels + one citation-format rejection; no abstention on six
+expected abstentions. Deterministic fixture baseline 48/48. p50/p95 3,369/4,582 ms (nearest rank).
+96 HTTP requests, 192 scoped tool outputs, 82,342 input/20,290 output tokens, configured-rate
+estimate USD 0.15306150, zero unmetered/transport failures. This is not a provider invoice.
+
+Synchronized exact CLI results, progress log and run+invocation snapshot under ignored
+artifacts/holdout-20261108 (directory 0700, files 0600). Independently checked all 48 fixture IDs,
+labels/reference evidence, dataset hash, score, invocation usage sums and Decimal rate arithmetic.
+Reviewed representative outputs for each failed category and the rejected raw prefix case;
+all 30 IDs/reference-based explanations and full synthetic evidence are in docs/holdout-2026-11-08.md
+and its public counterpart/assets. Analysis is AI-assisted, not blinded domain-expert grading.
+No fixture/prompt change or extra paid call was used to hide failures.
+
+Local `docker compose up --build -d --wait` healthy. `python -m scripts.evaluation_snapshot import`
+via docker exec imported evaluation #3 locally with remapped request IDs and origin/source metadata.
+No finance records or credentials are copied. The exact public snapshot remains unmodified.
+Read-only `EVAL_BASE_URL=http://localhost:8080 EVAL_CREDENTIALS=artifacts/demo-credentials.txt npm run eval:browser`
+initially detected mobile table overflow; minmax grid tracks/min-width fixed it, then dashboard,
+48-case authenticated export, 30 failures and mobile/page-error checks passed.
+Independent semantic hallucination rate, calibrated confidence, high-risk recall, clean/refund/mixed
+scenario coverage and real-bank generalization remain unmeasured/incomplete.

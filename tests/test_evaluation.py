@@ -140,3 +140,43 @@ def test_live_dashboard_shows_graded_scores_and_case_details(client, monkeypatch
     assert "100.0%" in response.text and "Per-class grading" in response.text
     assert "No classification or validation failures" in response.text
     assert result["dataset_sha256"] in response.text
+
+
+def test_snapshot_sync_is_idempotent_and_remaps_only_evaluation_usage(monkeypatch):
+    from sqlalchemy import func
+
+    from reconflow.models import Case
+    from scripts.evaluation_snapshot import export_snapshot, import_snapshot
+
+    configure_live(monkeypatch)
+
+    def provider(db, case_id, tools, **kwargs):
+        db.add(
+            Invocation(
+                model="mock-model",
+                status="RECEIVED_UNVALIDATED",
+                latency_ms=10,
+                input_tokens=100,
+                output_tokens=20,
+                cost_usd="0.001",
+            )
+        )
+        return simulated_report(case_id, "FEE_MISMATCH", [tools["get_case"]["evidence_id"]]), []
+
+    monkeypatch.setattr(evaluation, "live_report", provider)
+    with SessionLocal.begin() as db:
+        result = evaluation.evaluate(db, live=True, limit=1)
+        payload = export_snapshot(db, result["evaluation_id"], "production-demo")
+        case_count = db.scalar(select(func.count()).select_from(Case))
+        imported_id = import_snapshot(db, payload)
+        assert import_snapshot(db, payload) == imported_id
+        imported = db.get(Evaluation, imported_id).results
+        assert imported["sync_origin"] == "production-demo"
+        assert imported["source_evaluation_id"] == result["evaluation_id"]
+        assert (
+            imported["cases"][0]["invocation_ids"]
+            != payload["results"]["cases"][0]["invocation_ids"]
+        )
+        assert db.scalar(select(func.count()).select_from(Case)) == case_count
+        assert imported["usage"] == result["usage"]
+        assert "sync_origin" not in payload["results"]

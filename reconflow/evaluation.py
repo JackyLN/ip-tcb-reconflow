@@ -237,6 +237,7 @@ def evaluate(db: Session, live: bool = False, limit: int = 48, checkpoint: bool 
         "dataset_sha256": hashlib.sha256(json.dumps(fixtures, sort_keys=True).encode()).hexdigest(),
         "prompt_version": "investigator-v1",
         "prompt_sha256": hashlib.sha256(SYSTEM.encode()).hexdigest(),
+        "prompt_hash_scope": "SYSTEM instruction constant; schema pinned by source revision",
         "adapter_version": "chat-v2-mini-none",
         "source_revision": os.environ.get("RECONFLOW_EVAL_SOURCE_SHA", "UNRECORDED"),
         "model": cfg.llm_model if live else None,
