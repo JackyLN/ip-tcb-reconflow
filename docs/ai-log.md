@@ -198,3 +198,23 @@ Final production read-only v2/raw dashboard and anonymous source-pinned summary/
 checks passed; historical public result/log download hashes are unchanged. Local snapshot import
 was repeated and returned the same Evaluation #4. Disposable no-key QA volumes were removed;
 production/local application volumes were retained. No live v2 inference was performed.
+
+## Live v2 evaluation preparation · 2026-11-08
+
+Actual user instruction: measure live controlled-v2 quality, audit label isolation, first obtain
+paid pilot approval, then seek separate holdout authorization. No paid response has been requested.
+Inspection found correct v2 profile selection, but unconditional holdout selection, no operator
+cost reservation and grouped failure handling that lost non-JSON model text. Added development
+selection, frozen-hash checks, per-request conservative reservation cap, retained raw text/received
+messages and explicit error categories, plus a no-repeat full-holdout guard. Prompt, dataset,
+financial computation and historical artifacts were not changed. Mock HTTP tests examine actual
+provider request bodies for grading containers and preserve malformed/unsafe output and usage.
+Reflection: CLI --live alone is not the user's authorization; obtain explicit approval for the
+proposed 12-case/USD 2 pilot, report failures honestly, then stop for holdout review/authorization.
+
+Actual preparation verification: `make lint test docs-check` passed 92 tests, Ruff and 26 pages
+(one pre-existing Starlette/httpx deprecation warning). Isolated no-key Docker CLI checks passed
+72 holdout/12 development contracts with zero requests/model scores. HTTP smoke passed import,
+replay, simulated investigation, independent approval, kill switch/retry and 14 screens; PostgreSQL
+competing decisions/audit protections passed. Historical four-file hashes matched. Pilot selection
+was staggered before any paid call to cover both payout currencies and six injected/six plain cases.

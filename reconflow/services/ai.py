@@ -1,6 +1,7 @@
 """Bounded read-only investigator. Imported strings are data, never instructions."""
 
 import json
+from collections.abc import Callable
 from decimal import Decimal
 from time import perf_counter
 from typing import Literal
@@ -143,6 +144,7 @@ def live_report(
     evaluation: bool = False,
     capture: dict | None = None,
     profile: str = "raw-v1",
+    request_guard: Callable[[dict], None] | None = None,
 ) -> tuple[dict, list]:
     """At most four tool calls, five HTTP calls, 6k completion tokens and 45s wall budget."""
     cfg = settings()
@@ -174,7 +176,22 @@ def live_report(
     with httpx.Client(timeout=10, follow_redirects=False, trust_env=False) as client:
         for _turn in range(5):
             if perf_counter() - started > 40:
+                if capture is not None:
+                    capture["failure_category"] = "TOOL_OR_TIME_BUDGET"
                 raise ValueError("Investigation time budget exceeded")
+            body = {
+                "model": cfg.llm_model,
+                "messages": messages,
+                "tools": specs,
+                "tool_choice": "auto" if calls < 4 else "none",
+                "max_completion_tokens": 1200,
+                **(
+                    {"reasoning_effort": "none"} if cfg.llm_model.startswith("gpt-5.4-mini") else {}
+                ),
+                "response_format": {"type": "json_object"},
+            }
+            if request_guard:
+                request_guard(body)  # Before creating a request record or sending HTTP.
             call_start = perf_counter()
             invocation = Invocation(
                 case_id=None if evaluation else case_id,
@@ -187,31 +204,24 @@ def live_report(
                 response = client.post(
                     cfg.llm_base_url.rstrip("/") + "/chat/completions",
                     headers={"Authorization": f"Bearer {cfg.llm_api_key}"},
-                    json={
-                        "model": cfg.llm_model,
-                        "messages": messages,
-                        "tools": specs,
-                        "tool_choice": "auto" if calls < 4 else "none",
-                        "max_completion_tokens": 1200,
-                        **(
-                            {"reasoning_effort": "none"}
-                            if cfg.llm_model.startswith("gpt-5.4-mini")
-                            else {}
-                        ),
-                        "response_format": {"type": "json_object"},
-                    },
+                    json=body,
                 )
             except httpx.HTTPError:
                 invocation.status = "TRANSPORT_ERROR"
                 invocation.latency_ms = int((perf_counter() - call_start) * 1000)
+                if capture is not None:
+                    capture["failure_category"] = "PROVIDER_TRANSPORT_ERROR"
                 raise
             invocation.latency_ms = int((perf_counter() - call_start) * 1000)
             if response.status_code != 200:
                 invocation.status = "HTTP_ERROR"
                 if capture is not None:
                     capture["http_status"] = response.status_code
+                    capture["failure_category"] = "PROVIDER_HTTP_ERROR"
                 raise ValueError("Provider unavailable (response body redacted)")
             invocation.status = "RESPONSE_INVALID"
+            if capture is not None:
+                capture["failure_category"] = "INVALID_PROVIDER_RESPONSE"
             data = response.json()
             usage = data.get("usage") or {}
             inp, out = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
@@ -227,23 +237,48 @@ def live_report(
             invocation.input_tokens = inp
             invocation.output_tokens = out
             invocation.cost_usd = str(cost)
-            message = data["choices"][0]["message"]
+            choice = data["choices"][0]
+            message = choice["message"]
+            if capture is not None and evaluation:
+                capture.setdefault("responses", []).append(
+                    {
+                        "model": data.get("model"),
+                        "finish_reason": choice.get("finish_reason"),
+                        "message": message,
+                        "usage": usage,
+                    }
+                )
             if not message.get("tool_calls"):
+                if capture is not None:
+                    capture["raw_content"] = message.get("content")
+                    capture["failure_category"] = (
+                        "OUTPUT_TRUNCATED"
+                        if choice.get("finish_reason") == "length"
+                        else "PROVIDER_REFUSAL"
+                        if message.get("refusal")
+                        else "INVALID_OUTPUT_JSON"
+                    )
                 payload = json.loads(message["content"])
                 if capture is not None:
                     capture["raw_report"] = payload
+                if profile == controlled.VERSION and choice.get("finish_reason") == "length":
+                    raise ValueError("Provider output reached the completion limit")
                 if profile == controlled.VERSION:
                     return payload, trace  # Caller retains/validates original, including failures.
                 return validate_report(payload, case_id, allowed).model_dump(), trace
             messages.append(message)
             for call in message["tool_calls"]:
                 calls += 1
+                if capture is not None:
+                    capture["failure_category"] = "TOOL_POLICY_REJECTED"
                 name = call["function"]["name"]
                 if (
                     calls > 4
                     or name not in tools
                     or json.loads(call["function"]["arguments"]) != {}
                 ):
+                    if capture is not None:
+                        capture["failure_category"] = "TOOL_POLICY_REJECTED"
                     raise ValueError("Tool policy rejected call")
                 result = tools[name]
                 allowed.add(result["evidence_id"])
@@ -251,6 +286,8 @@ def live_report(
                 messages.append(
                     {"role": "tool", "tool_call_id": call["id"], "content": json.dumps(result)}
                 )
+    if capture is not None:
+        capture["failure_category"] = "TOOL_OR_TIME_BUDGET"
     raise ValueError("Investigation tool budget exhausted")
 
 

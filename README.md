@@ -298,3 +298,10 @@ the November 8 raw-v1 18/48 result remain intact. No finance records are written
 120-case fixture set (48 development/72 holdout) offline. Scripted checks are not model scores.
 See [v2 methods and status](https://tcb.jackylenghia.com/docs/ai/controlled-v2/) and
 [ADR 005](docs/adr/005-controlled-investigation-v2.md). No paid v2 bulk run was performed.
+
+Live controlled-v2 evaluation preparation supports `--split development --limit 12` for a
+family-balanced pilot. Paid v2 calls additionally require `--live --max-cost-usd <approved-budget>`;
+do not run without operator approval. Budget reservations are conservative configured-rate
+estimates, not provider-side billing limits. A full `--split holdout --limit 72` run needs separate
+approval after pilot review; repeated frozen live holdouts are blocked. No paid v2 run has started.
+See [the evaluation protocol](docs/evaluation.md#live-v2-preparation-audit--2026-11-08).

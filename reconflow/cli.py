@@ -53,6 +53,8 @@ def main() -> None:
     )
     evaluation.add_argument("--limit", type=int)
     evaluation.add_argument("--track", choices=["raw-v1", "controlled-v2"], default="raw-v1")
+    evaluation.add_argument("--split", choices=["development", "holdout"], default="holdout")
+    evaluation.add_argument("--max-cost-usd", help="Controlled-v2 estimated-cost reservation cap")
     reset = sub.add_parser("reset")
     reset.add_argument("--confirm-synthetic-reset", action="store_true")
     reset.add_argument("--confirm-destroy-all-demo-data", action="store_true")
@@ -67,13 +69,21 @@ def main() -> None:
         if args.track == "controlled-v2":
             from reconflow.evaluation_v2 import evaluate
 
-            limit = args.limit if args.limit is not None else 72
+            limit = (
+                args.limit
+                if args.limit is not None
+                else (48 if args.split == "development" else 72)
+            )
+            options = {"split": args.split, "max_cost_usd": args.max_cost_usd}
         else:
             from reconflow.evaluation import evaluate
 
             limit = args.limit if args.limit is not None else 48
+            if args.split != "holdout" or args.max_cost_usd is not None:
+                parser.error("Split/budget options apply only to controlled-v2")
+            options = {}
         with SessionLocal() as db:
-            print(json.dumps(evaluate(db, args.live, limit, checkpoint=True), indent=2))
+            print(json.dumps(evaluate(db, args.live, limit, checkpoint=True, **options), indent=2))
     elif args.command == "reset":
         if not (
             settings().demo_mode

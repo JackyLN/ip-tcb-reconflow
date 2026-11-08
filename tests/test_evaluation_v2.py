@@ -68,6 +68,8 @@ def test_mocked_v2_scores_original_failures_and_labels_stay_outside_tools(monkey
 
     monkeypatch.setattr(settings(), "llm_api_key", "test-placeholder")
     monkeypatch.setattr(settings(), "llm_model", "mock-model")
+    monkeypatch.setattr(settings(), "llm_input_usd_per_million", "0.75")
+    monkeypatch.setattr(settings(), "llm_output_usd_per_million", "4.50")
     count = []
 
     def provider(db, case_id, tools, **kwargs):
@@ -76,19 +78,20 @@ def test_mocked_v2_scores_original_failures_and_labels_stay_outside_tools(monkey
         a = tools["get_payment_and_payout"]["controlled_findings"]
         report = controlled.scripted_report(case_id, a)
         if count:
-            report["classification"] = "FEE_MISMATCH" if wrong_class else "MATCHED"
+            if wrong_class:
+                report["classification"] = "CURRENCY_MISMATCH"
             report["claims"][0]["value"] = "wrong-value"
         count.append(case_id)
         return report, [{"tool": k, "result": v} for k, v in tools.items()]
 
     monkeypatch.setattr(ai, "live_report", provider)
     with SessionLocal.begin() as db:
-        r = evaluation_v2.evaluate(db, live=True, limit=2)
+        r = evaluation_v2.evaluate(db, live=True, limit=2, split="development", max_cost_usd="2")
         assert r["model_correct"] == 1 and len(r["failures"]) == 1
         assert r["contradiction_rate"] == 0.5
         assert r["failure_categories"]["UNSUPPORTED_CLAIM"] == 1
         assert r["failures"][0]["raw_output"]["classification"] == (
-            "FEE_MISMATCH" if wrong_class else "MATCHED"
+            "CURRENCY_MISMATCH" if wrong_class else "FEE_MISMATCH"
         )
         assert r["unsupported_claim_rate"] > 0
 
@@ -115,3 +118,100 @@ def test_controlled_snapshot_can_sync_full_72_case_offline_track():
         assert len(payload["results"]["cases"]) == 72 and not payload["invocations"]
         imported = import_snapshot(db, payload)
         assert import_snapshot(db, payload) == imported
+
+
+def test_frozen_v2_hashes_and_development_pilot_cover_each_family():
+    cases = evaluation_v2.dataset()
+    assert (
+        hashlib.sha256(json.dumps(cases, sort_keys=True).encode()).hexdigest()
+        == evaluation_v2.DATASET_SHA256
+    )
+    assert controlled.contract_digest() == evaluation_v2.PROMPT_SHA256
+    pilot = evaluation_v2.select_cases(cases, "development", 12)
+    assert [c["family"] for c in pilot] == evaluation_v2.FAMILIES
+    assert all(c["split"] == "development" for c in pilot)
+    assert [c["id"] for c in pilot] == [
+        200000,
+        200101,
+        200202,
+        200303,
+        200400,
+        200501,
+        200602,
+        200703,
+        200800,
+        200901,
+        201002,
+        201103,
+    ]
+    assert sum("untrusted_note" in c["tools"]["get_case"] for c in pilot) == 6
+    assert {c["tools"]["get_payment_and_payout"]["currency"] for c in pilot} == {"VND", "USD"}
+    assert not {c["id"] for c in pilot} & {c["id"] for c in cases if c["split"] == "holdout"}
+    assert evaluation_v2.select_cases(cases, "holdout", 72) == [
+        c for c in cases if c["split"] == "holdout"
+    ]
+    with pytest.raises(ValueError):
+        evaluation_v2.select_cases(cases, "development", 49)
+
+
+def test_live_requires_budget_frozen_inputs_and_full_holdout(monkeypatch):
+    cfg = settings()
+    for key, value in [
+        ("llm_api_key", "fake"),
+        ("llm_model", "mock"),
+        ("llm_input_usd_per_million", "0.75"),
+        ("llm_output_usd_per_million", "4.50"),
+    ]:
+        monkeypatch.setattr(cfg, key, value)
+    with SessionLocal.begin() as db:
+        with pytest.raises(ValueError, match="explicit"):
+            evaluation_v2.evaluate(db, live=True)
+        with pytest.raises(ValueError, match="all 72"):
+            evaluation_v2.evaluate(db, live=True, limit=1, max_cost_usd="2")
+        original = evaluation_v2.dataset()
+        original[0]["expected"]["classification"] = "TUNED_LABEL"
+        monkeypatch.setattr(evaluation_v2, "dataset", lambda: original)
+        with pytest.raises(ValueError, match="Frozen"):
+            evaluation_v2.evaluate(db, live=True, max_cost_usd="2")
+
+
+def test_existing_holdout_record_prevents_second_run(monkeypatch):
+    from reconflow.models import Evaluation
+
+    cfg = settings()
+    monkeypatch.setattr(cfg, "llm_api_key", "fake")
+    monkeypatch.setattr(cfg, "llm_model", "mock")
+    monkeypatch.setattr(cfg, "llm_input_usd_per_million", "0.75")
+    monkeypatch.setattr(cfg, "llm_output_usd_per_million", "4.50")
+    with SessionLocal.begin() as db:
+        db.add(
+            Evaluation(
+                mode="V2_LIVE",
+                results={
+                    "split": "holdout",
+                    "dataset_sha256": evaluation_v2.DATASET_SHA256,
+                    "status": "RUNNING",
+                },
+            )
+        )
+        db.flush()
+        with pytest.raises(ValueError, match="already has a run"):
+            evaluation_v2.evaluate(db, live=True, max_cost_usd="2")
+
+
+def test_request_budget_reserves_before_sending_and_never_recycles():
+    from decimal import Decimal
+
+    budget = evaluation_v2.RequestBudget("0.02", "0.75", "4.50")
+    request = {"messages": [{"content": "hello"}], "max_completion_tokens": 1200}
+    budget(request)
+    first = budget.reserved
+    assert first > 0
+    budget(request)
+    assert budget.reserved == first * 2
+    with pytest.raises(evaluation_v2.BudgetExceeded):
+        budget(request)
+    assert budget.reserved <= Decimal("0.02")
+    for value in ["0", "-1", "NaN", "Infinity"]:
+        with pytest.raises(ValueError):
+            evaluation_v2.RequestBudget(value, "0.75", "4.50")

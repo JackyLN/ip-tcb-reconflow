@@ -207,3 +207,126 @@ def test_controlled_adapter_preserves_failed_raw_payload_and_versioned_prompt(fa
             report, case["id"], assessment, {t["result"]["evidence_id"] for t in trace}
         )
         assert "HUMAN_REVIEW_REQUIRED" in check["flags"]
+
+
+@pytest.mark.parametrize("failure", ["invalid_json", "truncated", "http", "unsafe"])
+def test_live_v2_failure_capture_and_accounting(fake_provider, monkeypatch, failure):
+    from reconflow import evaluation_v2
+    from reconflow.services import controlled
+
+    cfg = settings()
+    monkeypatch.setattr(cfg, "llm_input_usd_per_million", "0.75")
+    monkeypatch.setattr(cfg, "llm_output_usd_per_million", "4.50")
+    requests = []
+    original = "{bad JSON: ORIGINAL MODEL OUTPUT"
+
+    def respond(request):
+        body = json.loads(request.content)
+        requests.append(body)
+        system = body["messages"][0]["content"]
+        assert system == controlled.SYSTEM_V2 + json.dumps(
+            controlled.ControlledReport.model_json_schema()
+        )
+        assert {t["function"]["name"] for t in body["tools"]} == {
+            "get_case",
+            "get_payment_and_payout",
+            "find_candidate_bank_credits",
+            "get_provider_policy",
+        }
+
+        # These grading containers are never serialized anywhere in provider requests.
+        def inspect(value):
+            if isinstance(value, dict):
+                assert not {"expected", "family", "split"} & value.keys()
+                for child in value.values():
+                    inspect(child)
+            elif isinstance(value, list):
+                for child in value:
+                    inspect(child)
+            elif isinstance(value, str) and value.startswith("{"):
+                try:
+                    parsed = json.loads(value)
+                except ValueError:
+                    return
+                inspect(parsed)
+
+        inspect(body)
+        if failure == "http":
+            return httpx.Response(429, json={"error": "redacted"})
+        if len(body["messages"]) == 2:
+            message = {
+                "role": "assistant",
+                "content": None,
+                "tool_calls": [
+                    {
+                        "id": str(i),
+                        "type": "function",
+                        "function": {"name": t["function"]["name"], "arguments": "{}"},
+                    }
+                    for i, t in enumerate(body["tools"])
+                ],
+            }
+            finish = "tool_calls"
+        elif failure == "unsafe":
+            case_id = evaluation_v2.dataset()[0]["id"]
+            tools, assessment = controlled.enrich_tools(evaluation_v2.dataset()[0]["tools"])
+            report = controlled.scripted_report(case_id, assessment)
+            report["recommended_next_step"] = "APPROVE_AND_PAY"
+            message, finish = {"content": json.dumps(report)}, "stop"
+        else:
+            message, finish = {"content": original}, "length" if failure == "truncated" else "stop"
+        return httpx.Response(
+            200,
+            json={
+                "model": "mock-snapshot",
+                "choices": [{"message": message, "finish_reason": finish}],
+                "usage": {"prompt_tokens": 100, "completion_tokens": 20},
+            },
+        )
+
+    fake_provider(respond)
+    with SessionLocal.begin() as db:
+        r = evaluation_v2.evaluate(db, live=True, split="development", limit=1, max_cost_usd="2")
+        row = r["cases"][0]
+        assert r["model_correct"] == 0 and len(r["failures"]) == 1
+        if failure == "http":
+            assert row["validation"]["flags"] == ["PROVIDER_HTTP_ERROR"]
+            assert row["http_status"] == 429
+            assert r["status"] == "STOPPED_UNMETERED_REQUEST"
+            assert r["usage"]["unmetered_requests"] == 1
+        else:
+            assert r["usage"]["requests"] == 2
+            assert r["usage"]["input_tokens"] == 200 and r["usage"]["output_tokens"] == 40
+            assert row["provider_responses"][-1]["model"] == "mock-snapshot"
+            if failure == "unsafe":
+                assert row["raw_output"]["recommended_next_step"] == "APPROVE_AND_PAY"
+                assert set(row["failure_categories"]) == {
+                    "SCHEMA_REJECTED",
+                    "UNSAFE_RECOMMENDATION",
+                }
+            else:
+                assert row["raw_content"] == original and row["raw_output"] is None
+                assert row["validation"]["flags"] == [
+                    "OUTPUT_TRUNCATED" if failure == "truncated" else "INVALID_OUTPUT_JSON"
+                ]
+
+
+def test_live_v2_budget_blocks_http_before_first_request(fake_provider, monkeypatch):
+    from sqlalchemy import func, select
+
+    from reconflow import evaluation_v2
+    from reconflow.models import Invocation
+
+    monkeypatch.setattr(settings(), "llm_input_usd_per_million", "0.75")
+    monkeypatch.setattr(settings(), "llm_output_usd_per_million", "4.50")
+    fake_provider(lambda request: pytest.fail("Budget must reject before HTTP"))
+    with SessionLocal.begin() as db:
+        r = evaluation_v2.evaluate(
+            db, live=True, split="development", limit=12, max_cost_usd="0.000001"
+        )
+        assert r["status"] == "STOPPED_BUDGET"
+        assert r["usage"]["requests"] == 0
+        assert r["cases_run"] == 0 and r["cases_requested"] == 12
+        assert r["model_accuracy"] is None and r["live_quality"] == "NOT MEASURED"
+        assert r["model_correct"] == 0
+        assert db.scalar(select(func.count()).select_from(Invocation)) == 0

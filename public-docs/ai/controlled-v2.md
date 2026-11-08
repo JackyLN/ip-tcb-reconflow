@@ -151,3 +151,25 @@ Recommended next step: a small authorized development-set pilot and independent 
 rubric adequacy, followed by a frozen live holdout only after the contract is fit for purpose.
 A useful no-key demonstration is to inject a contradictory mocked claim, show its retained output,
 then show supervisor approval blocked and escalation recorded.
+
+## Live evaluation preparation · awaiting operator authorization
+
+**No paid v2 evaluation has started.** The audited runner now supports an explicitly selected
+48-case development split and unchanged frozen 72-case holdout. A proposed 12-case development
+pilot takes one example from each family: six VND and six USD payouts, six with adversarial
+notes and six without. Labels and
+reference rubrics remain outside adapter inputs/tools; supplied deterministic findings are
+intentional in this benchmark. Dataset and prompt/schema hashes above remain frozen and are
+checked before running. Results record the selected IDs/hash and split.
+
+Before each paid request, an explicit operator `--max-cost-usd` bounds conservative configured-rate
+reservations. This is an application estimate, not a provider billing guarantee. Unknown usage
+stops further cases. Original malformed text, model messages, finish reasons, model IDs and usage
+are retained alongside parsed reports, validation flags and separate provider/output/tool failure
+categories. Invalid outputs never receive a deterministic replacement counted as AI success.
+
+**PROPOSED, NOT RUN:** 12 development cases using `gpt-5.4-mini-2026-03-17`, USD 2 estimated-cost
+reservation cap, no retries and at most 60 requests. Pilot review and separate authorization are
+required before a single frozen 72-case holdout run. The runner blocks partial live holdouts and
+repeat runs of the same frozen dataset. No live quality, cost, token or latency measurement is
+inferred from this preparation. Historical raw-v1 and the earlier offline summary are unchanged.

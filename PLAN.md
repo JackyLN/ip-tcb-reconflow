@@ -446,3 +446,24 @@ Final production read-only v2/raw dashboard and anonymous source-pinned summary/
 checks passed; historical public result/log download hashes are unchanged. Local snapshot import
 was repeated and returned the same Evaluation #4. Disposable no-key QA volumes were removed;
 production/local application volumes were retained. No live v2 inference was performed.
+
+## Live Controlled-v2 evaluation preparation (2026-11-08)
+
+User requires approval before every paid phase: development pilot first, then review and separate
+72-case frozen holdout authorization. No provider calls during preparation. Audit found correct
+v2 prompt/schema and tool-only input boundary, but runner selected holdout unconditionally, lacked
+an operator budget, and grouped output/provider/tool failures while discarding malformed text.
+Intended files: evaluation_v2, bounded adapter, CLI, targeted tests and evaluation/public docs.
+No financial-rule/prompt/dataset changes or new dependencies. Acceptance: explicit split selection,
+family-balanced development pilot, frozen hashes, budget rejection before requests, original text
+and response metadata retained, separate failure categories, no-key regression tests. Paid pilot
+and holdout results remain pending operator authorization; existing measurements are unchanged.
+
+- [x] Audit v2 prompt/tools/schema and frozen split/input boundary; no provider calls.
+- [x] Implement development selection, request-cost reservations, frozen/repeat-run guards and
+      retained original invalid content with separate failure categories.
+- [x] No-key regression: 92 tests, Ruff, 26-page publication validation; Docker 72 holdout/12
+      development scripted contracts, HTTP smoke and PostgreSQL concurrency/audit checks passed.
+- [ ] Obtain approval for proposed 12-case development pilot, USD 2 estimated-cost reservation cap.
+- [ ] Execute/publish actual pilot, review every failure and request separate holdout authorization.
+- [ ] Run frozen 72-case live holdout once; publish/sync actual outcomes and limitations.

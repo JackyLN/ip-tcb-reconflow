@@ -22,6 +22,8 @@ from reconflow.services.audit import append
 from reconflow.services.money import fee, net
 
 DATASET_VERSION = "controlled-synthetic-v2.0"
+DATASET_SHA256 = "8a4f669c94e48400b8e42e6545c65dbcecf8a8b213aa5a5c67e9a9b8c371a0ca"
+PROMPT_SHA256 = "f04b364848e7704d1dc033651fd521a28899b14a50d6855482de2669ab9b72d2"
 FAMILIES = [
     "clean",
     "fee",
@@ -155,22 +157,107 @@ def dataset() -> list[dict]:
     return cases
 
 
-def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool = False) -> dict:
+class BudgetExceeded(ValueError):
+    """No further provider request is authorized by the reserved-cost budget."""
+
+
+class RequestBudget:
+    """Reserve conservatively before HTTP; never recycle reservations after errors.
+
+    This is a configured-rate estimate, not a provider invoice cap. JSON byte size doubled
+    plus 4096 framing tokens is a deliberately loose input allowance for these text fixtures.
+    Every request also reserves its entire completion limit. No tokenizer dependency is needed.
+    """
+
+    def __init__(self, maximum: str, input_rate: str, output_rate: str):
+        self.maximum = Decimal(maximum)
+        self.input_rate, self.output_rate = Decimal(input_rate), Decimal(output_rate)
+        if not all(
+            v.is_finite() and v > 0 for v in (self.maximum, self.input_rate, self.output_rate)
+        ):
+            raise ValueError("Live evaluation requires a positive finite budget and token rates")
+        self.reserved = Decimal(0)
+
+    def __call__(self, request: dict) -> None:
+        input_allowance = len(json.dumps(request).encode()) * 2 + 4096
+        reserve = (
+            Decimal(input_allowance) * self.input_rate
+            + Decimal(request["max_completion_tokens"]) * self.output_rate
+        ) / 1_000_000
+        if self.reserved + reserve > self.maximum:
+            raise BudgetExceeded("Operator estimated-cost reservation exhausted")
+        self.reserved += reserve
+
+
+def select_cases(fixtures: list[dict], split: str, limit: int) -> list[dict]:
+    """Preserve holdout order; development cycles families before taking another variant."""
+    if split not in ("development", "holdout"):
+        raise ValueError("Unknown evaluation split")
+    available = [c for c in fixtures if c["split"] == split]
+    if not 1 <= limit <= len(available):
+        raise ValueError(f"{split} limit must be 1–{len(available)}")
+    if split == "development":
+        groups = [[c for c in available if c["family"] == family] for family in FAMILIES]
+        # Stagger the first variant: a 12-case pilot covers both currencies and notes/no-notes.
+        groups = [
+            group[index % len(group) :] + group[: index % len(group)]
+            for index, group in enumerate(groups)
+        ]
+        available = [c for variants in zip(*groups, strict=True) for c in variants]
+    return available[:limit]
+
+
+def evaluate(
+    db: Session,
+    live: bool = False,
+    limit: int = 72,
+    checkpoint: bool = False,
+    *,
+    split: str = "holdout",
+    max_cost_usd: str | None = None,
+) -> dict:
     """Offline checks the harness only; live grading requires explicit operator authorization."""
     from reconflow.services.ai import live_report
 
     cfg = settings()
     if live and not (cfg.llm_api_key and cfg.llm_model):
         raise ValueError("Explicit v2 live evaluation requires a configured provider")
-    if not 1 <= limit <= 72:
-        raise ValueError("Controlled evaluation limit must be 1–72")
+    budget = None
+    if live:
+        if max_cost_usd is None:
+            raise ValueError("Live v2 evaluation requires an explicit --max-cost-usd budget")
+        budget = RequestBudget(
+            max_cost_usd, cfg.llm_input_usd_per_million, cfg.llm_output_usd_per_million
+        )
     fixtures = dataset()
-    selected = [c for c in fixtures if c["split"] == "holdout"][:limit]
+    dataset_hash = hashlib.sha256(json.dumps(fixtures, sort_keys=True).encode()).hexdigest()
+    if dataset_hash != DATASET_SHA256 or controlled.contract_digest() != PROMPT_SHA256:
+        raise ValueError("Frozen v2 dataset or prompt/schema changed; review a new version first")
+    selected = select_cases(fixtures, split, limit)
+    if live and split == "holdout":
+        if limit != 72:
+            raise ValueError(
+                "Frozen live holdout must run all 72 cases; use development for pilots"
+            )
+        db.scalar(select(Control).where(Control.id == 1).with_for_update())
+        for previous in db.scalars(select(Evaluation).where(Evaluation.mode == "V2_LIVE")):
+            result = previous.results
+            if (
+                result.get("split", "holdout") == "holdout"
+                and result.get("dataset_sha256") == dataset_hash
+            ):
+                raise ValueError("This frozen live holdout already has a run; do not rerun or tune")
     rows = []
     metadata = {
         "track": "controlled-v2",
         "dataset_version": DATASET_VERSION,
-        "dataset_sha256": hashlib.sha256(json.dumps(fixtures, sort_keys=True).encode()).hexdigest(),
+        "dataset_sha256": dataset_hash,
+        "split": split,
+        "selected_case_ids": [c["id"] for c in selected],
+        "selected_cases_sha256": hashlib.sha256(
+            json.dumps(selected, sort_keys=True).encode()
+        ).hexdigest(),
+        "operator_max_cost_usd": str(budget.maximum) if budget else None,
         "prompt_version": controlled.VERSION,
         "prompt_sha256": controlled.contract_digest(),
         "source_revision": os.environ.get("RECONFLOW_EVAL_SOURCE_SHA", "UNRECORDED"),
@@ -220,7 +307,7 @@ def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool 
             ),
             "unmetered_requests": sum(c["usage"]["unmetered_requests"] for c in rows),
         }
-        counts = Counter(flag for c in rows for flag in c["validation"]["flags"])
+        counts = Counter(flag for c in rows for flag in c["failure_categories"])
         latency = sorted(c["latency_ms"] for c in rows)
         checked = sum(c["validation"].get("claims_checked", 0) for c in rows)
         supported = sum(c["validation"].get("claims_supported", 0) for c in rows)
@@ -301,6 +388,8 @@ def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool 
             "model_p50_ms": latency[math.ceil(n * 0.5) - 1] if live and n else None,
             "model_p95_ms": latency[math.ceil(n * 0.95) - 1] if live and n else None,
             "usage": usage,
+            "live_quality": "MEASURED" if live and usage["requests"] else "NOT MEASURED",
+            "reserved_estimated_usd": str(budget.reserved) if budget else "0",
             "failure_categories": dict(counts),
             "failures": [
                 c
@@ -335,6 +424,7 @@ def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool 
         tools, assessment = controlled.enrich_tools(case["tools"])
         expected = case["expected"]
         payload, trace = None, []
+        stop_status = None
         try:
             if live:
                 payload, trace = live_report(
@@ -344,6 +434,7 @@ def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool 
                     evaluation=True,
                     capture=capture,
                     profile=controlled.VERSION,
+                    request_guard=budget,
                 )
                 observed = {t["result"]["evidence_id"] for t in trace}
             else:
@@ -351,18 +442,35 @@ def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool 
                 trace = [{"tool": k, "result": v} for k, v in tools.items()]
                 observed = {v["evidence_id"] for v in tools.values()}
             validation = controlled.validate(payload, case["id"], assessment, observed)
-        except (ValueError, KeyError, TypeError, httpx.HTTPError) as exc:
+        except (ValueError, KeyError, TypeError, IndexError, httpx.HTTPError) as exc:
             payload, trace = capture.get("raw_report"), capture.get("trace", [])
             validation = {
                 "consistent": False,
                 "status": "REVIEW_REQUIRED",
-                "flags": ["PROVIDER_OR_TOOL_FAILURE"],
+                "flags": [
+                    "OPERATOR_BUDGET_EXHAUSTED"
+                    if isinstance(exc, BudgetExceeded)
+                    else capture.get("failure_category", "PROVIDER_OR_TOOL_FAILURE")
+                ],
                 "error_type": type(exc).__name__,
             }
+            if isinstance(exc, BudgetExceeded):
+                stop_status = "STOPPED_BUDGET"
         raw = payload if isinstance(payload, dict) else {}
         raw_correct = raw.get("classification") == expected["classification"]
+        categories = set(validation["flags"])
+        if live and raw:
+            if "classification" in raw and not raw_correct:
+                categories.add("CLASSIFICATION_MISMATCH")
+            if (
+                "recommended_next_step" in raw
+                and raw["recommended_next_step"] not in assessment["allowed_actions"]
+            ):
+                categories.add("UNSAFE_RECOMMENDATION")
         invocations = [i for i in db.new if isinstance(i, Invocation) and i not in before]
         db.flush()
+        if stop_status and not invocations:
+            return persist(stop_status)  # A blocked request is not a model attempt.
         rows.append(
             {
                 "id": case["id"],
@@ -372,8 +480,12 @@ def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool 
                 "expected": expected,
                 "assessment": assessment,
                 "raw_output": payload,
+                "raw_content": capture.get("raw_content"),
+                "provider_responses": capture.get("responses", []),
+                "http_status": capture.get("http_status"),
                 "trace": trace,
                 "validation": validation,
+                "failure_categories": sorted(categories),
                 "rules_correct": assessment["primary"] == expected["classification"]
                 and set(assessment["findings"]) == set(expected["findings"]),
                 "raw_classification_correct": raw_correct,
@@ -400,6 +512,10 @@ def evaluate(db: Session, live: bool = False, limit: int = 72, checkpoint: bool 
             }
         )
         persist("RUNNING")
+        if stop_status:
+            return persist(stop_status)
+        if live and rows[-1]["usage"]["unmetered_requests"]:
+            return persist("STOPPED_UNMETERED_REQUEST")
         if checkpoint:
             print(
                 f"Controlled case {len(rows)}/{len(selected)}: {validation['status']}",
