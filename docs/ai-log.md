@@ -180,3 +180,11 @@ supervisor decisions committed once and audit/hash guards passed. Controlled off
 contracts and reference outcomes, zero provider calls. Desktop/mobile controlled-case/dashboard
 and docs/Mermaid/video browser checks passed. Initial scripted fixtures use no model and cannot
 be reported as AI accuracy. No paid v2 call or historical benchmark rerun was performed.
+
+Deployment observation: source 16f3ee433d5a434d4526f792ce43a1b90baa7989 deployed with the existing
+backup/migrate/seed-preserving workflow. Production offline Evaluation #3 ran with LLM_API_KEY
+explicitly blanked: 72 scripted contracts/reference outcomes, zero requests/tokens/cost. Full
+synthetic snapshot synchronized locally and imported as #4, without inference. Read-only HTTPS
+v2/raw dashboard and public docs/video/Mermaid browser checks passed. Historical #2 JSON hash
+and Payment/Payout/BankCredit/Match/ImportBatch counts matched the pre-deployment snapshot.
+No new paid AI evaluation or financial decision was executed in production.

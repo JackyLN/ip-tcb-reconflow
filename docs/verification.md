@@ -284,3 +284,15 @@ are prepared. No paid v2 inference or live productivity/semantic-rate measuremen
 The initial local offline artifact has UNRECORDED source metadata; production offline checkpoint
 will pin the deployed source without making model calls. Current live-request phase timeouts
 remain soft wall-budget checks, not hard cancellation; external calls can repeat after a DB crash.
+
+Production verification (2026-11-08): source `16f3ee433d5a434d4526f792ce43a1b90baa7989`
+deployed healthy via `scripts/deploy.sh` with a pre-deploy DB backup.
+`exec -T -e LLM_API_KEY= -e RECONFLOW_EVAL_SOURCE_SHA=<sha> app python -m reconflow.cli eval --track controlled-v2`
+created offline Evaluation #3: 72/72 valid scripted contracts, 72 deterministic reference
+outcomes, zero provider usage. Full result/request snapshot exported and imported locally as #4.
+`V2_BASE_URL=https://tcb.jackylenghia.com V2_CREDENTIALS=artifacts/vps-demo-credentials.txt npm run v2:browser`,
+`npm run eval:browser`, and `DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser` passed.
+Canonical historical Evaluation #2 SHA256 stayed
+`db0120ef3595138742377901ce30ba6e583f11c2ea66bf7ac1eaccd424c5813d`;
+financial counts stayed 1100 payments, 55 payouts, 54 credits, 55 matches, 2 imports.
+These are preservation checks, not production security assurance or live v2 model measurements.

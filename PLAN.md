@@ -431,5 +431,8 @@ from live quality. No paid v2 bulk inference is authorized or planned in this mi
 Local acceptance: 83 tests/Ruff/publication checks passed. No-key Docker HTTP workflow,
 PostgreSQL competing decisions/audit guards, 72 scripted contracts/rules reference checks,
 controlled desktop/mobile and existing docs/video/Mermaid browser checks passed. Live v2
-quality, expert source/semantic grading and productivity remain NOT MEASURED. Deployment
-and production read-only checks are the final acceptance step.
+quality, expert source/semantic grading and productivity remain NOT MEASURED. Source
+16f3ee433d5a434d4526f792ce43a1b90baa7989 deployed healthy. Production offline Evaluation #3
+passed 72/72 contracts/reference outcomes, zero calls; synchronized locally as #4. Production
+read-only desktop/mobile dashboard, historical live export and public docs checks passed.
+Historical Evaluation #2 JSON hash and five financial table counts are unchanged.

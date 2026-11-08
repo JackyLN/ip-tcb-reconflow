@@ -4,7 +4,7 @@
   "dataset_sha256": "8a4f669c94e48400b8e42e6545c65dbcecf8a8b213aa5a5c67e9a9b8c371a0ca",
   "prompt_version": "controlled-investigator-v2",
   "prompt_sha256": "f04b364848e7704d1dc033651fd521a28899b14a50d6855482de2669ab9b72d2",
-  "source_revision": "UNRECORDED",
+  "source_revision": "16f3ee433d5a434d4526f792ce43a1b90baa7989",
   "mode": "V2_OFFLINE_CONTRACT",
   "status": "COMPLETED",
   "total_dataset": 120,
@@ -12,13 +12,13 @@
   "holdout_available": 72,
   "cases_requested": 72,
   "model": null,
-  "configured_model": "Not configured",
+  "configured_model": "gpt-5.4-mini-2026-03-17",
   "rates": {
     "input_usd_per_million": "0.75",
     "output_usd_per_million": "4.50"
   },
   "priced": true,
-  "started_at": "2026-11-08T04:29:54.588951Z",
+  "started_at": "2026-11-08T04:39:11.451302Z",
   "scope": "Compliance with supplied rules, not autonomous raw-evidence classification",
   "support_scope": "Closed claims/citations; real-world source authenticity is not graded",
   "human_productivity": "NOT MEASURED",
@@ -59,6 +59,7 @@
     "unmetered_requests": 0
   },
   "failure_categories": {},
-  "completed_at": "2026-11-08T04:29:55.427381Z",
-  "measurement_scope": "SCRIPTED OFFLINE CONTRACT CHECKS; NO LIVE MODEL QUALITY"
+  "completed_at": "2026-11-08T04:39:12.549680Z",
+  "measurement_scope": "SCRIPTED OFFLINE CONTRACT CHECKS; NO LIVE MODEL QUALITY",
+  "origin": "https://tcb.jackylenghia.com"
 }

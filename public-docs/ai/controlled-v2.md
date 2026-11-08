@@ -114,6 +114,12 @@ abstention, unsafe recommendations, unauthorized/duplicate decisions, cached-sta
 worker recovery. Desktop/mobile browser checks passed for controlled reports and the dashboard. The v2 harness checked **72/72 scripted contracts** and **72/72 deterministic
 reference outcomes**, with **zero provider calls/tokens**. This is not 100% AI accuracy.
 
+**Production verification:** Evaluation #3 ran all 72 offline cases on source
+`16f3ee433d5a434d4526f792ce43a1b90baa7989`, with the API key blanked:
+72 valid scripted contracts, 72 deterministic reference outcomes, zero requests/tokens/cost.
+The source-pinned result was synchronized locally for development. Live v2 quality remains
+**NOT MEASURED**.
+
 - [Offline-only summary](../assets/evaluation/controlled-v2-offline-summary.json)
 - [Three scripted development examples](../assets/evaluation/controlled-v2-development-examples.json) — not model outputs
 - [Versioned dataset manifest](../assets/evaluation/controlled-v2-manifest.json)
