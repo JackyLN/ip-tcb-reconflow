@@ -351,3 +351,9 @@ the existing Markdown parser; all public evidence/metadata/media SHA-256 hashes 
 pre-edit snapshot. Only Markdown changed; no application, stored evaluation or financial data
 was modified, and no model call was made. Execution-day/timezone prose was removed while
 video chapter offsets and actual source/model versions remain.
+
+Cleanup publication verified: 553be52718b43c5b38be0f2c5af504810badb5bd deployed healthy;
+CI 42474613834 passed. Anonymous HTTPS recording/report/ADR pages have no execution-day/timezone
+callouts. Original raw-v1/pilot JSON and chapter metadata hashes matched; measured figures, two
+videos and renamed anchors remain accessible. `DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser`
+passed playback/seeking, desktop/mobile/no-JS and CSP checks. No model inference was performed.

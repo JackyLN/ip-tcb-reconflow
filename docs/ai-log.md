@@ -295,3 +295,9 @@ measured outcomes, source/model versions, existing URLs and original JSON/log/me
 `uv run python -m scripts.check_public_docs` passed 27 pages; targeted public-document/evaluation
 regressions passed 33 tests with one existing Starlette/httpx deprecation warning. Explicit
 README/heading checks and all original evidence/media hashes passed. No provider call was made.
+
+Cleanup publication verified: 553be52718b43c5b38be0f2c5af504810badb5bd deployed healthy;
+CI 42474613834 passed. Anonymous HTTPS recording/report/ADR pages have no execution-day/timezone
+callouts. Original raw-v1/pilot JSON and chapter metadata hashes matched; measured figures, two
+videos and renamed anchors remain accessible. `DOCS_BASE_URL=https://tcb.jackylenghia.com npm run docs:browser`
+passed playback/seeking, desktop/mobile/no-JS and CSP checks. No model inference was performed.

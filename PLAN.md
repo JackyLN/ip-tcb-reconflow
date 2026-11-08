@@ -545,4 +545,9 @@ checks and visible HTTPS documentation verification after deployment.
 - [x] Keep measurements, stable URLs and original evaluation/log/media evidence unchanged.
 - [x] Validate 27 public pages, affected README links and all public evidence/media hashes;
       33 targeted publication/evaluation tests passed.
-- [ ] Commit/push and verify the updated anonymous production documentation.
+- [x] Commit/push and verify the updated anonymous production documentation.
+
+Cleanup source 553be52718b43c5b38be0f2c5af504810badb5bd deployed healthy. CI 42474613834
+passed. Production checks confirmed the cleaned recording/report/ADR prose, both video players,
+unchanged original evidence/metadata hashes and repaired heading anchor. Full public-docs browser
+checks passed desktop/mobile, playback/seeking, no-JS reading and CSP; no model calls were made.
