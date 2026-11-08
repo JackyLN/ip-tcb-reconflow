@@ -3,7 +3,7 @@
 **New:** [Controlled-v2 results walkthrough](#controlled-v2-results-walkthrough) — 12-case live
 development pilot, original outputs and the grouped workspace. The earlier workflow video below is preserved.
 
-Recorded on **8 November 2026 (Asia/Ho_Chi_Minh)**. Actual browser actions with explanatory
+Actual browser actions with explanatory
 captions, synthetic data and a live configured model. No narration or reconstructed actions.
 Recording source: `6d44ecc98793b2de137f848722380091cf4d9593`.
 
@@ -88,7 +88,7 @@ successful workflow recording is not evidence of general diagnostic accuracy.
 
 ## Controlled-v2 results walkthrough
 
-Recorded on **8 November 2026 at 17:56 (Asia/Ho_Chi_Minh)** on the production site.
+Recorded on the production site.
 **3 minutes 8 seconds** · MP4/H.264 · approximately 3.4 MB · explanatory
 on-screen captions, no narration · anonymous playback/download.
 

@@ -43,7 +43,7 @@ bounds this risk, but external model calls are not exactly-once. No automatic mo
 create a proposal or resolve a case. A live failure produces LIVE_FAILED_FALLBACK and human review.
 
 
-## Observed single live demonstration · 2026-11-08
+## Observed single live demonstration
 
 **MEASURED workflow observation, not a graded evaluation:** synthetic 1,000-payment mismatch
 source replayed; case #1, investigation #2 returned LIVE using gpt-5.4-mini-2026-03-17. Four
@@ -89,7 +89,7 @@ See [the public v2 method/status](../public-docs/ai/controlled-v2.md) and ADR 00
 `make eval-v2` runs a 72-case offline harness with zero provider requests; it does not replace
 raw-v1 or measure live AI accuracy. Live v2 metrics require separate explicit authorization.
 
-## Live v2 preparation audit · 2026-11-08
+## Live v2 preparation audit
 
 **PREPARED; PAID RUNS NOT AUTHORIZED OR EXECUTED.** Live v2 selects
 `controlled.SYSTEM_V2` plus `ControlledReport.model_json_schema()`, the original four scoped
@@ -142,7 +142,7 @@ outputs/metrics. Only after pilot review, request separate authorization/budget 
 dataset, including after an interrupted run. Any future prompt/dataset tuning needs a separately
 versioned protocol; do not tune against the holdout or relabel its failures.
 
-## Authorized live v2 pilot outcome · 2026-11-08
+## Authorized live v2 pilot outcome
 
 Production Evaluation #4 completed 12 development cases once on source
 4a4865ae3b4e7e0110a8cea620fa4f56f4ae1fee, with USD 2 estimated-cost cap. All 12 accepted,

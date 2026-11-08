@@ -82,10 +82,10 @@ payout rounding and why historical policies are preserved.
 ## AI configuration and evaluation
 
 Chosen demo model: **GPT-5.4 mini**, pinned to `gpt-5.4-mini-2026-03-17`.
-[ADR 004](docs/adr/004-demo-llm-selection.md) records the rationale, dated pricing assumptions
+[ADR 004](docs/adr/004-demo-llm-selection.md) records the rationale, pricing assumptions
 (USD 0.75 input / 4.50 output per million tokens), and target environment values. **Adapter contract implemented:** requests use `max_completion_tokens` and explicitly set
 `reasoning_effort=none` for GPT-5.4 mini. One user-authorized recorded live demo succeeded (case #1, investigation #2, LIVE).
-The run is not a graded model-quality or holdout result. See [recorded run notes](docs/demo-script.md#observed-recorded-live-run-2026-11-08).
+The run is not a graded model-quality or holdout result. See [recorded run notes](docs/demo-script.md#observed-recorded-live-run).
 
 Baseline runs with **no key**. SIMULATED results are scripted, low-confidence, advisory only.
 No live model accuracy, live cost or provider compatibility is claimed for the no-key demonstration.
@@ -136,7 +136,7 @@ npx playwright install chromium
 npm run browser                  # desktop/mobile screenshots under ignored artifacts/
 ```
 
-MEASURED on 2026-11-06: 28 pytest unit/API/mocked-provider tests passed without keys; Ruff passed.
+MEASURED at the initial local checkpoint: 28 pytest unit/API/mocked-provider tests passed without keys; Ruff passed.
 A dependency emits one Starlette TestClient/httpx deprecation warning. PostgreSQL migration/seed,
 Docker HTTP end-to-end smoke, offline 48/48 schema/evidence checks, competing job-claim check,
 audit hash-chain verification and audit UPDATE guard passed. Browser verification is recorded in
@@ -184,7 +184,7 @@ sizes; no page/CSP errors or mobile overflow were observed. All four services ar
 
 ## Shared VPS / GitHub CD
 
-Live synthetic demo: **https://tcb.jackylenghia.com** (`187.127.220.131`), verified 2026-11-08. The shared VPS
+Live synthetic demo: **https://tcb.jackylenghia.com** (`187.127.220.131`), verified on the deployed source. The shared VPS
 uses its existing Stayflow Caddy proxy; ReconFlow publishes no host ports and keeps a separate
 PostgreSQL volume. See [shared VPS deployment and recovery](docs/deployment-shared-vps.md).
 
@@ -272,7 +272,7 @@ Imports require DEMO_MODE, remap request IDs and deduplicate the exact snapshot.
 original export/progress log locally; only reviewed synthetic artifacts belong in public docs.
 
 
-### Observed 48-case production holdout · 8 November 2026
+### Observed 48-case production holdout
 
 [Public reviewer report](https://tcb.jackylenghia.com/docs/ai/holdout-2026-11-08/) ·
 [signed-in dashboard](https://tcb.jackylenghia.com/ai/evaluation#evaluation-2).
@@ -292,7 +292,7 @@ New jobs compute deterministic fee/net/currency/timing/duplicate/missing-evidenc
 inference. V2 material claims, classification, abstention, safe recommendations and human review
 are validated against them. Original failed output is retained as LIVE_REVIEW_REQUIRED; pending
 or unsupported findings block approval and require rejection/escalation. Old records/jobs and
-the November 8 raw-v1 18/48 result remain intact. No finance records are written by AI.
+the raw-v1 18/48 result remain intact. No finance records are written by AI.
 
 `make eval-v2` (or `python -m reconflow.cli eval --track controlled-v2`) checks a fresh
 120-case fixture set (48 development/72 holdout) offline. Scripted checks are not model scores.
@@ -305,7 +305,7 @@ do not run without operator approval. Budget reservations are conservative confi
 estimates, not provider-side billing limits. A full `--split holdout --limit 72` run needs separate
 approval after pilot review; repeated frozen live holdouts are blocked. The authorized 12-case development pilot completed: 12/12 accepted, 72/72 supported typed
 claims, estimated USD 0.05484750. The live holdout remains unrun.
-See [the evaluation protocol](docs/evaluation.md#live-v2-preparation-audit--2026-11-08).
+See [the evaluation protocol](docs/evaluation.md#live-v2-preparation-audit).
 
 Workspace navigation groups everyday reconciliation, investigations and review under **Banking
 operations**; reports, evaluation and audit under **Reporting & assurance**; worker health and

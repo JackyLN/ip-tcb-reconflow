@@ -2,7 +2,7 @@
 
 Target: `https://tcb.jackylenghia.com` on `187.127.220.131`.
 SSH operator alias: `ssh jackylenghia` (root). Application directory: `/opt/reconflow`.
-LIVE and verified on 2026-11-08. This is a public **synthetic-only demo**, with secure session
+LIVE and verified on the deployed source. This is a public **synthetic-only demo**, with secure session
 cookies and no LLM key. Deployed source: `31018ede59dcfd00701eb21471f60ab546be5140`.
 App/worker/DB and public login/readiness, synthetic end-to-end flow and browser checks passed.
 GitHub CI succeeded: https://github.com/JackyLN/ip-tcb-reconflow/actions/runs/42415477106 .

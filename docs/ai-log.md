@@ -1,6 +1,6 @@
 # Actual AI-assisted development log
 
-Date: 2026-11-06. This is one development session, not invented stakeholder conversations or
+This is one development session, not invented stakeholder conversations or
 seven independent user turns. Entries quote actual user requests or embedded project instructions
 that materially directed the implementation. No live model/provider evaluation was performed.
 
@@ -78,7 +78,7 @@ See verification.md for exact final checks, observed benchmark and omissions.
     Docker smoke, paid inference, key changes or deployment were run for this documentation-only edit.
 
 
-Deployment maintenance follow-up (2026-11-08): user supplied Node.js 20 deprecation warnings from
+Deployment maintenance follow-up: user supplied Node.js 20 deprecation warnings from
 CD run 42421131938. Inspected the run: both jobs succeeded, so the messages were warnings rather
 than a deployment failure. Verified official checkout v7.0.1/setup-uv v10.3.3 action manifests use
 Node.js 24 and replaced all old references in CI/CD with exact release commit pins. Kept the uv
@@ -90,7 +90,7 @@ passed the full Docker smoke/eval/DB checks with the new exact action pins. Comp
 were inspected: no Node.js 20 warning. CD was updated but not redispatched; the original reported
 CD run was already successful. Only workflow/docs changed, with no production restart.
 
-Public documentation follow-up (2026-11-08): user requested public Markdown reading, Mermaid and
+Public documentation follow-up: user requested public Markdown reading, Mermaid and
 section/subdocument navigation. Reviewed the existing documents and created a deliberately public
 22-page subset, leaving deployment runbooks and credentials outside the published root. Selected
 markdown-it-py/plugins/Pygments plus a locally bundled, strict-mode Mermaid renderer and added an
@@ -109,7 +109,7 @@ Deployed source a489abeea12a3edd4dfd4557139e7e20c600f675; all 22 HTTPS documents
 checks passed. No production investigations were triggered. See verification.md for exact scope.
 Hosted CI 42424030055 also passed the fresh no-key Docker workflow, offline evaluation and DB checks.
 
-Recorded live demo follow-up (2026-11-08): user authorized deployed credentials/key for one flow,
+Recorded live demo follow-up: user authorized deployed credentials/key for one flow,
 then asked to record the actions as a video. Inspected the configured model (key presence only)
 and found ADR 004's adapter work still pending. Official OpenAI model/reference pages confirm
 completion-token cap and none reasoning support. Implemented the bounded request update and
@@ -123,7 +123,7 @@ Case #1/investigation #2 returned LIVE with four tools/two requests; 1,779 input
 for independent evidence. The 87-second recording was converted to MP4 and sampled visually.
 No claim of graded model accuracy follows from this observation. Exact checks in verification.md.
 
-Public video publishing follow-up (2026-11-08): user asked to include the video README in docs.
+Public video publishing follow-up: user asked to include the video README in docs.
 Reused the reviewed existing 87-second recording, copied its chapters/outcome/usage into a public
 product page, versioned the 1.9 MB MP4 and linked handbook/product/evaluation/README entries.
 Added a constrained local-only video fence instead of enabling raw Markdown HTML. Extended tests
@@ -136,7 +136,7 @@ Public video deployment/browser checks passed, including seeking, mobile fit and
 MP4 verification over HTTPS. Public page: /docs/product/recorded-demo/. No new model calls.
 Hosted CI 42425952741 passed lint/51 tests, 23-page validation and fresh Docker offline workflow/eval/DB checks.
 
-Graded holdout follow-up (2026-11-08): user explicitly requested the outstanding 48-case real
+Graded holdout follow-up: user explicitly requested the outstanding 48-case real
 provider evaluation and reviewer-visible failure explanations, then authorized production work
 and local synchronization. Inspected PLAN section 6/B2 and the existing raw-JSON dashboard.
 Implemented frozen dataset/prompt metadata, per-case checkpoints, exact-label/abstention grading,
@@ -159,7 +159,7 @@ HTTPS desktop/mobile checks. Public snapshot matches original bytes; local repea
 evaluation #3. Hosted CI 42429726168 passed 59 tests, 24-page validation and fresh Docker offline
 workflow/DB checks. Live 37.5% remains plainly distinct from passing software/offline tests.
 
-Controlled AI Investigation v2 milestone (2026-11-08): user requested inspection first, stronger
+Controlled AI Investigation v2 milestone: user requested inspection first, stronger
 deterministic facts, consistency checks, maker-checker review, fresh separate benchmarks and
 public documentation, explicitly withholding expensive bulk inference authorization. Reported
 existing pipeline/37.5% history before changes; implemented pure evidence assessment, a closed
@@ -199,7 +199,7 @@ checks passed; historical public result/log download hashes are unchanged. Local
 was repeated and returned the same Evaluation #4. Disposable no-key QA volumes were removed;
 production/local application volumes were retained. No live v2 inference was performed.
 
-## Live v2 evaluation preparation · 2026-11-08
+## Live v2 evaluation preparation
 
 Actual user instruction: measure live controlled-v2 quality, audit label isolation, first obtain
 paid pilot approval, then seek separate holdout authorization. No paid response has been requested.
@@ -226,7 +226,7 @@ passed. Historical Evaluation #2 canonical JSON and five financial-table counts 
 Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
 executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.
 
-## Workspace navigation polish · 2026-11-08
+## Workspace navigation polish
 
 Actual user request: group the flat sidebar so banking work is distinct from administration and
 resources. Follow-up constraint: do not commit or push until instructed. Inspected the existing
@@ -250,7 +250,7 @@ After local review, the user explicitly authorized committing and pushing the na
 to main. The earlier local-only approval boundary is satisfied. This instruction does not request
 a production deployment or authorize paid AI evaluation.
 
-## Authorized production pilot and updated video · 2026-11-08
+## Authorized production pilot and updated video
 
 Actual user instruction: go ahead on production, store outcomes back in docs and add a new
 section on the existing recorded-demo page. Interpreted as authorization for the proposed
@@ -285,3 +285,13 @@ errors. Old raw #2 canonical JSON/financial-table counts are unchanged after pub
 Production has exactly one V2_LIVE evaluation and zero provider requests after pilot completion.
 Original paid responses are locally imported as #5; the video adds no provider spend.
 The 72-case live holdout remains unrun and requires a separate approval after review.
+
+## Documentation date cleanup
+
+User asked to remove run-day/timezone callouts and authorized committing/pushing this round.
+Cleaned public/internal Markdown headings, recording introductions, report execution-window
+sentences, ADR date labels and development notes. Updated affected heading links. Preserved
+measured outcomes, source/model versions, existing URLs and original JSON/log/media metadata.
+`uv run python -m scripts.check_public_docs` passed 27 pages; targeted public-document/evaluation
+regressions passed 33 tests with one existing Starlette/httpx deprecation warning. Explicit
+README/heading checks and all original evidence/media hashes passed. No provider call was made.

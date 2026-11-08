@@ -8,7 +8,7 @@ how ReconFlow investigates a deterministic finding. It does not replace reconcil
 funds or rebuild the application. New jobs are versioned `controlled-investigator-v2`; pre-existing
 queued jobs and stored reports retain their legacy interpretation.
 
-The [November 8 raw-evidence result](holdout-2026-11-08.md) remains **18/48 (37.5%)**, unchanged.
+The [raw-v1 result](holdout-2026-11-08.md) remains **18/48 (37.5%)**, unchanged.
 Its low score motivated stronger evidence and consistency gates; it has not been rewritten as a
 v2 success or replaced by scripted outputs.
 

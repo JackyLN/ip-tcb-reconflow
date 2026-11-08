@@ -1,4 +1,4 @@
-# UI palette update · 2026-11-06
+# UI palette update
 
 User request: restyle the existing ReconFlow UI with Techcombank branding colors.
 This is a palette interpretation for the synthetic interview prototype. ReconFlow keeps its own

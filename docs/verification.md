@@ -1,4 +1,4 @@
-# Verification record · 2026-11-06
+# Verification record
 
 MEASURED locally on macOS/Docker Desktop ARM64, Python 3.12; no external VPS or paid model calls.
 
@@ -22,7 +22,7 @@ MEASURED locally on macOS/Docker Desktop ARM64, Python 3.12; no external VPS or 
   inspected at 1440px desktop and 390px mobile (no mobile overflow).
 
 NOT RUN/VERIFIED at this initial local checkpoint (VPS/TLS and CI are superseded by the later
-2026-11-08 results below): public VPS/TLS, real stakeholder interviews, bank integrations, paid LLM inference,
+deployment results below): public VPS/TLS, real stakeholder interviews, bank integrations, paid LLM inference,
 independent security/accessibility audit, real worker process kill/restart drill (expired lease recovery
 and injected failure tested), backup restore, hosted CI, actual human control experiment.
 
@@ -49,7 +49,7 @@ rgb(237,28,36). Brand chart reads #ED1C24 from CSS. No page errors/CSP violation
 Selected WCAG color-pair calculations and reference provenance are in ui-branding.md; full
 independent accessibility and official brand-compliance audits were not conducted.
 
-## Public VPS deployment · 2026-11-08 (Asia/Ho_Chi_Minh)
+## Public VPS deployment
 
 MEASURED on 187.127.220.131 (x86_64), source commit
 31018ede59dcfd00701eb21471f60ab546be5140. Public URL: https://tcb.jackylenghia.com .
@@ -89,7 +89,7 @@ NOT EXECUTED: hosted CD (user owns secret setup), database restore drill, live p
 independent security assessment, stakeholder interviews or a real-bank pilot. Source remains a
 synthetic demonstration. Latest subsequent documentation commit does not change deployed runtime code.
 
-## GitHub Actions Node.js 24 maintenance · 2026-11-08
+## GitHub Actions Node.js 24 maintenance
 
 Reported CD run 42421131938 completed successfully (both verify/deploy); Node.js 20 messages were
 deprecation warnings, not failed steps. Official action manifests were inspected at release tags:
@@ -112,7 +112,7 @@ https://github.com/astral-sh/setup-uv/releases/tag/v10.3.3 , and
 https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ .
 
 
-## Public documentation · 2026-11-08
+## Public documentation
 
 IMPLEMENTED: 22 curated pages under public-docs/, anonymous /docs/ reader, automatic nested
 navigation, title search, heading outline, adjacent reading links, tables/tasks/footnotes/code and
@@ -153,7 +153,7 @@ full no-key smoke/offline evaluation and PostgreSQL checks. This remains simulat
 not live semantic model grading. No Node.js 20 warning; one unrelated ubuntu-latest migration notice.
 
 
-## Recorded live flow · 2026-11-08
+## Recorded live flow
 
 User explicitly authorized deployed credentials/key for one demo, then requested video. Read
 PLAN and actual adapter/config; only key presence and model/base URL were reported, no key value.
@@ -183,7 +183,7 @@ in ignored artifacts/live-demo/reconflow-live-demo.mp4; accompanying result/usag
 local artifacts. Credentials remain in an ignored chmod-600 file, never in the video or VCS.
 
 
-## Public video README and player · 2026-11-08
+## Public video README and player
 
 Reused the existing reviewed recording, versioned its 1,928,265-byte MP4 under public assets
 and published a dated product/recorded-demo Markdown README with chapters/outcome/usage/limits.
@@ -204,7 +204,7 @@ It includes lint/51 tests, 23-page validation, clean Docker migration/seed/full 
 and PostgreSQL checks. Only the existing unrelated ubuntu-latest migration annotation was shown.
 
 
-## Real graded 48-case holdout · 8 November 2026
+## Real graded 48-case holdout
 
 User explicitly requested live grading, reviewer visibility and production-to-local log sync.
 Baseline tests use mocked HTTP/no key: initial 58 passed; snapshot import test added (59 passed),
@@ -214,7 +214,7 @@ backup/migrate/preserve-environment/readiness; app/worker/db healthy. No schema 
 
 Preflight confirmed key presence only, selected model/rates and AI enabled. Started exactly one
 detached, host-locked `python -m reconflow.cli eval --live --limit 48` inside the production app.
-Evaluation #2 COMPLETED 2026-11-08T00:15:16Z–00:18:03Z (07:15–07:18 Vietnam), checkpointing
+Evaluation #2 COMPLETED, checkpointing
 each completed case. Source/dataset/instruction hashes and all reference evidence are retained.
 48 attempts; exact-label score 18/48 (37.5%), macro F1 0.3400621; accepted schema/citations 47/48.
 30 failures = 29 accepted wrong labels + one citation-format rejection; no abstention on six
@@ -257,10 +257,10 @@ and unrelated ubuntu-latest migration notice remain. No live holdout score was s
 CI's scripted offline contract score.
 
 
-## Controlled AI Investigation v2 · 8 November 2026
+## Controlled AI Investigation v2
 
 Inspection/plan recorded before implementation. Core finance matcher/money helpers/schema and
-all historical November 8 artifacts remain unchanged; guarded raw dataset/SYSTEM/asset hashes.
+all historical raw-v1 artifacts remain unchanged; guarded raw dataset/SYSTEM/asset hashes.
 `make lint test docs-check`: Ruff/83 tests and 26 pages passed (existing Starlette warning only).
 `npm run check` and pinned Go actionlint v1.7.7 on CI/CD workflows passed.
 `docker compose build` passed. Used disposable project reconflow-v2-qa with its own DB/volumes
@@ -285,7 +285,7 @@ The initial local offline artifact has UNRECORDED source metadata; production of
 will pin the deployed source without making model calls. Current live-request phase timeouts
 remain soft wall-budget checks, not hard cancellation; external calls can repeat after a DB crash.
 
-Production verification (2026-11-08): source `16f3ee433d5a434d4526f792ce43a1b90baa7989`
+Production verification: source `16f3ee433d5a434d4526f792ce43a1b90baa7989`
 deployed healthy via `scripts/deploy.sh` with a pre-deploy DB backup.
 `exec -T -e LLM_API_KEY= -e RECONFLOW_EVAL_SOURCE_SHA=<sha> app python -m reconflow.cli eval --track controlled-v2`
 created offline Evaluation #3: 72/72 valid scripted contracts, 72 deterministic reference
@@ -314,7 +314,7 @@ passed. Historical Evaluation #2 canonical JSON and five financial-table counts 
 Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
 executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.
 
-## Authorized v2 pilot and production results recording · 2026-11-08
+## Authorized v2 pilot and production results recording
 
 Executed once: production `python -m reconflow.cli eval --live --track controlled-v2 --split development --limit 12 --max-cost-usd 2`,
 source 4a4865ae3b4e7e0110a8cea620fa4f56f4ae1fee, Evaluation #4 COMPLETED. Recounted all 24
@@ -341,3 +341,13 @@ errors. Old raw #2 canonical JSON/financial-table counts are unchanged after pub
 Production has exactly one V2_LIVE evaluation and zero provider requests after pilot completion.
 Original paid responses are locally imported as #5; the video adds no provider spend.
 The 72-case live holdout remains unrun and requires a separate approval after review.
+
+## Documentation date cleanup
+
+`uv run python -m scripts.check_public_docs`: 27 pages passed.
+`uv run pytest tests/test_public_docs.py tests/test_evaluation_v2.py -q`: 33 passed,
+one pre-existing Starlette/httpx warning. Updated README/public heading links validated with
+the existing Markdown parser; all public evidence/metadata/media SHA-256 hashes matched the
+pre-edit snapshot. Only Markdown changed; no application, stored evaluation or financial data
+was modified, and no model call was made. Execution-day/timezone prose was removed while
+video chapter offsets and actual source/model versions remain.

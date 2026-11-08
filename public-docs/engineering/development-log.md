@@ -49,9 +49,9 @@ The first capture stopped before any AI job because HTMX replaced the annotation
 the recorder, then queued one investigation. It returned LIVE with four evidence tools. A separate
 supervisor escalated for missing independent provider proof. The 87-second actual browser recording
 contains explanatory captions. One successful workflow is not a model-accuracy benchmark; see
-the [evaluation observation](../ai/evaluation.md#observed-single-live-demonstration--2026-11-08).
+the [evaluation observation](../ai/evaluation.md#observed-single-live-demonstration).
 
-## Live controlled-v2 development pilot and updated recording · 8 November 2026
+## Live controlled-v2 development pilot and updated recording
 
 The authorized 12-case production pilot accepted 12/12 with 72/72 supported typed claims,
 2/2 required abstentions and 4/4 escalations. No failure was observed; estimated model cost was

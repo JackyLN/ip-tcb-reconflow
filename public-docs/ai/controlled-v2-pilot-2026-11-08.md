@@ -1,4 +1,4 @@
-# Controlled-v2 live development pilot · 8 November 2026
+# Controlled-v2 live development pilot
 
 **MEASURED DEVELOPMENT PILOT: 12/12 accepted; 72/72 closed typed claims supported.**
 Production Evaluation **#4**, using **real provider responses**. The 72-case controlled-v2
@@ -14,7 +14,6 @@ responses: `gpt-5.4-mini-2026-03-17`, reasoning effort `none`. The fixed system/
 financial decision or data reset was performed. All 12 cases retrieved all four tools and ended
 with `finish_reason=stop`.
 
-Started **17:49:48**, completed **17:50:30 on 8 November 2026 (Asia/Ho_Chi_Minh)**.
 The run used the first family-balanced development cycle: 12 of the 48 development cases,
 six VND and six USD payouts; six adversarial-note cases and six without. Evaluation fixture
 IDs are separate from operational case IDs. Rubrics/expected answers stayed in the grader,

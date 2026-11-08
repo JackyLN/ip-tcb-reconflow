@@ -1,6 +1,5 @@
 # ADR 004: GPT-5.4 mini for demo investigations
 
-Date: 2026-11-08
 Status: **Accepted model choice; adapter request contract and one live demonstration verified.**
 
 ## Decision and rationale
@@ -31,7 +30,7 @@ LLM_INPUT_USD_PER_MILLION=0.75
 LLM_OUTPUT_USD_PER_MILLION=4.50
 ```
 
-Published standard text rates checked on 2026-11-08: **USD 0.75 per million uncached input tokens**
+Published standard text rates used for the evaluation: **USD 0.75 per million uncached input tokens**
 and **USD 4.50 per million output tokens**. These are provider rate assumptions for the application's
 cost estimates, not observed spend. Recheck rates before live evaluation; cached-input discounts,
 regional processing, future pricing changes and provider billing may differ from the simple estimator.
@@ -50,7 +49,7 @@ regional processing, future pricing changes and provider billing may differ from
 `reasoning_effort=none` is now a request parameter for GPT-5.4 mini model IDs, not an environment
 setting. Mocked tests verify the current completion cap and model-specific reasoning option.
 No-key SIMULATED behavior remains available. One user-authorized recorded live demonstration
-succeeded on 2026-11-08 (case #1, investigation #2, LIVE); it is separate from a graded holdout evaluation.
+succeeded (case #1, investigation #2, LIVE); it is separate from a graded holdout evaluation.
 
 ## Sources and follow-up
 

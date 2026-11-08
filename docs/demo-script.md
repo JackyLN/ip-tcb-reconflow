@@ -22,7 +22,7 @@ Never secretly alter a matching tolerance or historical policy to make an except
 2-minute evaluation limitations and pilot plan. Live provider segment is optional and must be labeled.
 
 
-## Observed recorded live run 2026-11-08
+## Observed recorded live run
 
 An 87-second captioned actual browser recording is saved as ignored
 `artifacts/live-demo/reconflow-live-demo.mp4` (H.264, no audio). Original WebM, screenshots,
@@ -46,7 +46,7 @@ Do not use it as a baseline test or rerun just to recreate this video.
 Published recording and README: https://tcb.jackylenghia.com/docs/product/recorded-demo/ .
 The same reviewed MP4 is versioned in public-docs/assets/demo for reproducible deployments.
 
-## Controlled-v2 pilot results companion · 8 November 2026
+## Controlled-v2 pilot results companion
 
 The new [recording README](../public-docs/product/recorded-demo.md#controlled-v2-results-walkthrough)
 contains an actual 188-second read-only production walkthrough with 18 captioned chapters.

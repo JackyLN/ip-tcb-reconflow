@@ -3,7 +3,7 @@
 > Status: working prototype in verification; production/live-AI gates outstanding | Audience: Codex + candidate | Target: Techcombank AI Transformation Division Expert Challenge 2026
 > Domain: Bank-side merchant settlement reconciliation and exception investigation, using synthetic/public data ONLY.
 
-## Implementation progress (2026-11-06)
+## Implementation progress
 
 Authoritative scope above/below remains the target. Checked items describe implemented paths,
 not a claim that every phase gate or challenge requirement is met.
@@ -49,7 +49,7 @@ All four services healthy. 48/48 simulated contract checks, no live model scores
 audit hash-chain/UPDATE guard passed; measured 10,000-payment/500-payout reconcile sample 815 ms.
 See docs/verification.md for exact scope, omissions and source benchmark artifact.
 
-## UI branding update (2026-11-06)
+## UI branding update
 
 - [x] Audited existing shared CSS, templates and Chart.js configuration; retained existing flows.
 - [x] Implemented user-requested Techcombank-inspired red/black/white/neutral palette with restrained gold.
@@ -63,7 +63,7 @@ No official Techcombank logo/affiliation is introduced. Prior navy/teal directio
 this explicit user request. Acceptance: no navy/teal accents remain, accessible text/focus colors,
 real chart data, no desktop/mobile overflow, main routes and persistent workflow still operate.
 
-## VPS deployment phase (2026-11-08)
+## VPS deployment phase
 
 - [x] Inspected reference Lite Trading Bot CD workflow, server containers, ports, shared Caddy and DNS.
 - [x] Added production Compose (no public container ports), shared-Caddy snippet, secure bootstrap,
@@ -89,7 +89,7 @@ verified (expiry 2027-02-05 UTC). Public 1,000-payment/replay/AI/dual-control/re
 GitHub CI run 42415477106 succeeded. Subsequent user-configured hosted CD run 42421131938
 succeeded; its Node.js 20 deprecation warnings are addressed by the maintenance phase below.
 
-## Actions runtime maintenance (2026-11-08)
+## Actions runtime maintenance
 
 - [x] Inspect reported CD run 42421131938: verify/deploy both succeeded; Node.js 20 messages are warnings.
 - [x] Verify official release manifests: checkout v7.0.1 and setup-uv v10.3.3 both declare node24.
@@ -106,7 +106,7 @@ No secrets are read/changed, no paid model evaluation and no production redeploy
 for this workflow-only change. Start a new CD run from main to use the new workflow; re-running
 an older run retains that run's workflow revision.
 
-## Public documentation phase (2026-11-08)
+## Public documentation phase
 
 - [x] Review internal docs and curate a public-only source tree at public-docs/ (22 Markdown pages).
 - [x] Add markdown-it-py, plugins/Pygments and locally bundled Mermaid for a FastAPI /docs/ reader.
@@ -216,7 +216,7 @@ Do not claim bank-specific facts, real financial results, model evaluation outco
 
 ## 5. AI investigation design
 
-### Model selection decision (2026-11-08)
+### Model selection decision
 
 - [x] Record accepted GPT-5.4 mini target (`gpt-5.4-mini-2026-03-17`) in
   [ADR 004](docs/adr/004-demo-llm-selection.md), README and evaluation guidance.
@@ -337,7 +337,7 @@ Team: Product/BA (1), backend/data (1), AI/ML (1), frontend/UX (1), platform/sec
 All visible dashboard figures trace to persistent source records or visibly labeled assumptions. Every main navigation route loads, imports and jobs are real, reviewer permissions are enforced, at least one AI invocation has a verifiable evidence trail, evaluation is reproducible, seeds reset safely, Docker fresh-install works, tests/README/docs reflect reality, and presentation can clearly show what is built vs planned.
 
 
-## Recorded live demonstration phase (2026-11-08)
+## Recorded live demonstration phase
 
 User authorized use of deployed credentials/key for one flow and requested a video of actual
 actions. Intended files: AI adapter and mocked request tests, replayable browser recording script,
@@ -356,7 +356,7 @@ visually. Initial recording failed before queueing AI due to an HTMX caption rep
 and reran. Exactly one paid investigation queued. Holdout/semantic evaluation remains unmeasured.
 
 
-## Public video documentation phase (2026-11-08)
+## Public video documentation phase
 
 Intended files: public product/demo Markdown README, existing reviewed MP4 under public assets,
 reader support for a constrained local-video fence, navigation/authoring notes, media checks and
@@ -372,7 +372,7 @@ publication/API/browser checks and deployment preserving environment. Existing r
 Hosted CI 42425952741 passed the public-video source, including clean Docker offline workflow/DB checks.
 
 
-## Graded 48-case live holdout phase (2026-11-08)
+## Graded 48-case live holdout phase
 
 User explicitly requested and authorized a real graded 48-case provider evaluation, dashboard
 results and failure explanations; this implements outstanding B2/section 6 acceptance. Freeze
@@ -405,7 +405,7 @@ passed 59 tests, 24-page validation and fresh Docker/offline workflow/PostgreSQL
 Public report/snapshot/progress and authenticated dashboard verified over HTTPS on desktop/mobile.
 
 
-## Controlled AI Investigation v2 milestone (2026-11-08)
+## Controlled AI Investigation v2 milestone
 
 Inspection: existing worker invokes four scoped read-only tools; deterministic Match evidence
 contains partial calculated money fields, but no complete timing/missing/duplicate assessment.
@@ -447,7 +447,7 @@ checks passed; historical public result/log download hashes are unchanged. Local
 was repeated and returned the same Evaluation #4. Disposable no-key QA volumes were removed;
 production/local application volumes were retained. No live v2 inference was performed.
 
-## Live Controlled-v2 evaluation preparation (2026-11-08)
+## Live Controlled-v2 evaluation preparation
 
 User requires approval before every paid phase: development pilot first, then review and separate
 72-case frozen holdout authorization. No provider calls during preparation. Audit found correct
@@ -476,7 +476,7 @@ passed. Historical Evaluation #2 canonical JSON and five financial-table counts 
 Disposable QA stack/volumes removed. No paid evaluation or production financial decision was
 executed. Await explicit 12-case/USD 2 pilot approval; frozen live holdout is not authorized.
 
-## Grouped workspace navigation polish (2026-11-08)
+## Grouped workspace navigation polish
 
 User requests hierarchy separating banking tasks from administration/resources. User explicitly
 requires local changes only: do not commit or push until instructed. Intended files: existing
@@ -499,7 +499,7 @@ After local review, the user explicitly authorized committing and pushing the na
 to main. The earlier local-only approval boundary is satisfied. This instruction does not request
 a production deployment or authorize paid AI evaluation.
 
-## Authorized live development pilot and v2 video (2026-11-08)
+## Authorized live development pilot and v2 video
 
 User authorized running the proposed production pilot and recording/publishing a new demo section.
 Scope: one 12-case development evaluation, USD 2 estimated-cost reservation cap, unchanged model,
@@ -530,3 +530,19 @@ checks passed both video playback/seeking and desktop/mobile/no-JS docs. Public 
 JSON/new MP4 hashes match local artifacts; byte ranges serve correctly. Live Evaluation #4 and
 legacy raw/offline dashboards verified read-only. Post-deploy historical #2 hash/finance counts
 match pre-run. Exactly one live v2 run and no provider requests after its completion.
+
+## Documentation date cleanup
+
+User requests removing exact execution-day/timezone callouts from documentation and authorizes
+commit/push to main. Intended files: public/internal Markdown, heading links and required progress
+notes. Keep milestone names, measured numbers, model snapshot versions, source/dataset hashes,
+URLs, video chapter offsets and original JSON/log/media/audit timestamps. No application behavior,
+evaluation execution or new dependency. Acceptance: no remaining run-date callouts in prose,
+valid publication/internal heading links, unchanged evidence hashes, existing publication/API
+checks and visible HTTPS documentation verification after deployment.
+
+- [x] Remove execution dates/timezones from prose and headings; repair affected heading links.
+- [x] Keep measurements, stable URLs and original evaluation/log/media evidence unchanged.
+- [x] Validate 27 public pages, affected README links and all public evidence/media hashes;
+      33 targeted publication/evaluation tests passed.
+- [ ] Commit/push and verify the updated anonymous production documentation.
