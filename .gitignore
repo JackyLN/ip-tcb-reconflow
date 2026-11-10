@@ -19,3 +19,7 @@ backups/
 reconflow/static/docs.js
 reconflow/static/docs.js.LEGAL.txt
 reconflow/static/docs-chunks/
+
+
+# My own local docs
+local-docs/
